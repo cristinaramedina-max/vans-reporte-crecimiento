@@ -1924,7 +1924,7 @@ function renderCompradoresTabla() {
   ];
   let thHtml = '<tr><th>Mes</th>';
   metrics.forEach(m => {
-    thHtml += `<th>${m.label} ${year}</th><th>${m.label} ${prevYear}</th><th>&Delta; ${m.label}</th>`;
+    thHtml += `<th>${m.label}</th><th>&Delta; vs ${prevYear}</th>`;
   });
   thHtml += '</tr>';
   theadEl.innerHTML = thHtml;
@@ -1937,7 +1937,6 @@ function renderCompradoresTabla() {
       const cur = r[m.field], prev = r[m.field + '_p'];
       const d = prev ? mgPct(cur, prev) : null;
       tb += `<td data-v="${cur}">${compNum(cur)}</td>`;
-      tb += `<td data-v="${prev}">${prev ? compNum(prev) : '—'}</td>`;
       tb += `<td data-v="${compV(d)}">${mgDeltaSpan(d)}</td>`;
     });
     tb += '</tr>';
