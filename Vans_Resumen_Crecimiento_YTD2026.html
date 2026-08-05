@@ -1141,6 +1141,25 @@ function mgResumenValCard(title, cur, curFmt, prevMomKey, prevYoyKey) {
     </div>`;
 }
 
+function mgResumenPctCard(label, curPct, prevMomPct, prevYoyPct, hasMom) {
+  if (curPct === null || curPct === undefined) {
+    return `<div class="kpi-card">
+      <h3>${label}</h3>
+      <div class="kpi-value" style="font-size:13px;"><span class="kpi-prev">Sin datos suficientes en este período</span></div>
+    </div>`;
+  }
+  const dMom = (hasMom && prevMomPct !== null && prevMomPct !== undefined) ? mgPct(curPct, prevMomPct) : null;
+  const dYoy = (prevYoyPct !== null && prevYoyPct !== undefined) ? mgPct(curPct, prevYoyPct) : null;
+  const momHtml = hasMom ? `<div class="kpi-compare">${mgDeltaSpan(dMom)} <span class="kpi-prev">vs mes anterior</span></div>` : '';
+  const yoyLabel = hasMom ? 'vs mismo mes año anterior' : 'vs año anterior';
+  return `<div class="kpi-card">
+      <h3>${label}</h3>
+      <div class="kpi-value">${curPct.toFixed(1)}%</div>
+      ${momHtml}
+      <div class="kpi-compare">${mgDeltaSpan(dYoy)} <span class="kpi-prev">${yoyLabel}</span></div>
+    </div>`;
+}
+
 function mgGrowthCard(label, obj, isAnnual) {
   if (!obj) {
     return `<div class="kpi-card">
@@ -1233,9 +1252,17 @@ function renderMGResumenComportamiento() {
   const prevMom = isAnnual ? null : mgPrevMonthKey(refMk);
   const prevYoy = isAnnual ? String(parseInt(refMk) - 1) : mgYoyMonthKey(refMk);
 
+  const recCur = RECURRENTES_DATA[refMk];
+  const recMomObj = prevMom ? RECURRENTES_DATA[prevMom] : null;
+  const recYoyObj = RECURRENTES_DATA[prevYoy];
+  const pctNuevos = (o) => (o && o.pct !== null && o.pct !== undefined) ? (100 - o.pct) : null;
+  const pctRecurrentes = (o) => (o && o.pct !== null && o.pct !== undefined) ? o.pct : null;
+
   let html = '';
   html += mgResumenValCard({label:'Clientes nuevos', field:'nuevos'}, data.nuevos, compNum(data.nuevos), prevMom, prevYoy);
+  html += mgResumenPctCard('% de clientes nuevos', pctNuevos(recCur), pctNuevos(recMomObj), pctNuevos(recYoyObj), !isAnnual);
   html += mgResumenValCard({label:'Clientes recurrentes (hist\u00f3ricos, +1 compra)', field:'recurrentes'}, data.recurrentes, compNum(data.recurrentes), prevMom, prevYoy);
+  html += mgResumenPctCard('% de clientes recurrentes', pctRecurrentes(recCur), pctRecurrentes(recMomObj), pctRecurrentes(recYoyObj), !isAnnual);
   const recompraFmt = data.recompra_dias !== null ? data.recompra_dias.toFixed(0) + ' d\u00edas' : '-';
   html += mgResumenValCard({label:'Promedio de d\u00edas para recomprar', field:'recompra_dias'}, data.recompra_dias, recompraFmt, prevMom, prevYoy);
   container.innerHTML = html;
