@@ -337,9 +337,133 @@ footer { margin-left: var(--sidebar-w); padding: 30px 34px 50px; color:#888; fon
   .main { padding-top: 18px; }
 }
 
+#pw-gate {
+  position: fixed; inset: 0; z-index: 99999;
+  background: var(--uke-azul-oscuro);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--uke-font-body);
+}
+#pw-gate .pw-card {
+  background: var(--uke-blanco);
+  border-radius: 14px;
+  padding: 40px 36px;
+  width: 100%;
+  max-width: 360px;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,.35);
+}
+#pw-gate h1 {
+  font-family: var(--uke-font-display);
+  font-weight: 800;
+  font-size: 16px;
+  color: var(--uke-negro);
+  margin: 0 0 4px;
+  text-transform: uppercase;
+  letter-spacing: .02em;
+}
+#pw-gate p {
+  font-size: 12.5px;
+  color: var(--uke-gris-cuerpo);
+  margin: 0 0 20px;
+}
+#pw-gate input[type="password"] {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1.5px solid var(--uke-gris-suave);
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: var(--uke-font-body);
+  margin-bottom: 12px;
+  outline: none;
+}
+#pw-gate input[type="password"]:focus { border-color: var(--uke-azul-medio); }
+#pw-gate button {
+  width: 100%;
+  padding: 11px 14px;
+  border: none;
+  border-radius: 8px;
+  background: var(--uke-rojo);
+  color: var(--uke-blanco);
+  font-family: var(--uke-font-display);
+  font-weight: 800;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: .02em;
+  cursor: pointer;
+}
+#pw-gate button:hover { background: var(--uke-rojo-hover); }
+#pw-gate .pw-error {
+  color: var(--uke-rojo);
+  font-size: 12px;
+  margin-top: 10px;
+  display: none;
+  font-weight: 700;
+}
+#pw-gate.pw-shake .pw-card { animation: pwShake .35s; }
+@keyframes pwShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-8px); }
+  75% { transform: translateX(8px); }
+}
+body.pw-locked > *:not(#pw-gate) { display: none !important; }
+
 </style>
 </head>
 <body>
+<div id="pw-gate">
+  <div class="pw-card">
+    <h1>Vans AR &middot; Resumen de Crecimiento</h1>
+    <p>Este reporte es privado. Ingres&aacute; la contrase&ntilde;a para continuar.</p>
+    <form id="pw-form" autocomplete="off">
+      <input type="password" id="pw-input" placeholder="Contrase&ntilde;a" autofocus>
+      <button type="submit">Ingresar</button>
+      <div class="pw-error" id="pw-error">Contrase&ntilde;a incorrecta. Intent&aacute; de nuevo.</div>
+    </form>
+  </div>
+</div>
+<script>
+(function() {
+  var PW_KEY = 'vans_report_unlocked_v1';
+  var PASSWORD = 'vans<>uke2026..';
+  var gate = document.getElementById('pw-gate');
+  var form = document.getElementById('pw-form');
+  var input = document.getElementById('pw-input');
+  var err = document.getElementById('pw-error');
+
+  function storageGet() {
+    try { return sessionStorage.getItem(PW_KEY); } catch (e) { return null; }
+  }
+  function storageSet() {
+    try { sessionStorage.setItem(PW_KEY, 'yes'); } catch (e) {}
+  }
+
+  function unlock() {
+    document.body.classList.remove('pw-locked');
+    gate.style.display = 'none';
+  }
+
+  document.body.classList.add('pw-locked');
+  if (storageGet() === 'yes') {
+    unlock();
+  } else {
+    setTimeout(function(){ input.focus(); }, 50);
+  }
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    if (input.value === PASSWORD) {
+      storageSet();
+      unlock();
+    } else {
+      err.style.display = 'block';
+      gate.classList.add('pw-shake');
+      setTimeout(function(){ gate.classList.remove('pw-shake'); }, 350);
+      input.value = '';
+      input.focus();
+    }
+  });
+})();
+</script>
 <svg style="display:none" aria-hidden="true">
 <symbol id="icon-metricas" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10"/><path d="M12 20V4"/><path d="M20 20v-6"/></symbol>
 <symbol id="icon-pedidos" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l9-5 9 5-9 5-9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></symbol>
