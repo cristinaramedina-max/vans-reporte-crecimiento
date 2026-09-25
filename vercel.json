@@ -1,5 +1,5 @@
 {
   "rewrites": [
-    { "source": "/", "destination": "/Vans_Resumen_Crecimiento_YTD2026.html" }
+    { "source": "/", "destination": "/index.html" }
   ]
 }
