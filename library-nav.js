@@ -79,6 +79,22 @@
       descripcion: 'Dashboard externo de Google Looker Studio. Requiere estar logueada con una cuenta de Google con acceso.',
       href: 'https://datastudio.google.com/reporting/f86ff6ed-2bc0-4a2e-86cb-1c8e04c73a30/page/p_dr8sgfy5sd',
       externo: true
+    },
+    {
+      categoria: 'Demografía',
+      cliente: 'Cat',
+      titulo: 'Demografía (Looker Studio)',
+      descripcion: 'Dashboard externo de Google Looker Studio. Requiere estar logueada con una cuenta de Google con acceso.',
+      href: 'https://datastudio.google.com/u/0/reporting/226f1437-861a-4424-ba6e-826f0bc6ccb0/page/qkySF',
+      externo: true
+    },
+    {
+      categoria: 'Demografía',
+      cliente: 'Merrell',
+      titulo: 'Demografía (Looker Studio)',
+      descripcion: 'Dashboard externo de Google Looker Studio. Requiere estar logueada con una cuenta de Google con acceso.',
+      href: 'https://datastudio.google.com/u/0/reporting/226f1437-861a-4424-ba6e-826f0bc6ccb0/page/p_i3710zfryd',
+      externo: true
     }
   ];
 
