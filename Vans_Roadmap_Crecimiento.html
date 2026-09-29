@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Vans Argentina · Roadmap de crecimiento</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--red:#e30233;--navy:#004e8a;--blue:#1689c0;--purple:#a63d81;--green:#257354;--lav:#f1ebf4;--bg:#f8f7f9;--line:#e5e1e6;--ink:#17181c;--muted:#656870;--white:#fff}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:'Nunito Sans',system-ui,sans-serif}.app{min-height:100vh;display:grid;grid-template-columns:184px minmax(0,1fr)}
+    aside.sidebar{position:sticky;top:0;height:100vh;padding:24px 14px;background:var(--navy);color:#fff;display:flex;flex-direction:column}.logo{font-family:Montserrat,sans-serif;font-size:34px;font-weight:900;letter-spacing:-2px}.logo small{display:block;margin-top:5px;font-size:7px;letter-spacing:1.4px}.sidebar nav{display:grid;gap:6px;margin-top:34px}.sidebar nav button{border:0;border-radius:9px;background:transparent;padding:12px;color:#dbeaf5;text-align:left;font:700 11px Montserrat,sans-serif;cursor:pointer}.sidebar nav button.active{background:#fff;color:var(--navy)}.sidebar footer{margin-top:auto;font-size:9px;line-height:1.55;color:#c8e0ef}
+    main{min-width:0;width:100%;padding:25px clamp(16px,2.6vw,40px) 44px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:17px}.eyebrow{color:var(--red);font:800 9px Montserrat,sans-serif;letter-spacing:1.4px}.topbar h1{margin:5px 0 0;font:800 28px/1.05 Montserrat,sans-serif;text-transform:uppercase}.top-actions{display:flex;gap:7px}.btn{border:1px solid var(--line);border-radius:8px;background:#fff;padding:9px 12px;color:var(--navy);font:700 9px Montserrat,sans-serif;text-transform:uppercase;cursor:pointer}.btn.primary{border-color:var(--red);background:var(--red);color:#fff}
+    .hero{display:grid;grid-template-columns:1.3fr .7fr;overflow:hidden;border-radius:13px;background:var(--navy);color:#fff;box-shadow:0 3px 14px #26182b12}.hero>div{padding:23px 26px}.hero .equation{display:flex;flex-direction:column;justify-content:center;background:var(--red)}.hero span{font:700 8px Montserrat,sans-serif;letter-spacing:1.2px;color:#dceef7}.hero h2{margin:7px 0;font:700 21px/1.2 Montserrat,sans-serif}.hero p{max-width:850px;margin:0;color:#f4f8fb;font-size:11px;line-height:1.55}.equation strong{margin-top:7px;font:700 14px/1.4 Montserrat,sans-serif}
+    .section-label{display:flex;align-items:center;justify-content:space-between;margin:18px 0 9px}.section-label h3{margin:0;font:700 14px Montserrat,sans-serif;text-transform:uppercase}.section-label span{font-size:8px;color:var(--muted);letter-spacing:1px}.pillars{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.pillar{border-top:4px solid var(--red);border-radius:11px;background:#fff;padding:16px 17px;box-shadow:0 3px 14px #26182b12}.pillar:nth-child(2){border-color:var(--blue)}.pillar:nth-child(3){border-color:var(--purple)}.number{display:grid;place-items:center;width:26px;height:26px;border-radius:7px;background:#fff0f3;color:var(--red);font:800 9px Montserrat,sans-serif}.pillar:nth-child(2) .number{background:#edf7fc;color:var(--blue)}.pillar:nth-child(3) .number{background:#f5ecf6;color:var(--purple)}.pillar h3{margin:8px 0;font:700 12px Montserrat,sans-serif;text-transform:uppercase}.pillar ul{display:grid;gap:5px;margin:0;padding-left:16px;color:#292b31;font-size:10px;line-height:1.4}
+    .plan-title{display:flex;align-items:end;justify-content:space-between;gap:15px;margin:22px 0 9px}.plan-title h2{margin:4px 0 0;font:800 22px Montserrat,sans-serif}.horizon{border-left:3px solid var(--red);padding-left:11px}.horizon small{display:block;color:var(--muted);font-size:7px;letter-spacing:1px}.horizon b{font:700 10px Montserrat,sans-serif}.toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}.filters{display:flex;gap:5px;flex-wrap:wrap}.filters button{border:1px solid var(--line);border-radius:999px;background:#fff;padding:7px 10px;color:var(--muted);font:700 8px Montserrat,sans-serif;cursor:pointer}.filters button.active{border-color:var(--navy);background:var(--navy);color:#fff}
+    .quarters{display:grid;gap:14px}.quarter{display:grid;grid-template-columns:minmax(164px,18%) minmax(0,82%);overflow:hidden;border:2px solid #d95670;border-radius:12px;background:var(--bg);box-shadow:0 2px 9px #2014220f}.quarter:nth-child(2){border-color:#d49b33}.quarter:nth-child(3){border-color:#597aa6}.quarter-info{display:flex;min-height:148px;flex-direction:column;justify-content:center;padding:18px 20px;border-right:1px solid var(--line);background:#fff}.quarter-head{display:flex;align-items:center;gap:7px}.quarter-head b{font:700 25px/1 Montserrat,sans-serif}.quarter-head span{padding:4px 7px;border-radius:999px;background:var(--green);color:#fff;font:700 7px Montserrat,sans-serif;text-transform:uppercase}.date{margin-top:7px;color:var(--muted);font-size:8px;letter-spacing:.7px}.quarter-info p{margin:10px 0 12px;font-size:9px;line-height:1.35}.progress{height:5px;overflow:hidden;border-radius:5px;background:#eee}.progress i{display:block;height:100%;background:var(--green)}.count{margin-top:6px;color:var(--muted);font-size:8px}.initiatives{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-content:center;gap:9px 10px;padding:15px 16px}.initiative{position:relative;display:flex;height:64px;align-items:center;border:1px solid #e4e0e5;border-radius:7px;background:#fff;padding:9px 10px;box-shadow:0 1px 3px #251b2709;cursor:pointer}.initiative:hover{border-color:#d2cbd3;box-shadow:0 2px 6px #251b2712}.initiative .summary{display:flex;width:100%;align-items:center;justify-content:space-between;gap:7px}.initiative h4{display:-webkit-box;overflow:hidden;margin:0;-webkit-box-orient:vertical;-webkit-line-clamp:2;font-size:10px;font-weight:600;line-height:1.22}.status{flex:none;padding:4px 6px;border-radius:999px;background:#fff6df;color:#9a6200;font:700 6px Montserrat,sans-serif;text-transform:uppercase}.status.pendiente{background:#fff0f3;color:var(--red)}.status.planificado{background:#f5ecf6;color:var(--purple)}.status.listo{background:#dff2e9;color:var(--green)}.initiative.filtered{display:none}
+    .metrics{margin-top:18px;border-radius:13px;background:#fff;padding:20px 22px;box-shadow:0 3px 14px #26182b12}.metrics h3{margin:4px 0 13px;font:700 15px Montserrat,sans-serif}.metric-grid{display:grid;grid-template-columns:repeat(4,1fr)}.metric{padding:1px 15px;border-left:1px solid var(--line)}.metric:first-child{border:0;padding-left:0}.metric span{display:block;color:var(--red);font-size:7px;font-weight:700;letter-spacing:1px}.metric strong{display:block;margin-top:4px;font-size:10px}.metric small{display:block;margin-top:3px;color:var(--muted);font-size:8px;line-height:1.4}
+    dialog{width:min(620px,calc(100% - 28px));border:0;border-radius:14px;padding:0;box-shadow:0 20px 70px #1118}dialog::backdrop{background:#001a3073}.modal{padding:22px}.modal-head{display:flex;justify-content:space-between;gap:15px}.modal-head h3{margin:0 30px 0 0;font:700 18px Montserrat,sans-serif}.close{border:0;background:transparent;font-size:24px;cursor:pointer}.modal p{color:var(--muted);font-size:13px;line-height:1.5}.modal label{display:grid;gap:4px;margin-top:10px;font-size:9px;font-weight:700}.modal input,.modal textarea,.modal select{width:100%;border:1px solid var(--line);border-radius:8px;padding:9px;font:inherit}.modal textarea{min-height:82px;resize:vertical}.modal-actions{display:flex;justify-content:flex-end;gap:7px;margin-top:15px}
+    @media(max-width:1050px){.pillars{grid-template-columns:1fr}.quarter{grid-template-columns:155px minmax(0,1fr)}.initiatives{grid-template-columns:repeat(2,minmax(0,1fr))}.metric-grid{grid-template-columns:repeat(2,1fr);gap:15px}.metric:nth-child(3){border:0;padding-left:0}}
+    @media(max-width:720px){.app{display:block}.sidebar{position:static!important;width:100%;height:auto!important;padding:13px!important}.sidebar .logo,.sidebar footer{display:none}.sidebar nav{display:flex;margin:0!important;overflow:auto}.sidebar nav button{flex:none}.topbar,.toolbar,.plan-title{align-items:flex-start;flex-direction:column}.top-actions{width:100%}.top-actions .btn{flex:1}.hero{grid-template-columns:1fr}.hero>div{padding:20px}.quarter{grid-template-columns:1fr}.quarter-info{min-height:auto;border-right:0;border-bottom:1px solid var(--line)}.initiatives{grid-template-columns:1fr;padding:11px}.initiative{height:58px}.metric-grid{grid-template-columns:1fr}.metric,.metric:nth-child(3){border:0;border-top:1px solid var(--line);padding:11px 0 0}.metric:first-child{border:0;padding-top:0}}
+  </style>
+<style>
+/* password gate — Biblioteca Uke */
+#pw-gate {
+  position: fixed; inset: 0; z-index: 99999;
+  background: #004E8A;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Nunito Sans', system-ui, sans-serif;
+}
+#pw-gate .pw-card {
+  background: #FFFFFF; border-radius: 14px; padding: 40px 36px; width: 100%; max-width: 360px;
+  text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,.35);
+}
+#pw-gate h1 { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 16px; color: #0A0A0A; margin: 0 0 4px; text-transform: uppercase; letter-spacing: .02em; }
+#pw-gate p { font-size: 12.5px; color: #444444; margin: 0 0 20px; }
+#pw-gate input[type="password"] { width: 100%; padding: 11px 14px; border: 1.5px solid #E5E5E5; border-radius: 8px; font-size: 14px; font-family: 'Nunito Sans', sans-serif; margin-bottom: 12px; outline: none; }
+#pw-gate input[type="password"]:focus { border-color: #1689C0; }
+#pw-gate button { width: 100%; padding: 11px 14px; border: none; border-radius: 8px; background: #E30233; color: #FFFFFF; font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 13px; text-transform: uppercase; letter-spacing: .02em; cursor: pointer; }
+#pw-gate button:hover { background: #C7022D; }
+#pw-gate .pw-error { color: #E30233; font-size: 12px; margin-top: 10px; display: none; font-weight: 700; }
+#pw-gate.pw-shake .pw-card { animation: pwShake .35s; }
+@keyframes pwShake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
+body.pw-locked > *:not(#pw-gate) { display: none !important; }
+</style>
+</head>
+<body>
+<div id="pw-gate">
+  <div class="pw-card">
+    <h1>Biblioteca de Reportes &middot; Uke</h1>
+    <p>Este espacio es privado. Ingres&aacute; la contrase&ntilde;a para continuar.</p>
+    <form id="pw-form" autocomplete="off">
+      <input type="password" id="pw-input" placeholder="Contrase&ntilde;a" autofocus>
+      <button type="submit">Ingresar</button>
+      <div class="pw-error" id="pw-error">Contrase&ntilde;a incorrecta. Intent&aacute; de nuevo.</div>
+    </form>
+  </div>
+</div>
+
+<div class="app">
+  <aside class="sidebar"><div class="logo">uke!<small>UKELELE GROWTH COMPANY</small></div><nav><button class="active">▦ Roadmap</button><button onclick="document.querySelector('.metrics').scrollIntoView()">◉ Datos & aprendizajes</button></nav><footer>Vans Argentina<br>Roadmap estratégico 2026–2027</footer></aside>
+  <main>
+    <header class="topbar"><div><span class="eyebrow">ROADMAP DE CRECIMIENTO · 2026–2027</span><h1>Vans Argentina</h1></div><div class="top-actions"><button class="btn" id="restore">↻ Restaurar</button><button class="btn primary" id="add">＋ Sumar iniciativa</button></div></header>
+    <section class="hero"><div><span>FOCO PRINCIPAL DE LA ESTRATEGIA</span><h2>Recuperar sesiones y sostener pedidos diversificando la demanda más allá de zapatillas</h2><p>Vans pierde sesiones y, en menor medida, pedidos. La conversión se mantiene relativamente sana, pero el volumen depende de atraer usuarios nuevos y de una venta muy concentrada en zapatillas. El roadmap combina adquisición, expansión de indumentaria y una relación más relevante con cada cliente.</p></div><div class="equation"><span>ECUACIÓN DE CRECIMIENTO</span><strong>Más demanda calificada × Mejor experiencia × Mayor valor por cliente = crecimiento sostenible</strong></div></section>
+    <div class="section-label"><h3>Un objetivo · tres palancas estratégicas</h3><span>MARCO DEL ROADMAP</span></div>
+    <section class="pillars">
+      <article class="pillar"><span class="number">01</span><h3>Recuperar sesiones y adquirir usuarios nuevos</h3><ul><li>Definir objetivos por canal.</li><li>Usar Classics, novedades, días bancarios y regiones como entrada.</li><li>Diferenciar mensajes por etapa del funnel.</li><li>Escalar fuentes incrementales con calidad.</li></ul></article>
+      <article class="pillar"><span class="number">02</span><h3>Diversificar producto y mejorar la experiencia</h3><ul><li>Dar visibilidad a indumentaria.</li><li>Profundizar categorización y lectura del mix.</li><li>Mejorar fotos, PLP, PDP, checkout y recomendación.</li><li>Aumentar unidades con looks, bundles y cross-selling.</li></ul></article>
+      <article class="pillar"><span class="number">03</span><h3>Conocer y fidelizar a los compradores</h3><ul><li>Entender nuevos, recurrentes y segmentos de valor.</li><li>Activar fidelización basada en RFM.</li><li>Usar NPS para mejorar la experiencia.</li><li>Personalizar bienvenida, recompra y win-back.</li></ul></article>
+    </section>
+    <div class="plan-title"><div><span class="eyebrow">PLAN DE ACCIÓN</span><h2>Iniciativas & prioridades</h2></div><div class="horizon"><small>HORIZONTE</small><b>Q3 2026 → Q1 2027</b></div></div>
+    <div class="toolbar"><div class="filters" id="statusFilters"><button class="active" data-filter="Todos">Ver todo</button><button data-filter="En curso">En curso</button><button data-filter="Pendiente">Pendiente</button><button data-filter="Planificado">Planificado</button><button data-filter="Listo">Listo</button></div><div class="filters" id="areaFilters"><button class="active" data-area="Todos">Todos los frentes</button><button data-area="Demanda">Demanda y sesiones</button><button data-area="Producto">Producto y experiencia</button><button data-area="Fidelización">Fidelización</button></div></div>
+    <section class="quarters" id="quarters"></section>
+    <section class="metrics"><span class="eyebrow">TABLERO DE CONTROL · DATOS & APRENDIZAJES</span><h3>La ecuación que debe gobernar el roadmap</h3><div class="metric-grid"><article class="metric"><span>DEMANDA</span><strong>Sesiones, usuarios nuevos y leads</strong><small>Volumen y calidad por canal; aporte de bienvenida, bancarias, producto y regiones.</small></article><article class="metric"><span>CONVERSIÓN</span><strong>Pedidos y salud del funnel</strong><small>CR, llegada a PDP, Add to Cart, checkout y pedidos.</small></article><article class="metric"><span>DIVERSIFICACIÓN</span><strong>Mix y unidades por pedido</strong><small>Participación de zapatillas, indumentaria y accesorios; objetivo de 1,6 unidades.</small></article><article class="metric"><span>RELACIÓN</span><strong>Recompra, RFM y experiencia</strong><small>Frecuencia, tiempo a recompra, segmentos, NPS y motivos de fricción.</small></article></div></section>
+  </main>
+</div>
+<dialog id="editor"><form class="modal" method="dialog"><div class="modal-head"><h3 id="modalTitle">Editar iniciativa</h3><button class="close" value="cancel">×</button></div><label>Título<input id="fTitle" required></label><label>Detalle<textarea id="fDetail"></textarea></label><label>Responsable<input id="fOwner"></label><label>Trimestre<select id="fQuarter"><option value="q3">Q3</option><option value="q4">Q4</option><option value="q1">Q1</option></select></label><label>Frente<select id="fArea"><option>Demanda</option><option>Producto</option><option>Fidelización</option></select></label><label>Estado<select id="fStatus"><option>En curso</option><option>Pendiente</option><option>Planificado</option><option>Listo</option></select></label><div class="modal-actions"><button class="btn" value="cancel">Cancelar</button><button class="btn primary" id="save" value="default">Guardar</button></div></form></dialog>
+<script>
+const initial=[
+{id:'q3',label:'Q3',date:'JUL–SEP 2026',current:true,focus:'Construir las bases de conocimiento y activar las primeras palancas de sesiones, producto y fidelización.',items:[
+['Definir metas de sesiones, leads y usuarios nuevos por canal','Partir de un piso de 800 leads mensuales y validar su aporte real a sesiones y pedidos.','Strategy · Performance · CRM','Demanda','En curso'],['Diferenciar la comunicación por etapa del funnel','Frío: novedad y marca. Tibio: propuesta de valor por producto. Caliente: urgencia y retorno.','Strategy · Performance · Contenido','Demanda','En curso'],['Validar palancas incrementales para recuperar sesiones','Classics, días bancarios, bienvenida y piloto regional; controlar CPC, calidad y órdenes.','Performance · CRM','Demanda','En curso'],['Unificar la taxonomía de producto y la lectura por categoría','Mapear SKU, categoría, línea, color, carry-over/closeout y separar zapatillas de indumentaria.','Ecommerce · Strategy · Datos','Producto','En curso'],['Priorizar novedades y stock de indumentaria','Definir productos foco según entrada de stock, estacionalidad, volumen y potencial de diversificación.','Ecommerce · Contenido · Performance','Producto','En curso'],['Caracterizar a los usuarios y compradores de Vans','Perfil, nuevos vs. recurrentes, categorías y combinaciones frecuentes.','Strategy · Datos','Fidelización','Pendiente'],['Construir la base de fidelización con RFM','Dimensionar una compra, potenciales, recurrentes y VIP; revisar frecuencia y tiempo a recompra.','Strategy · CRM · Ecommerce','Fidelización','En curso'],['Analizar NPS y mapear fricciones de la experiencia poscompra','Cruzar respuestas con atención al cliente, entrega y problemas recurrentes.','Strategy · CRM · Ecommerce','Fidelización','Pendiente']]},
+{id:'q4',label:'Q4',date:'OCT–DIC 2026',focus:'Convertir los aprendizajes en experiencias, campañas y automatizaciones que reduzcan la dependencia de zapatillas.',items:[
+['Escalar el mix de adquisición que recupere sesiones de calidad','Asignar inversión según incrementalidad, CPC, sesiones nuevas, conversión y pedidos.','Strategy · Performance · CRM','Demanda','Planificado'],['Diseñar el plan Q4 por etapa del funnel y momento comercial','Integrar Día de la Madre, Cyber y Fiestas preservando mensajes diferenciados.','Ecommerce · Strategy · Contenido','Demanda','Planificado'],['Mejorar calidad, estandarización y zoom de fotos','Incluir detalle y situación de uso; en indumentaria, modelo y referencias claras de medidas.','Ecommerce · Producto','Producto','En curso'],['Unificar la grilla y jerarquía de producto en PLP','Evitar que los ingresos nuevos desordenen el catálogo y facilitar la navegación.','Ecommerce · Producto','Producto','En curso'],['Mejorar PDP y checkout','Clarificar propuesta de valor, descripciones, talles y estados; reducir reinicios y errores.','Ecommerce · Producto · IT','Producto','En curso'],['Implementar módulos de cross-selling y upselling','Zapatillas + medias, buzo + remera, looks y accesorios según afinidad y stock.','Ecommerce · Producto · CRM','Producto','Planificado'],['Lanzar piloto de fidelización por segmentos RFM','Probar early access, contenido o experiencias para potenciales y VIP.','Strategy · CRM · Ecommerce','Fidelización','Planificado'],['Activar journeys personalizados por categoría y comportamiento','Bienvenida, cross-selling, recompra y win-back sin cargas manuales recurrentes.','CRM · Datos','Fidelización','Planificado'],['Cerrar el ciclo de NPS y experiencia de compra','Definir cadencia, responsables y acciones sobre entrega, atención y fricciones.','Ecommerce · CRM · Atención al cliente','Fidelización','Planificado']]},
+{id:'q1',label:'Q1',date:'ENE–MAR 2027',focus:'Escalar las palancas que demuestren crecimiento incremental, diversificación y mayor valor por cliente.',items:[
+['Reasignar inversión por aporte incremental de usuarios y sesiones','','Strategy · Performance · Datos','Demanda','Planificado'],['Escalar categorías y combinaciones con potencial probado','Consolidar indumentaria y accesorios según stock, margen, conversión y unidades por pedido.','Ecommerce · Strategy · Comercial','Producto','Planificado'],['Optimizar navegación y recomendación con evidencia de comportamiento','','Producto · UX · Datos','Producto','Planificado'],['Medir impacto del programa de fidelización','Comparar frecuencia, recompra, ticket, unidades y retención por segmento.','Strategy · CRM · Datos','Fidelización','Planificado'],['Escalar automatizaciones de cross-selling, recompra y win-back','','CRM · Datos','Fidelización','Planificado'],['Convertir NPS y experiencia en un sistema continuo de mejora','','Ecommerce · Atención al cliente · Strategy','Fidelización','Planificado']]}
+];
+let data=JSON.parse(localStorage.getItem('vans-roadmap-html')||'null')||structuredClone(initial),editing=null,statusFilter='Todos',areaFilter='Todos';
+const slug=s=>s.toLowerCase().replace(' ','-');
+function render(){const root=document.querySelector('#quarters');root.innerHTML=data.map(q=>{const done=q.items.filter(i=>i[4]==='Listo').length;return `<article class="quarter"><div class="quarter-info"><div class="quarter-head"><b>${q.label}</b>${q.current?'<span>Actual</span>':''}</div><small class="date">${q.date}</small><p>${q.focus}</p><div class="progress"><i style="width:${q.items.length?done/q.items.length*100:0}%"></i></div><small class="count"><b>${done}</b> listas · ${q.items.length} iniciativas</small></div><div class="initiatives">${q.items.map((i,n)=>`<article class="initiative ${(statusFilter==='Todos'||i[4]===statusFilter)&&(areaFilter==='Todos'||i[3]===areaFilter)?'':'filtered'}" data-q="${q.id}" data-n="${n}" title="${i[1]} · ${i[2]}"><div class="summary"><h4>${i[0]}</h4><span class="status ${slug(i[4])}">${i[4]}</span></div></article>`).join('')}</div></article>`}).join('');document.querySelectorAll('.initiative').forEach(el=>el.onclick=()=>openEditor(el.dataset.q,+el.dataset.n));}
+function openEditor(qid,n){editing={qid,n};const i=data.find(q=>q.id===qid).items[n];modalTitle.textContent='Editar iniciativa';fTitle.value=i[0];fDetail.value=i[1];fOwner.value=i[2];fQuarter.value=qid;fArea.value=i[3];fStatus.value=i[4];editor.showModal()}
+document.querySelectorAll('#statusFilters button').forEach(b=>b.onclick=()=>{statusFilter=b.dataset.filter;document.querySelectorAll('#statusFilters button').forEach(x=>x.classList.toggle('active',x===b));render()});document.querySelectorAll('#areaFilters button').forEach(b=>b.onclick=()=>{areaFilter=b.dataset.area;document.querySelectorAll('#areaFilters button').forEach(x=>x.classList.toggle('active',x===b));render()});
+add.onclick=()=>{editing=null;modalTitle.textContent='Sumar iniciativa';fTitle.value='';fDetail.value='';fOwner.value='';fQuarter.value='q3';fArea.value='Demanda';fStatus.value='Planificado';editor.showModal()};
+save.onclick=e=>{e.preventDefault();const item=[fTitle.value.trim(),fDetail.value.trim(),fOwner.value.trim(),fArea.value,fStatus.value];if(!item[0])return;if(editing){const oldQ=data.find(q=>q.id===editing.qid);oldQ.items.splice(editing.n,1);data.find(q=>q.id===fQuarter.value).items.push(item)}else data.find(q=>q.id===fQuarter.value).items.push(item);localStorage.setItem('vans-roadmap-html',JSON.stringify(data));editor.close();render()};
+restore.onclick=()=>{if(confirm('¿Restaurar el roadmap original?')){data=structuredClone(initial);localStorage.removeItem('vans-roadmap-html');render()}};render();
+</script>
+<script>
+(function() {
+  var PW_KEY = 'vans_report_unlocked_v1';
+  var PASSWORD = '6rupo6rim0ld12026';
+  var gate = document.getElementById('pw-gate');
+  var form = document.getElementById('pw-form');
+  var input = document.getElementById('pw-input');
+  var err = document.getElementById('pw-error');
+
+  function storageGet() { try { return sessionStorage.getItem(PW_KEY); } catch (e) { return null; } }
+  function storageSet() { try { sessionStorage.setItem(PW_KEY, 'yes'); } catch (e) {} }
+  function unlock() { document.body.classList.remove('pw-locked'); gate.style.display = 'none'; }
+
+  document.body.classList.add('pw-locked');
+  if (storageGet() === 'yes') { unlock(); }
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    if (input.value === PASSWORD) {
+      storageSet(); err.style.display = 'none'; gate.classList.remove('pw-shake'); unlock();
+    } else {
+      err.style.display = 'block'; gate.classList.remove('pw-shake'); void gate.offsetWidth;
+      gate.classList.add('pw-shake'); input.value = ''; input.focus();
+    }
+  });
+})();
+</script>
+<script src="library-nav.js"></script>
+</body>
+</html>

@@ -29,9 +29,9 @@
     },
     {
       cliente: 'Vans Argentina',
-      titulo: 'Panel Hot Sale 2026',
-      descripcion: 'Panel de eventos y análisis de oportunidad (AO) — vista offline con datos congelados.',
-      href: 'Panel_HotSale_2026_VANS_ARG.html'
+      titulo: 'Roadmap de Crecimiento',
+      descripcion: 'Plan de acción 2026–2027: iniciativas por trimestre, frente estratégico y estado.',
+      href: 'Vans_Roadmap_Crecimiento.html'
     },
     {
       cliente: 'Vans Uruguay',
