@@ -121,23 +121,30 @@ function renderReports(filter) {
     grid.innerHTML = '<p class="empty-note">No encontramos reportes que coincidan con la b&uacute;squeda.</p>';
     return;
   }
-  var html = '';
-  var lastCat = null;
+  // Agrupar por marca (cliente), orden alfabético — igual que el menú lateral.
+  var groups = {};
+  var groupOrder = [];
   filtered.forEach(function(r) {
-    var cat = r.categoria || null;
-    if (cat !== lastCat) {
-      if (cat) { html += '<div class="cat-heading">' + cat + '</div>'; }
-      else { html += '<div class="cat-sep"></div>'; }
-      lastCat = cat;
+    if (groups[r.cliente] === undefined) {
+      groups[r.cliente] = [];
+      groupOrder.push(r.cliente);
     }
-    var attrs = r.externo ? ' target="_blank" rel="noopener noreferrer"' : '';
-    var extTag = r.externo ? ' <span class="ext-tag">&#8599; externo</span>' : '';
-    html += '<a class="card" href="' + r.href + '"' + attrs + '>'
-      + '<span class="pill">' + r.cliente + '</span>'
-      + '<h3>' + r.titulo + extTag + '</h3>'
-      + '<p>' + (r.descripcion || '') + '</p>'
-      + '<span class="go">Ver reporte</span>'
-      + '</a>';
+    groups[r.cliente].push(r);
+  });
+  groupOrder.sort(function(a, b) { return a.localeCompare(b, 'es'); });
+
+  var html = '';
+  groupOrder.forEach(function(g) {
+    html += '<div class="cat-heading">' + g + '</div>';
+    groups[g].forEach(function(r) {
+      var attrs = r.externo ? ' target="_blank" rel="noopener noreferrer"' : '';
+      var extTag = r.externo ? ' <span class="ext-tag">&#8599; externo</span>' : '';
+      html += '<a class="card" href="' + r.href + '"' + attrs + '>'
+        + '<h3>' + r.titulo + extTag + '</h3>'
+        + '<p>' + (r.descripcion || '') + '</p>'
+        + '<span class="go">Ver reporte</span>'
+        + '</a>';
+    });
   });
   grid.innerHTML = html;
 }
