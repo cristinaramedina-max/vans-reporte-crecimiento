@@ -16,7 +16,7 @@
       href: 'Vans_Resumen_Crecimiento_YTD2026.html'
     },
     {
-      cliente: 'Grimoldi',
+      cliente: 'Total Grupo',
       titulo: 'Histórico Web Grimoldi',
       descripcion: 'Facturación y pares, objetivo vs. logrado por marca. Histórico, Cuotas y Acciones comerciales.',
       href: 'historico_web_grimoldi.html'
