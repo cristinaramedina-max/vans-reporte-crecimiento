@@ -195,7 +195,17 @@
       }
       groups[r.cliente].push(r);
     });
-    groupOrder.sort(function (a, b) { return a.localeCompare(b, 'es'); });
+    var PINNED_FIRST = ['Total Grupo'];
+    groupOrder.sort(function (a, b) {
+      var pa = PINNED_FIRST.indexOf(a);
+      var pb = PINNED_FIRST.indexOf(b);
+      if (pa !== -1 || pb !== -1) {
+        if (pa === -1) return 1;
+        if (pb === -1) return -1;
+        return pa - pb;
+      }
+      return a.localeCompare(b, 'es');
+    });
 
     var activeGroup = null;
     groupOrder.forEach(function (g) {
