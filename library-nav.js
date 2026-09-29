@@ -28,6 +28,12 @@
       href: 'Base_Comunicacion_VANS_Argentina.html'
     },
     {
+      cliente: 'Vans Argentina',
+      titulo: 'Panel Hot Sale 2026',
+      descripcion: 'Panel de eventos y análisis de oportunidad (AO) — vista offline con datos congelados.',
+      href: 'Panel_HotSale_2026_VANS_ARG.html'
+    },
+    {
       cliente: 'Vans Uruguay',
       titulo: 'Dashboard Ecommerce',
       descripcion: 'Ventas, productos y BLM de Vans Uruguay. Datos en vivo desde Google Sheets (con fallback embebido).',
