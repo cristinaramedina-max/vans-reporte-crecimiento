@@ -78,6 +78,13 @@
       externo: true
     },
     {
+      cliente: 'The North Face',
+      titulo: 'Benchmark Outdoor AR — Beneficios & Bancos',
+      descripcion: 'Benchmark competitivo mensual de envío, cuotas y beneficios bancarios entre marcas outdoor.',
+      href: 'https://claude.ai/artifact/GhNgxvNocbeWGsfCyyhJQR',
+      externo: true
+    },
+    {
       categoria: 'Demografía',
       cliente: 'Grimoldi',
       titulo: 'Demografía (Looker Studio)',
