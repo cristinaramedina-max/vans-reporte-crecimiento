@@ -71,6 +71,13 @@
       externo: true
     },
     {
+      cliente: 'The North Face',
+      titulo: 'Looker de Performance',
+      descripcion: 'Dashboard externo de Google Looker Studio. Requiere estar logueada con una cuenta de Google con acceso.',
+      href: 'https://datastudio.google.com/u/0/reporting/c13847cb-db1a-4d5b-8388-c25d2eb6d428/page/p_lzuzwlqq2d?s=gGdzCq-ttVA',
+      externo: true
+    },
+    {
       categoria: 'Demografía',
       cliente: 'Grimoldi',
       titulo: 'Demografía (Looker Studio)',
