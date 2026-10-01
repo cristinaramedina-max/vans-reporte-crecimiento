@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The North Face · Reporte de Anuncios Agosto 2026 &middot; Ukelele Growth Company</title>
+<style>
+:root {
+  --uke-rojo: #E30233;
+  --uke-rojo-hover: #C7022D;
+  --uke-azul-oscuro: #004E8A;
+  --uke-azul-medio: #1689C0;
+  --uke-negro: #0A0A0A;
+  --uke-blanco: #FFFFFF;
+  --uke-gris-cuerpo: #444444;
+  --uke-gris-suave: #E5E5E5;
+  --uke-font-display: 'Montserrat', system-ui, -apple-system, sans-serif;
+  --uke-font-body: 'Lato', 'Helvetica Neue', Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+html, body { margin:0; height:100%; font-family: var(--uke-font-body); background:#F7F7F9; }
+.pdf-topbar {
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  padding:14px 22px; background:#fff; border-bottom:1px solid var(--uke-gris-suave);
+}
+.pdf-topbar h1 {
+  font-family: var(--uke-font-display); font-size:14px; font-weight:800; color:var(--uke-azul-oscuro);
+  margin:0; text-transform:uppercase; letter-spacing:.02em;
+}
+.pdf-topbar a.dl {
+  font-family: var(--uke-font-display); font-weight:800; font-size:11px; text-transform:uppercase;
+  letter-spacing:.03em; color:#fff; background:var(--uke-rojo); padding:9px 14px; border-radius:8px;
+  text-decoration:none;
+}
+.pdf-topbar a.dl:hover { background: var(--uke-rojo-hover); }
+.pdf-wrap { height: calc(100% - 54px); width:100%; }
+.pdf-wrap embed, .pdf-wrap iframe { width:100%; height:100%; border:none; display:block; }
+/* password gate */
+#pw-gate {
+  position: fixed; inset: 0; z-index: 99999;
+  background: var(--uke-azul-oscuro);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--uke-font-body);
+}
+#pw-gate .pw-card {
+  background: var(--uke-blanco); border-radius: 14px; padding: 40px 36px; width: 100%; max-width: 360px;
+  text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,.35);
+}
+#pw-gate h1 { font-family: var(--uke-font-display); font-weight: 800; font-size: 16px; color: var(--uke-negro); margin: 0 0 4px; text-transform: uppercase; letter-spacing: .02em; }
+#pw-gate p { font-size: 12.5px; color: var(--uke-gris-cuerpo); margin: 0 0 20px; }
+#pw-gate input[type="password"] { width: 100%; padding: 11px 14px; border: 1.5px solid var(--uke-gris-suave); border-radius: 8px; font-size: 14px; font-family: var(--uke-font-body); margin-bottom: 12px; outline: none; }
+#pw-gate input[type="password"]:focus { border-color: var(--uke-azul-medio); }
+#pw-gate button { width: 100%; padding: 11px 14px; border: none; border-radius: 8px; background: var(--uke-rojo); color: var(--uke-blanco); font-family: var(--uke-font-display); font-weight: 800; font-size: 13px; text-transform: uppercase; letter-spacing: .02em; cursor: pointer; }
+#pw-gate button:hover { background: var(--uke-rojo-hover); }
+#pw-gate .pw-error { color: var(--uke-rojo); font-size: 12px; margin-top: 10px; display: none; font-weight: 700; }
+#pw-gate.pw-shake .pw-card { animation: pwShake .35s; }
+@keyframes pwShake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
+body.pw-locked > *:not(#pw-gate) { display: none !important; }
+</style>
+</head>
+<body>
+
+<div id="pw-gate">
+  <div class="pw-card">
+    <h1>Biblioteca de Reportes &middot; Uke</h1>
+    <p>Este espacio es privado. Ingres&aacute; la contrase&ntilde;a para continuar.</p>
+    <form id="pw-form" autocomplete="off">
+      <input type="password" id="pw-input" placeholder="Contrase&ntilde;a" autofocus>
+      <button type="submit">Ingresar</button>
+      <div class="pw-error" id="pw-error">Contrase&ntilde;a incorrecta. Intent&aacute; de nuevo.</div>
+    </form>
+  </div>
+</div>
+
+<div class="pdf-topbar">
+  <h1>The North Face · Reporte de Anuncios Agosto 2026</h1>
+  <a class="dl" href="TNF_Reporte_Anuncios_Agosto2026.pdf" download>&#8595; Descargar PDF</a>
+</div>
+<div class="pdf-wrap">
+  <embed src="TNF_Reporte_Anuncios_Agosto2026.pdf" type="application/pdf">
+</div>
+
+<script src="library-nav.js"></script>
+<script>
+(function() {
+  var PW_KEY = 'vans_report_unlocked_v1';
+  var PASSWORD = '6rupo6rim0ld12026';
+  var gate = document.getElementById('pw-gate');
+  var form = document.getElementById('pw-form');
+  var input = document.getElementById('pw-input');
+  var err = document.getElementById('pw-error');
+
+  function storageGet() { try { return sessionStorage.getItem(PW_KEY); } catch (e) { return null; } }
+  function storageSet() { try { sessionStorage.setItem(PW_KEY, 'yes'); } catch (e) {} }
+  function unlock() { document.body.classList.remove('pw-locked'); gate.style.display = 'none'; }
+
+  document.body.classList.add('pw-locked');
+  if (storageGet() === 'yes') { unlock(); }
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    if (input.value === PASSWORD) {
+      storageSet(); err.style.display = 'none'; gate.classList.remove('pw-shake'); unlock();
+    } else {
+      err.style.display = 'block'; gate.classList.remove('pw-shake'); void gate.offsetWidth;
+      gate.classList.add('pw-shake'); input.value = ''; input.focus();
+    }
+  });
+})();
+</script>
+</body>
+</html>
