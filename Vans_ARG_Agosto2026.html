@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vans Argentina · Agosto 2026 &middot; Ukelele Growth Company</title>
+<style>
+:root {
+  --uke-rojo: #E30233;
+  --uke-rojo-hover: #C7022D;
+  --uke-lavanda: #F1EBF4;
+  --uke-azul-medio: #1689C0;
+  --uke-azul-oscuro: #004E8A;
+  --uke-purpura: #A63D81;
+  --uke-negro: #0A0A0A;
+  --uke-blanco: #FFFFFF;
+  --uke-gris-cuerpo: #444444;
+  --uke-gris-suave: #E5E5E5;
+  --uke-font-display: 'Montserrat', system-ui, -apple-system, sans-serif;
+  --uke-font-body: 'Lato', 'Helvetica Neue', Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+body {
+  margin:0; font-family: var(--uke-font-body); font-size:14px; color: var(--uke-negro);
+  background: #F7F7F9;
+}
+h1,h2,h3 { font-family: var(--uke-font-display); margin:0; }
+a { color: var(--uke-rojo); text-decoration:none; }
+
+.main { max-width: 900px; margin: 0 auto; padding: 60px 6vw 80px; }
+.main .back { display:inline-block; font-size:11.5px; color: var(--uke-gris-cuerpo); margin-bottom:18px; }
+.main .back:hover { color: var(--uke-rojo); }
+.main .eyebrow { font-family: var(--uke-font-display); font-weight:800; font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color: var(--uke-rojo); margin-bottom:6px; display:block; }
+.main h1 { font-size:22px; font-weight:900; text-transform:uppercase; letter-spacing:.02em; color: var(--uke-azul-oscuro); margin-bottom:8px; }
+.main .intro { font-size:13px; color: var(--uke-gris-cuerpo); line-height:1.6; margin-bottom:28px; }
+
+.grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap:16px; }
+.card {
+  background:#fff; border:1px solid var(--uke-gris-suave); border-left:4px solid var(--uke-rojo);
+  border-radius:10px; padding:18px 18px 16px; box-shadow:0 2px 8px rgba(0,0,0,.05);
+  display:flex; flex-direction:column; gap:7px; transition: box-shadow .15s ease, transform .15s ease;
+}
+.card:hover { box-shadow:0 6px 18px rgba(0,0,0,.1); transform: translateY(-2px); }
+.card .pill { display:inline-block; background:var(--uke-lavanda); color:var(--uke-purpura); font-family:var(--uke-font-display); font-weight:800; font-size:9px; text-transform:uppercase; letter-spacing:.05em; padding:3px 9px; border-radius:999px; width:fit-content; }
+.card h3 { font-size:14.5px; font-weight:800; color: var(--uke-negro); line-height:1.3; }
+.card p { font-size:11.5px; color: var(--uke-gris-cuerpo); line-height:1.5; margin:0; flex:1; }
+.card .go { font-family: var(--uke-font-display); font-weight:800; font-size:11px; text-transform:uppercase; letter-spacing:.03em; color: var(--uke-rojo); margin-top:2px; }
+.card .go::after { content: ' →'; }
+.card:hover .go { color: var(--uke-rojo-hover); }
+
+/* password gate */
+#pw-gate {
+  position: fixed; inset: 0; z-index: 99999;
+  background: var(--uke-azul-oscuro);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--uke-font-body);
+}
+#pw-gate .pw-card {
+  background: var(--uke-blanco); border-radius: 14px; padding: 40px 36px; width: 100%; max-width: 360px;
+  text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,.35);
+}
+#pw-gate h1 { font-family: var(--uke-font-display); font-weight: 800; font-size: 16px; color: var(--uke-negro); margin: 0 0 4px; text-transform: uppercase; letter-spacing: .02em; }
+#pw-gate p { font-size: 12.5px; color: var(--uke-gris-cuerpo); margin: 0 0 20px; }
+#pw-gate input[type="password"] { width: 100%; padding: 11px 14px; border: 1.5px solid var(--uke-gris-suave); border-radius: 8px; font-size: 14px; font-family: var(--uke-font-body); margin-bottom: 12px; outline: none; }
+#pw-gate input[type="password"]:focus { border-color: var(--uke-azul-medio); }
+#pw-gate button { width: 100%; padding: 11px 14px; border: none; border-radius: 8px; background: var(--uke-rojo); color: var(--uke-blanco); font-family: var(--uke-font-display); font-weight: 800; font-size: 13px; text-transform: uppercase; letter-spacing: .02em; cursor: pointer; }
+#pw-gate button:hover { background: var(--uke-rojo-hover); }
+#pw-gate .pw-error { color: var(--uke-rojo); font-size: 12px; margin-top: 10px; display: none; font-weight: 700; }
+#pw-gate.pw-shake .pw-card { animation: pwShake .35s; }
+@keyframes pwShake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
+body.pw-locked > *:not(#pw-gate) { display: none !important; }
+</style>
+</head>
+<body>
+
+<div id="pw-gate">
+  <div class="pw-card">
+    <h1>Biblioteca de Reportes &middot; Uke</h1>
+    <p>Este espacio es privado. Ingres&aacute; la contrase&ntilde;a para continuar.</p>
+    <form id="pw-form" autocomplete="off">
+      <input type="password" id="pw-input" placeholder="Contrase&ntilde;a" autofocus>
+      <button type="submit">Ingresar</button>
+      <div class="pw-error" id="pw-error">Contrase&ntilde;a incorrecta. Intent&aacute; de nuevo.</div>
+    </form>
+  </div>
+</div>
+
+<div class="main">
+  <a class="back" href="index.html">&larr; Biblioteca de Reportes</a>
+  <span class="eyebrow">Vans Argentina</span>
+  <h1>Agosto 2026</h1>
+  <p class="intro">Eleg&iacute; uno de los tres reportes de agosto 2026.</p>
+  <div class="grid">
+    <a class="card" href="Vans_ARG_Ecommerce_Agosto2026.html">
+      <span class="pill">Vans Argentina</span>
+      <h3>Ecommerce Traffic — Agosto 2026</h3>
+      <p>Tráfico y performance de ecommerce de Vans Argentina, agosto 2026.</p>
+      <span class="go">Ver reporte</span>
+    </a>
+    <a class="card" href="Analisis_Trafico_VANS.html">
+      <span class="pill">Vans Argentina</span>
+      <h3>Diagnóstico de Tráfico & Eficiencia de Inversión</h3>
+      <p>Calidad de tráfico y eficiencia de inversión en Google Ads, Meta Ads y TikTok Ads. Período enero–julio 2026 vs. 2025.</p>
+      <span class="go">Ver reporte</span>
+    </a>
+    <a class="card" href="Vans_Reporte_Creatividades_Agosto2026.html">
+      <span class="pill">Vans Argentina</span>
+      <h3>Reporte de Creatividades — Agosto 2026</h3>
+      <p>Performance y branding de creatividades en Meta Ads, Google Ads y TikTok Ads.</p>
+      <span class="go">Ver reporte</span>
+    </a>
+  </div>
+</div>
+
+<script src="library-nav.js"></script>
+<script>
+(function() {
+  var PW_KEY = 'vans_report_unlocked_v1';
+  var PASSWORD = '6rupo6rim0ld12026';
+  var gate = document.getElementById('pw-gate');
+  var form = document.getElementById('pw-form');
+  var input = document.getElementById('pw-input');
+  var err = document.getElementById('pw-error');
+
+  function storageGet() { try { return sessionStorage.getItem(PW_KEY); } catch (e) { return null; } }
+  function storageSet() { try { sessionStorage.setItem(PW_KEY, 'yes'); } catch (e) {} }
+  function unlock() { document.body.classList.remove('pw-locked'); gate.style.display = 'none'; }
+
+  document.body.classList.add('pw-locked');
+  if (storageGet() === 'yes') { unlock(); }
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    if (input.value === PASSWORD) {
+      storageSet(); err.style.display = 'none'; gate.classList.remove('pw-shake'); unlock();
+    } else {
+      err.style.display = 'block'; gate.classList.remove('pw-shake'); void gate.offsetWidth;
+      gate.classList.add('pw-shake'); input.value = ''; input.focus();
+    }
+  });
+})();
+</script>
+</body>
+</html>

@@ -124,28 +124,16 @@
     },
     {
       cliente: 'Hush Puppies',
-      titulo: 'Data & Dashboards Operativos (Google Sheets)',
+      titulo: 'Experimentos Pauta',
       descripcion: 'Planilla operativa completa: media plan, proyecciones, control de anuncios, raw data y dashboards. Requiere estar logueada con una cuenta de Google con acceso.',
       href: 'https://docs.google.com/spreadsheets/d/1ppxwdtArPzM4JlhOs4oO_2IL5izHTs21irV9iBtTwOc/edit?gid=142714782#gid=142714782',
       externo: true
     },
     {
       cliente: 'Vans Argentina',
-      titulo: 'Ecommerce Traffic — Agosto 2026',
-      descripcion: 'Tráfico y performance de ecommerce de Vans Argentina, agosto 2026.',
-      href: 'Vans_ARG_Ecommerce_Agosto2026.html'
-    },
-    {
-      cliente: 'Vans Argentina',
-      titulo: 'Diagnóstico de Tráfico & Eficiencia de Inversión',
-      descripcion: 'Calidad de tráfico y eficiencia de inversión en Google Ads, Meta Ads y TikTok Ads. Período enero–julio 2026 vs. 2025.',
-      href: 'Analisis_Trafico_VANS.html'
-    },
-    {
-      cliente: 'Vans Argentina',
-      titulo: 'Reporte de Creatividades — Agosto 2026',
-      descripcion: 'Performance y branding de creatividades en Meta Ads, Google Ads y TikTok Ads.',
-      href: 'Vans_Reporte_Creatividades_Agosto2026.html'
+      titulo: 'Agosto 2026',
+      descripcion: 'Ecommerce traffic, diagnóstico de tráfico & eficiencia de inversión, y reporte de creatividades de agosto 2026.',
+      href: 'Vans_ARG_Agosto2026.html'
     },
     {
       cliente: 'The North Face',
@@ -154,14 +142,14 @@
       href: 'TNF_Reporte_Anuncios_Agosto2026.html'
     },
     {
-      cliente: 'Total Grupo',
+      cliente: 'Grimoldi',
       titulo: 'Día de la Madre 2025 — Performance Cross-Brand',
       descripcion: 'Resultados de la campaña de Día de la Madre 2025 en Hush Puppies y Vans: tráfico, conversiones, branding e interacción.',
       href: 'https://docs.google.com/presentation/d/1w70y1U21J--Mq0WMDQMLqoUCgijPwWx0jYkbsU9Lkoo/edit?slide=id.p1#slide=id.p1',
       externo: true
     },
     {
-      cliente: 'Total Grupo',
+      cliente: 'Grimoldi',
       titulo: 'TikTok Ads — Análisis de Creatividades',
       descripcion: 'Análisis de creatividades en TikTok Ads para las marcas del grupo Grimoldi.',
       href: 'https://docs.google.com/presentation/d/13QH539rpjyye8IkqvPsCpibcAeJt8eSe82P2sBIpT2E/edit?slide=id.p1#slide=id.p1',
