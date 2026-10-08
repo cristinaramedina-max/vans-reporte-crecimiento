@@ -154,6 +154,13 @@
       descripcion: 'Análisis de creatividades en TikTok Ads para las marcas del grupo Grimoldi.',
       href: 'https://docs.google.com/presentation/d/13QH539rpjyye8IkqvPsCpibcAeJt8eSe82P2sBIpT2E/edit?slide=id.p1#slide=id.p1',
       externo: true
+    },
+    {
+      cliente: 'Grimoldi',
+      titulo: 'Estrategia H2 2026',
+      descripcion: 'Presentación de Google Slides con la estrategia del segundo semestre 2026. Requiere estar logueada con una cuenta de Google con acceso.',
+      href: 'https://docs.google.com/presentation/d/1FEQla134fGI8JqEmf4l0JwsXcFXq6_aqw255zdsGnUU/edit?slide=id.g3f56bdf9e94_0_13#slide=id.g3f56bdf9e94_0_13',
+      externo: true
     }
   ];
 
