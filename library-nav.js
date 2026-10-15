@@ -167,7 +167,8 @@
       descripcion: 'Presentación de Google Slides con la estrategia del segundo semestre 2026. Requiere estar logueada con una cuenta de Google con acceso.',
       href: 'https://docs.google.com/presentation/d/1FEQla134fGI8JqEmf4l0JwsXcFXq6_aqw255zdsGnUU/edit?slide=id.g3f56bdf9e94_0_13#slide=id.g3f56bdf9e94_0_13',
       externo: true
-    }
+    },
+    // @@UKE_NUEVOS_REPORTES@@ (no borrar: acá agrega las entradas la página cargar.html)
   ];
 
   window.UKE_LIBRARY_REPORTS = UKE_LIBRARY_REPORTS;

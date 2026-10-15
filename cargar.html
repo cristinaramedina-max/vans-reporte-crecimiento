@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cargar reporte &middot; Biblioteca Uke</title>
+<style>
+:root {
+  --uke-rojo: #E30233;
+  --uke-rojo-hover: #C7022D;
+  --uke-lavanda: #F1EBF4;
+  --uke-azul-medio: #1689C0;
+  --uke-azul-oscuro: #004E8A;
+  --uke-purpura: #A63D81;
+  --uke-negro: #0A0A0A;
+  --uke-blanco: #FFFFFF;
+  --uke-gris-cuerpo: #444444;
+  --uke-gris-suave: #E5E5E5;
+  --uke-verde: #1E8E5A;
+  --uke-font-display: 'Montserrat', system-ui, -apple-system, sans-serif;
+  --uke-font-body: 'Lato', 'Helvetica Neue', Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+body { margin:0; font-family: var(--uke-font-body); font-size:14px; color: var(--uke-negro); background: #F7F7F9; }
+h1,h2,h3 { font-family: var(--uke-font-display); margin:0; }
+a { color: var(--uke-rojo); text-decoration:none; }
+
+.main { max-width: 640px; margin: 0 auto; padding: 56px 6vw 80px; }
+.main h1 { font-size:22px; font-weight:900; text-transform:uppercase; letter-spacing:.02em; color: var(--uke-azul-oscuro); margin-bottom:8px; text-align:center; }
+.main .intro { font-size:13px; color: var(--uke-gris-cuerpo); line-height:1.6; text-align:center; margin:0 0 28px; }
+
+.panel { background:#fff; border:1px solid var(--uke-gris-suave); border-top:4px solid var(--uke-rojo); border-radius:12px; padding:26px 24px; box-shadow:0 2px 10px rgba(0,0,0,.05); }
+.field { margin-bottom:18px; }
+.field > label, .field > .lbl { display:block; font-family:var(--uke-font-display); font-weight:800; font-size:11px; text-transform:uppercase; letter-spacing:.05em; color:var(--uke-azul-oscuro); margin-bottom:7px; }
+.hint { font-size:11.5px; color:#7A7A82; margin-top:6px; line-height:1.45; }
+input[type=text], input[type=url], input[type=password], select, textarea {
+  width:100%; padding:11px 13px; border:1.5px solid var(--uke-gris-suave); border-radius:8px;
+  font-size:14px; font-family:var(--uke-font-body); outline:none; background:#fff; color:var(--uke-negro);
+}
+textarea { resize:vertical; min-height:64px; }
+input:focus, select:focus, textarea:focus { border-color: var(--uke-azul-medio); }
+
+.seg { display:flex; background:#F1F1F4; border-radius:9px; padding:4px; gap:4px; }
+.seg button { flex:1; border:none; background:transparent; padding:9px 10px; border-radius:7px; cursor:pointer;
+  font-family:var(--uke-font-display); font-weight:800; font-size:12px; text-transform:uppercase; letter-spacing:.03em; color:#6A6A72; }
+.seg button.on { background:#fff; color:var(--uke-rojo); box-shadow:0 1px 4px rgba(0,0,0,.08); }
+
+.drop { border:2px dashed #CFCFD6; border-radius:10px; padding:26px 16px; text-align:center; cursor:pointer; background:#FBFBFC; transition: border-color .15s, background .15s; }
+.drop:hover, .drop.over { border-color: var(--uke-azul-medio); background:#F2F8FC; }
+.drop .big { font-family:var(--uke-font-display); font-weight:800; font-size:13px; color:var(--uke-azul-oscuro); }
+.drop .small { font-size:12px; color:#7A7A82; margin-top:4px; }
+.drop.has-file { border-style:solid; border-color: var(--uke-verde); background:#F1FAF5; }
+.drop.has-file .big { color: var(--uke-verde); }
+#file-input { display:none; }
+
+.check { display:flex; align-items:center; gap:8px; font-size:13px; color:var(--uke-gris-cuerpo); }
+.check input { width:16px; height:16px; accent-color: var(--uke-rojo); }
+
+.btn { width:100%; padding:13px 14px; border:none; border-radius:8px; background:var(--uke-rojo); color:#fff;
+  font-family:var(--uke-font-display); font-weight:800; font-size:13px; text-transform:uppercase; letter-spacing:.03em; cursor:pointer; }
+.btn:hover { background: var(--uke-rojo-hover); }
+.btn:disabled { background:#D9A3AF; cursor:wait; }
+
+.msg { margin-top:16px; padding:13px 15px; border-radius:9px; font-size:13px; line-height:1.5; display:none; }
+.msg.err { display:block; background:#FDECEF; color:#9E0124; border:1px solid #F6C6D0; }
+.msg.ok { display:block; background:#EEF8F2; color:#145C3B; border:1px solid #C7E8D5; }
+.msg.wait { display:block; background:#EEF4FA; color:#0F4C75; border:1px solid #CFE2F1; }
+.msg a { font-weight:700; }
+
+.hidden { display:none !important; }
+.back { display:block; text-align:center; margin-top:22px; font-size:12.5px; }
+
+/* password gate (igual que index.html) */
+#pw-gate { position: fixed; inset: 0; z-index: 99999; background: var(--uke-azul-oscuro); display: flex; align-items: center; justify-content: center; font-family: var(--uke-font-body); }
+#pw-gate .pw-card { background: var(--uke-blanco); border-radius: 14px; padding: 40px 36px; width: 100%; max-width: 360px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,.35); }
+#pw-gate h1 { font-family: var(--uke-font-display); font-weight: 800; font-size: 16px; color: var(--uke-negro); margin: 0 0 4px; text-transform: uppercase; letter-spacing: .02em; }
+#pw-gate p { font-size: 12.5px; color: var(--uke-gris-cuerpo); margin: 0 0 20px; }
+#pw-gate input[type="password"] { width: 100%; padding: 11px 14px; border: 1.5px solid var(--uke-gris-suave); border-radius: 8px; font-size: 14px; font-family: var(--uke-font-body); margin-bottom: 12px; outline: none; }
+#pw-gate button { width: 100%; padding: 11px 14px; border: none; border-radius: 8px; background: var(--uke-rojo); color: var(--uke-blanco); font-family: var(--uke-font-display); font-weight: 800; font-size: 13px; text-transform: uppercase; letter-spacing: .02em; cursor: pointer; }
+#pw-gate .pw-error { color: var(--uke-rojo); font-size: 12px; margin-top: 10px; display: none; font-weight: 700; }
+#pw-gate.pw-shake .pw-card { animation: pwShake .35s; }
+@keyframes pwShake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
+body.pw-locked > *:not(#pw-gate) { display: none !important; }
+</style>
+</head>
+<body>
+
+<div id="pw-gate">
+  <div class="pw-card">
+    <h1>Biblioteca de Reportes &middot; Uke</h1>
+    <p>Este espacio es privado. Ingres&aacute; la contrase&ntilde;a para continuar.</p>
+    <form id="pw-form" autocomplete="off">
+      <input type="password" id="pw-input" placeholder="Contrase&ntilde;a" autofocus>
+      <button type="submit">Ingresar</button>
+      <div class="pw-error" id="pw-error">Contrase&ntilde;a incorrecta. Intent&aacute; de nuevo.</div>
+    </form>
+  </div>
+</div>
+
+<div class="main">
+  <h1>Cargar a la Biblioteca</h1>
+  <p class="intro">Sub&iacute; un archivo o peg&aacute; un link. Aparece en la Biblioteca en alrededor de un minuto.</p>
+
+  <form class="panel" id="up-form" novalidate>
+    <div class="field">
+      <span class="lbl">Qu&eacute; vas a cargar</span>
+      <div class="seg" role="tablist">
+        <button type="button" class="on" data-mode="archivo">Archivo</button>
+        <button type="button" data-mode="link">Link</button>
+      </div>
+    </div>
+
+    <div class="field" id="f-archivo">
+      <span class="lbl">Archivo</span>
+      <label class="drop" id="drop" for="file-input">
+        <div class="big" id="drop-big">Arrastr&aacute; el archivo ac&aacute; o hac&eacute; clic</div>
+        <div class="small" id="drop-small">HTML, PDF, Excel, imagen&hellip; hasta 4 MB</div>
+      </label>
+      <input type="file" id="file-input">
+      <label class="check" style="margin-top:10px"><input type="checkbox" id="reemplazar"> Reemplazar si ya existe un archivo con ese nombre</label>
+    </div>
+
+    <div class="field hidden" id="f-link">
+      <label for="url">Link</label>
+      <input type="url" id="url" placeholder="https://docs.google.com/...">
+      <div class="hint">Se abre en una pesta&ntilde;a nueva, como los Looker y Slides que ya est&aacute;n.</div>
+    </div>
+
+    <div class="field">
+      <label for="marca">Marca o segmento</label>
+      <select id="marca"></select>
+      <input type="text" id="marca-otra" class="hidden" placeholder="Nombre de la marca o segmento nuevo" style="margin-top:8px">
+    </div>
+
+    <div class="field">
+      <label for="titulo">Nombre <span style="text-transform:none;font-weight:400;color:#8A8A93">(opcional)</span></label>
+      <input type="text" id="titulo" placeholder="Si lo dej&aacute;s vac&iacute;o, usa el nombre del archivo">
+      <div class="hint" id="titulo-hint"></div>
+    </div>
+
+    <div class="field">
+      <label for="desc">Descripci&oacute;n <span style="text-transform:none;font-weight:400;color:#8A8A93">(opcional)</span></label>
+      <textarea id="desc" placeholder="Una l&iacute;nea sobre qu&eacute; muestra el reporte"></textarea>
+    </div>
+
+    <div class="field">
+      <label for="key">Clave de carga</label>
+      <input type="password" id="key" autocomplete="off" placeholder="La clave configurada en Vercel (UPLOAD_KEY)">
+      <div class="hint">Se recuerda solo mientras tengas esta pesta&ntilde;a abierta.</div>
+    </div>
+
+    <button type="submit" class="btn" id="submit">Cargar a la Biblioteca</button>
+    <div class="msg" id="msg"></div>
+  </form>
+
+  <a class="back" href="index.html">&larr; Volver a la Biblioteca</a>
+</div>
+
+<script src="library-nav.js"></script>
+<script>
+(function () {
+  var MAX = 4 * 1024 * 1024;
+  var KEY_STORE = 'uke_upload_key';
+  var mode = 'archivo';
+  var file = null;
+
+  var $ = function (id) { return document.getElementById(id); };
+  var marcaSel = $('marca'), marcaOtra = $('marca-otra'), titulo = $('titulo'), msg = $('msg');
+
+  // Marcas existentes, sacadas de la misma lista que usa la Biblioteca
+  var reports = window.UKE_LIBRARY_REPORTS || [];
+  var marcas = [];
+  reports.forEach(function (r) { if (marcas.indexOf(r.cliente) === -1) marcas.push(r.cliente); });
+  marcas.sort(function (a, b) { return a.localeCompare(b, 'es'); });
+  var opts = '<option value="">Elegí una…</option>';
+  marcas.forEach(function (m) { opts += '<option>' + m.replace(/</g, '&lt;') + '</option>'; });
+  opts += '<option value="__otra__">Otra (nueva)…</option>';
+  marcaSel.innerHTML = opts;
+  marcaSel.addEventListener('change', function () {
+    marcaOtra.classList.toggle('hidden', marcaSel.value !== '__otra__');
+    if (marcaSel.value === '__otra__') marcaOtra.focus();
+  });
+
+  try { $('key').value = sessionStorage.getItem(KEY_STORE) || ''; } catch (e) {}
+
+  // Archivo / Link
+  var segBtns = document.querySelectorAll('.seg button');
+  for (var i = 0; i < segBtns.length; i++) {
+    segBtns[i].addEventListener('click', function () {
+      mode = this.getAttribute('data-mode');
+      for (var j = 0; j < segBtns.length; j++) segBtns[j].classList.toggle('on', segBtns[j] === this);
+      $('f-archivo').classList.toggle('hidden', mode !== 'archivo');
+      $('f-link').classList.toggle('hidden', mode !== 'link');
+      titulo.placeholder = mode === 'archivo' ? 'Si lo dejás vacío, usa el nombre del archivo' : 'Si lo dejás vacío, usa "Link — sitio"';
+      updateHint();
+    });
+  }
+
+  function baseName(n) { return n.replace(/\.[^.]+$/, ''); }
+  function fmtSize(b) { return b > 1048576 ? (b / 1048576).toFixed(1) + ' MB' : Math.max(1, Math.round(b / 1024)) + ' KB'; }
+  function updateHint() {
+    var h = '';
+    if (mode === 'archivo' && file && !titulo.value.trim()) h = 'Va a aparecer como: <b>' + baseName(file.name).replace(/</g, '&lt;') + '</b>';
+    $('titulo-hint').innerHTML = h;
+  }
+  titulo.addEventListener('input', updateHint);
+
+  function setFile(f) {
+    file = f || null;
+    var drop = $('drop');
+    if (!file) { drop.classList.remove('has-file'); $('drop-big').textContent = 'Arrastrá el archivo acá o hacé clic'; $('drop-small').textContent = 'HTML, PDF, Excel, imagen… hasta 4 MB'; updateHint(); return; }
+    drop.classList.add('has-file');
+    $('drop-big').textContent = file.name;
+    $('drop-small').textContent = fmtSize(file.size) + (file.size > MAX ? ' — supera los 4 MB, no se puede cargar directo' : ' · clic para cambiarlo');
+    updateHint();
+  }
+  $('file-input').addEventListener('change', function (e) { setFile(e.target.files[0]); });
+  var drop = $('drop');
+  ['dragenter', 'dragover'].forEach(function (ev) { drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.add('over'); }); });
+  ['dragleave', 'drop'].forEach(function (ev) { drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.remove('over'); }); });
+  drop.addEventListener('drop', function (e) { if (e.dataTransfer.files[0]) setFile(e.dataTransfer.files[0]); });
+
+  function show(kind, html) { msg.className = 'msg ' + kind; msg.innerHTML = html; }
+
+  function waitForEntry(title, done) {
+    var tries = 0;
+    (function poll() {
+      tries++;
+      fetch('library-nav.js?t=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (t) {
+        if (t.indexOf(JSON.stringify(title)) !== -1) return done(true);
+        if (tries >= 30) return done(false);
+        setTimeout(poll, 6000);
+      }).catch(function () { if (tries >= 30) done(false); else setTimeout(poll, 6000); });
+    })();
+  }
+
+  $('up-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var cliente = marcaSel.value === '__otra__' ? marcaOtra.value.trim() : marcaSel.value;
+    var key = $('key').value;
+    var meta = { key: key, cliente: cliente, titulo: titulo.value.trim(), descripcion: $('desc').value.trim() };
+
+    if (mode === 'archivo' && !file) return show('err', 'Elegí un archivo.');
+    if (mode === 'archivo' && file.size > MAX) return show('err', 'El archivo pesa ' + fmtSize(file.size) + ' y la carga directa acepta hasta 4 MB. Subilo a Drive y cargalo como <b>Link</b>, o pasámelo a mí.');
+    if (mode === 'link' && !/^https?:\/\/\S+$/i.test($('url').value.trim())) return show('err', 'Pegá un link que empiece con https://');
+    if (!cliente) return show('err', 'Elegí la marca o segmento.');
+    if (!key) return show('err', 'Falta la clave de carga.');
+
+    var req;
+    if (mode === 'archivo') {
+      meta.filename = file.name;
+      meta.reemplazar = $('reemplazar').checked;
+      req = { method: 'POST', headers: { 'Content-Type': 'application/octet-stream', 'x-uke-meta': encodeURIComponent(JSON.stringify(meta)) }, body: file };
+    } else {
+      meta.url = $('url').value.trim();
+      req = { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(meta) };
+    }
+
+    var btn = $('submit');
+    btn.disabled = true; btn.textContent = 'Cargando…';
+    show('wait', 'Subiendo…');
+
+    fetch('/api/cargar', req).then(function (r) {
+      return r.json().catch(function () { return { ok: false, error: 'El servidor respondió ' + r.status + '.' }; });
+    }).then(function (data) {
+      btn.disabled = false; btn.textContent = 'Cargar a la Biblioteca';
+      if (!data.ok) return show('err', (data.error || 'No se pudo cargar.').replace(/</g, '&lt;'));
+      try { sessionStorage.setItem(KEY_STORE, key); } catch (err) {}
+      var t = data.entrada.titulo;
+      show('wait', 'Guardado ✓ <b>' + t.replace(/</g, '&lt;') + '</b> en ' + data.entrada.cliente.replace(/</g, '&lt;') + '. Esperando que Vercel lo publique (≈1 min)… <a href="' + data.commitUrl + '" target="_blank" rel="noopener">ver commit</a>');
+      waitForEntry(t, function (ok) {
+        if (ok) {
+          var link = data.entrada.externo ? data.entrada.href : data.entrada.href;
+          show('ok', '¡Listo! <b>' + t.replace(/</g, '&lt;') + '</b> ya está en la Biblioteca. <a href="index.html">Ir a la Biblioteca</a> · <a href="' + link + '" target="_blank" rel="noopener">Abrirlo</a>');
+        } else {
+          show('ok', 'Guardado en GitHub ✓ pero todavía no lo veo publicado. Revisá el deploy en Vercel en unos minutos. <a href="' + data.commitUrl + '" target="_blank" rel="noopener">ver commit</a>');
+        }
+      });
+      // limpiar para la próxima carga
+      setFile(null); $('file-input').value = ''; $('url').value = ''; titulo.value = ''; $('desc').value = ''; $('reemplazar').checked = false;
+    }).catch(function () {
+      btn.disabled = false; btn.textContent = 'Cargar a la Biblioteca';
+      show('err', 'No pude conectar con el servidor. Probá de nuevo.');
+    });
+  });
+})();
+</script>
+<script>
+(function() {
+  var PW_KEY = 'vans_report_unlocked_v1';
+  var PASSWORD = '6rupo6rim0ld12026';
+  var gate = document.getElementById('pw-gate');
+  var form = document.getElementById('pw-form');
+  var input = document.getElementById('pw-input');
+  var err = document.getElementById('pw-error');
+  function storageGet() { try { return sessionStorage.getItem(PW_KEY); } catch (e) { return null; } }
+  function storageSet() { try { sessionStorage.setItem(PW_KEY, 'yes'); } catch (e) {} }
+  function unlock() { document.body.classList.remove('pw-locked'); gate.style.display = 'none'; }
+  document.body.classList.add('pw-locked');
+  if (storageGet() === 'yes') { unlock(); }
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    if (input.value === PASSWORD) { storageSet(); err.style.display = 'none'; unlock(); }
+    else { err.style.display = 'block'; gate.classList.remove('pw-shake'); void gate.offsetWidth; gate.classList.add('pw-shake'); input.value = ''; input.focus(); }
+  });
+})();
+</script>
+</body>
+</html>
