@@ -156,6 +156,12 @@
       externo: true
     },
     {
+      cliente: 'Vans Uruguay',
+      titulo: 'Rendimiento de Pauta — Octubre 2026',
+      descripcion: 'Rendimiento de la pauta de Vans Uruguay, octubre 2026.',
+      href: 'Vans_UY_Reporte_Octubre_2026_gate.html'
+    },
+    {
       cliente: 'Grimoldi',
       titulo: 'Estrategia H2 2026',
       descripcion: 'Presentación de Google Slides con la estrategia del segundo semestre 2026. Requiere estar logueada con una cuenta de Google con acceso.',
