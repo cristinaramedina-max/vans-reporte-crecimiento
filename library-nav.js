@@ -181,6 +181,13 @@
       descripcion: 'Semana Cyber 3–9 nov 2025 vs. octubre 2025: conversión, facturación, embudo y ROAS (GA4, Google Ads, Meta).',
       href: 'https://claude.ai/artifact/2T4d4wWv9gnZu2WxdH4Esn',
       externo: true
+    },
+    {
+      cliente: 'Vans Argentina',
+      titulo: 'Cyber 2025',
+      descripcion: 'Cybermonday 3–9 nov 2025 vs. octubre 2025: conversión, facturación, embudo y ROAS (BigQuery, GA4, Meta).',
+      href: 'https://claude.ai/artifact/2XUWWEqT4jyAD8FPiPYtaf?sk=hVsRfaXEPoRd-JRMZA2FOw',
+      externo: true
     }
   ];
 
