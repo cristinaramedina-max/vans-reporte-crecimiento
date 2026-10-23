@@ -174,6 +174,13 @@
       descripcion: 'Semana Cyber 3–9 nov 2025 vs. octubre 2025: conversión, facturación, embudo y ROAS (GA4, Google Ads, Meta).',
       href: 'https://claude.ai/artifact/S3MaP6hJK4964pDMqa17nq',
       externo: true
+    },
+    {
+      cliente: 'Hush Puppies',
+      titulo: 'Cyber Hush Puppies 2025',
+      descripcion: 'Semana Cyber 3–9 nov 2025 vs. octubre 2025: conversión, facturación, embudo y ROAS (GA4, Google Ads, Meta).',
+      href: 'https://claude.ai/artifact/2T4d4wWv9gnZu2WxdH4Esn',
+      externo: true
     }
   ];
 
