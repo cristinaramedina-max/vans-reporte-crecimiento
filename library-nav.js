@@ -168,7 +168,13 @@
       href: 'https://docs.google.com/presentation/d/1FEQla134fGI8JqEmf4l0JwsXcFXq6_aqw255zdsGnUU/edit?slide=id.g3f56bdf9e94_0_13#slide=id.g3f56bdf9e94_0_13',
       externo: true
     },
-    // @@UKE_NUEVOS_REPORTES@@ (no borrar: acá agrega las entradas la página cargar.html)
+    {
+      cliente: 'Grimoldi',
+      titulo: 'Cyber Grimoldi 2025',
+      descripcion: 'Semana Cyber 3–9 nov 2025 vs. octubre 2025: conversión, facturación, embudo y ROAS (GA4, Google Ads, Meta).',
+      href: 'https://claude.ai/artifact/S3MaP6hJK4964pDMqa17nq',
+      externo: true
+    }
   ];
 
   window.UKE_LIBRARY_REPORTS = UKE_LIBRARY_REPORTS;
