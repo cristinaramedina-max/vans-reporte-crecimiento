@@ -22,6 +22,12 @@
       href: 'historico_web_grimoldi.html'
     },
     {
+      cliente: 'Total Grupo',
+      titulo: 'Base & Comunicación — Grimoldi y Hush Puppies',
+      descripcion: 'Tamaño de base de contactos, opt-ins y canales de comunicación de Grimoldi y Hush Puppies.',
+      href: 'Base_Comunicacion_Grimoldi_HushPuppies_gate.html'
+    },
+    {
       cliente: 'Vans Argentina',
       titulo: 'Base & Comunicación',
       descripcion: 'Tamaño de base de contactos, opt-ins y canales de comunicación.',
