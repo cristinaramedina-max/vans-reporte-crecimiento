@@ -193,7 +193,8 @@
       titulo: 'Cyber 2025',
       descripcion: 'Cybermonday 3–9 nov 2025 vs. octubre 2025: conversión, facturación, embudo y ROAS (BigQuery, GA4, Meta).',
       href: 'Vans_AR_Cyber_2025.html'
-    }
+    },
+    // @@UKE_NUEVOS_REPORTES@@
   ];
 
   window.UKE_LIBRARY_REPORTS = UKE_LIBRARY_REPORTS;
