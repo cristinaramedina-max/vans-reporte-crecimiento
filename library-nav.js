@@ -208,6 +208,13 @@
       href: "CAT_venta_categoria_subcategoria_1.html",
       cargado: "2026-10-30"
     },
+    {
+      cliente: "Merrell",
+      titulo: "Análisis BS x cat y subcat",
+      descripcion: "Anáisiis de BS por categoria y subcategoría junto con análisis de stock con curva de talles.",
+      href: "Merrell_venta_categoria_subcategoria_1.html",
+      cargado: "2026-10-30"
+    },
     // @@UKE_NUEVOS_REPORTES@@
   ];
 
