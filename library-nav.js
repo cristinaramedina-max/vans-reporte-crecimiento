@@ -201,6 +201,13 @@
       href: "Vans_UY_Eventos.html",
       cargado: "2026-10-29"
     },
+    {
+      cliente: "Cat",
+      titulo: "Análisis BS x cat y subcat",
+      descripcion: "Análisis de BS por categoría y subcategoría junto análisis de stock y considerando curva de talles",
+      href: "CAT_venta_categoria_subcategoria_1.html",
+      cargado: "2026-10-30"
+    },
     // @@UKE_NUEVOS_REPORTES@@
   ];
 
