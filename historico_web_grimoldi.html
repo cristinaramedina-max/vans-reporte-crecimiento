@@ -244,6 +244,8 @@ tr.accion-detail-row td { padding: 0; border-bottom: 1px solid var(--border); }
 .kpi .value { font-family: 'Montserrat', 'Segoe UI', sans-serif; font-weight: 800; font-size: 22px;  }
 .kpi .sub { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
 
+#floatHead { position: fixed; top: 0; z-index: 15; overflow: hidden; display: none; border-radius: 12px 12px 0 0; box-shadow: 0 3px 8px rgba(0,0,0,.18); pointer-events: none; }
+#floatHead table { border-collapse: separate; border-spacing: 0; table-layout: fixed; }
 .table-scroll {
   overflow-x: auto;
   border: 1px solid var(--border);
@@ -805,7 +807,14 @@ function render() {
     fields.forEach(f => { totals[k][f] = 0; });
   });
 
-  const bodyRows = rowsData.map(r => {
+  // Vista "Año anterior": arrancar en el primer mes que tenga algo para comparar
+  let rowsShown = rowsData;
+  if (state.metric !== 'obj' && state.gran === 'mes') {
+    const hasPrior = r => colKeys.some(k => { const d = getCell(r, k, ch); return d && (d.venta_prior || d.pares_prior); });
+    const firstIdx = rowsData.findIndex(hasPrior);
+    if (firstIdx > 0) rowsShown = rowsData.slice(firstIdx);
+  }
+  const bodyRows = rowsShown.map(r => {
     const mesLabel = r.partial_days ? `${r.label} <span class="partial-mark" title="Mes en curso: ${r.partial_days} días transcurridos">●</span>` : r.label;
     const eyeBtn = (state.gran === 'mes')
       ? `<button type="button" class="eye-btn" data-peaks-year="${r.year}" data-peaks-month="${r.month}" title="Ver picos diarios y acciones comerciales del mes">👁</button>`
@@ -2020,6 +2029,43 @@ render();
 })();
 </script>
 
-<script src="library-nav.js"></script>
+<script src="library-nav.js">
+// Encabezado fijo al hacer scroll de la página (sin caja con scroll interno)
+(function() {
+  const fh = document.createElement('div'); fh.id = 'floatHead'; document.body.appendChild(fh);
+  let ticking = false;
+  function update() {
+    ticking = false;
+    const wrap = document.querySelector('.table-scroll');
+    const tbl = wrap && wrap.querySelector('table');
+    const thead = tbl && tbl.querySelector('thead');
+    if (!thead || wrap.offsetParent === null) { fh.style.display = 'none'; return; }
+    const wr = wrap.getBoundingClientRect(), hr = thead.getBoundingClientRect();
+    const h = hr.height;
+    if (wr.top >= 0 || wr.bottom < h + 40) { fh.style.display = 'none'; return; }
+    const clone = tbl.cloneNode(false);
+    clone.className = tbl.className;
+    clone.style.width = tbl.offsetWidth + 'px';
+    clone.style.marginLeft = (-wrap.scrollLeft) + 'px';
+    const cg = document.createElement('colgroup');
+    const cells = Array.from(thead.querySelectorAll('tr:last-child th'));
+    // anchos reales por columna tomados del cuerpo
+    const firstRow = tbl.querySelector('tbody tr');
+    (firstRow ? Array.from(firstRow.children) : cells).forEach(c => {
+      const col = document.createElement('col'); col.style.width = c.getBoundingClientRect().width + 'px'; cg.appendChild(col);
+    });
+    clone.appendChild(cg);
+    clone.appendChild(thead.cloneNode(true));
+    clone.querySelectorAll('th').forEach(th => { th.style.position = 'static'; });
+    fh.innerHTML = ''; fh.appendChild(clone);
+    fh.style.left = wr.left + 'px'; fh.style.width = wr.width + 'px'; fh.style.display = 'block';
+  }
+  function req() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
+  window.addEventListener('scroll', req, { passive: true });
+  window.addEventListener('resize', req);
+  document.addEventListener('scroll', req, true);
+  req();
+})();
+</script>
 </body>
 </html>
