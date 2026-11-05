@@ -788,6 +788,29 @@ function renderDataCells(d, cls) {
     + `<td class="${cls} num ${gParesCls}">${growthPares}</td>`;
 }
 
+// Vista anual: tabla vertical (marcas en filas, métricas en columnas, un bloque por año)
+function renderVertical(rowsData, colKeys, ch, subLabels) {
+  const hasPriorYear = r => colKeys.some(k => { const d = getCell(r, k, ch); return d && (d.venta_prior || d.pares_prior); });
+  const rows = state.metric !== 'obj' ? rowsData.filter(hasPriorYear) : rowsData;
+  const head = ['<th class="col-mes" style="background:#004E8A;color:#fff;">' + (state.view === 'marca' ? 'Marca' : 'Año') + '</th>']
+    .concat(subLabels.map(l => `<th class="sub" style="background:#1689C0;color:#fff;text-align:right;">${l}</th>`));
+  document.getElementById('theadTop').innerHTML = head.join('');
+  document.getElementById('theadBottom').innerHTML = '';
+  let html = '';
+  rows.forEach(r => {
+    html += `<tr><td class="col-mes" colspan="7" style="background:var(--surface-2);font-weight:800;letter-spacing:.02em;">${r.label}</td></tr>`;
+    colKeys.forEach(k => {
+      const d = getCell(r, k, ch);
+      if (!d) return;
+      const name = k === 'TOTAL' ? 'Total grupo' : BRAND_DISPLAY[k];
+      const dot = k === 'TOTAL' ? '' : `<span class="legend-dot" style="background:var(--c-${k});margin-right:8px;"></span>`;
+      html += `<tr><td class="col-mes">${dot}${name}</td>${renderDataCells(d, 'sub sub-' + k)}</tr>`;
+    });
+  });
+  document.getElementById('tbody').innerHTML = html || '<tr><td class="col-mes" colspan="7">Sin datos para comparar.</td></tr>';
+  document.getElementById('tfootRow').innerHTML = '';
+}
+
 function render() {
   const ch = CHANNELS[state.channel];
   const rowsData = state.gran === 'mes' ? ch.monthRows : ch.yearRows;
@@ -843,10 +866,14 @@ function render() {
     totalCells.push(renderDataCells(t.has ? t : null, cls));
   });
 
+  if (state.gran !== 'mes') {
+    renderVertical(rowsData, colKeys, ch, subLabels);
+  } else {
   document.getElementById('theadTop').innerHTML = theadTop.join('');
   document.getElementById('theadBottom').innerHTML = theadBottom.join('');
   document.getElementById('tbody').innerHTML = bodyRows.join('');
   document.getElementById('tfootRow').innerHTML = totalCells.join('');
+  }
 
   document.querySelectorAll('[data-peaks-year]').forEach(btn => {
     btn.addEventListener('click', (ev) => {
