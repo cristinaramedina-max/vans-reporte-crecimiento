@@ -215,6 +215,13 @@
       href: "Merrell_venta_categoria_subcategoria_1.html",
       cargado: "2026-10-30"
     },
+    {
+      cliente: "Vans Argentina",
+      titulo: "Cyber 2025",
+      descripcion: "",
+      href: "Vans_AR_Cyber_2025_2.html",
+      cargado: "2026-11-13"
+    },
     // @@UKE_NUEVOS_REPORTES@@
   ];
 
