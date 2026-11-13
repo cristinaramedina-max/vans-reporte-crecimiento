@@ -447,6 +447,7 @@ td.pair .plus{color:var(--uke-gris-cuerpo);margin:0 6px}
         <button type="button" data-mv="c" aria-pressed="true">Categorías</button>
         <button type="button" data-mv="p" aria-pressed="false">Productos</button>
       </div>
+      <div class="seg" role="group" aria-label="Agrupar por"><button type="button" data-mxg="cat" aria-pressed="true">Categoría</button><button type="button" data-mxg="grp" aria-pressed="false">Agrupación</button></div>
       <input type="search" id="mxQ" class="mxq" placeholder="Buscar categoría o producto" aria-label="Buscar" autocomplete="off">
     </div>
     <div class="tw mxt"><table>
@@ -889,6 +890,25 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",
 const tr=cells=>"<tr>"+cells.map(([v,c])=>`<td${c?` class="${c}"`:""}>${v}</td>`).join("")+"</tr>";
 let MX=JSON.parse($("vmix").textContent),mm="o",mv="c",mq="",flt=null,openC=new Set(),allMain=false,allProd=new Set(),allEd=false;
 const TOP=20;
+
+// ---- Mix: Categoría (Reporte Lumen) o Agrupación
+const MXG={"Sandalias":"Sandalias","Ojota":"Sandalias","Zapatillas":"Zapatillas","Zapatillas Urbanas":"Zapatillas","Zapatos":"Zapatos y mocasines","Botas":"Botas y borcegos","Mochilas":"Accesorios y otros","Bolsos":"Accesorios y otros","Billetera":"Accesorios y otros","Medias":"Accesorios y otros","Cinturones":"Accesorios y otros","POP":"Accesorios y otros","Riñoneras":"Accesorios y otros","Llaveros":"Accesorios y otros","Gorros":"Accesorios y otros"};
+const MX0=JSON.parse(JSON.stringify({cats:MX.cats,recs:MX.recs,ed:MX.editions}));
+function mxSetGroup(m){
+  const g=n=>m==="grp"?(MXG[n]||n):n;
+  const names=[];const idx=n=>{const k=g(n);let i=names.indexOf(k);if(i<0){names.push(k);i=names.length-1}return i};
+  const mp=MX0.cats.map(n=>idx(n));
+  MX.recs=MX0.recs.map(r=>{const q=r.slice();q[0]=mp[r[0]];return q});
+  MX.cats=names.slice();
+  const E=MX0.ed,en=[];const ei=n=>{const k=g(n);let i=en.indexOf(k);if(i<0){en.push(k);i=en.length-1}return i};
+  const em=E.cats.map(n=>ei(n));
+  const ne={...E,cats:en};["cm25","hs26","cm26"].forEach(k=>{ne[k]=en.map(()=>0);E[k].forEach((v,i)=>{ne[k][em[i]]+=v})});
+  MX.editions=ne;
+  openC.clear();allMain=false;allProd.clear();
+  document.querySelectorAll("[data-mxg]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.mxg===m)));
+  renderAll();if(typeof renderEd==="function")renderEd();
+}
+document.querySelectorAll("[data-mxg]").forEach(b=>b.addEventListener("click",()=>mxSetGroup(b.dataset.mxg)));
 const norm=s=>String(s).normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase();
 const words=s=>norm(s).split(/[^a-z0-9ñ]+/).filter(Boolean);
 const matchQ=(hay,q)=>{const t=words(q);if(!t.length)return true;const w=words(hay);return t.every(x=>w.some(y=>y.startsWith(x)))};
