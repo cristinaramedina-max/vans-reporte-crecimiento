@@ -291,7 +291,7 @@ td.pair .plus{color:var(--uke-gris-cuerpo);margin:0 6px}
 <nav class="tabs" aria-label="Secciones del reporte"><div class="c" role="tablist">
   <button type="button" role="tab" id="tb-cyber" aria-selected="true" aria-controls="pn-cyber">Cyber 2025</button>
   <button type="button" role="tab" id="tb-comb" aria-selected="false" aria-controls="comb">Combinaciones</button>
-  <button type="button" role="tab" id="tb-res" aria-selected="false" aria-controls="res">CM2026 Mix</button>
+  <button type="button" role="tab" id="tb-res" aria-selected="false" aria-controls="res">CM2026 Resultados</button>
   <button type="button" role="tab" id="tb-cmb" aria-selected="false" aria-controls="cmb">CM2026 Combinaciones</button>
 </div></nav>
 <div class="secbar" id="secbar" aria-label="Secciones de la pestaña" hidden><div class="c" id="secpills"></div></div>
@@ -431,6 +431,38 @@ td.pair .plus{color:var(--uke-gris-cuerpo);margin:0 6px}
 
 
 <main id="res" role="tabpanel" aria-labelledby="tb-res" hidden><div class="c">
+<section aria-labelledby="g1" data-pill="Resumen">
+  <div class="sh"><div class="t"><h2 id="g1">Resumen</h2><p>Cyber Monday 2026 (2 al 9/11, 8 días) contra octubre 2026 completo, en promedios por día. Transacciones y facturación del backend (BQ); sesiones y embudo de GA4.</p></div></div>
+  <div class="kpis" id="gKpis"></div>
+  <div class="tw k"><table><thead><tr><th>Métrica</th><th>Octubre 2026 (31 d)</th><th>CM2026 (8 d)</th><th>Var.</th></tr></thead><tbody id="gTbl"></tbody></table></div>
+</section>
+<section aria-labelledby="g2" data-pill="Resultados vs ediciones">
+  <div class="sh"><div class="t"><h2 id="g2">Resultados contra las ediciones</h2><p>Cyber 2025 (3 al 9/11, 7 días), Hot Sale 2026 (11 al 18/5, 8 días) y Cyber 2026 (8 días). Las ventanas no tienen el mismo largo: las tarjetas comparan promedios por día. Pesos corrientes, sin ajuste por inflación.</p></div></div>
+  <div class="kpis" id="gCards"></div>
+  <div class="tw w" style="max-width:900px"><table><thead><tr><th>Métrica</th><th class="r">Cyber 2025</th><th class="r">Hot Sale 2026</th><th class="hl r">Cyber 2026</th></tr></thead><tbody id="gCmp"></tbody></table></div>
+</section>
+<section aria-labelledby="g3" data-pill="Día por día">
+  <div class="sh"><div class="t"><h2 id="g3">Día por día</h2><p id="gDayTxt"></p></div></div>
+  <div class="tw w"><table><thead><tr><th>Día</th><th class="r">Sesiones</th><th class="r">Ventas</th><th class="r">Facturación</th><th class="r">% del total</th><th class="r">Conversión</th><th class="r">Cyber 2025 (mismo día)</th><th class="r">Var.</th></tr></thead><tbody id="gDay"></tbody></table></div>
+</section>
+<section aria-labelledby="g4" data-pill="Días &amp; horarios">
+  <div class="sh"><div class="t"><h2 id="g4">Días &amp; horarios</h2><p id="hTxt"></p></div></div>
+  <div class="box">
+    <div class="sh"><h3>Franja horaria × día (Lun 2, Mar 3, Mié 4)</h3>
+      <div class="seg" role="group" aria-label="Métrica">
+        <button type="button" data-hm="r" aria-pressed="true">Facturación</button>
+        <button type="button" data-hm="t" aria-pressed="false">Ventas</button>
+        <button type="button" data-hm="s" aria-pressed="false">Sesiones</button>
+        <button type="button" data-hm="cr" aria-pressed="false">Conversión</button>
+      </div></div>
+    <div style="overflow-x:auto"><div class="heat" id="hHeat"></div></div>
+    <div class="legend"><span id="hLo"></span><span class="ramp"></span><span id="hHi"></span><span id="hLeg"></span></div>
+  </div>
+  <div class="box">
+    <div class="sh"><h3>Hora por hora</h3><span class="legend">Borde rojo: hora pico de cada franja</span></div>
+    <div style="overflow-x:auto"><div class="strip" id="hStrip"></div></div>
+  </div>
+</section>
 <section aria-labelledby="r5">
   <div class="sh"><div class="t"><h2 id="r5">Mix por categoría</h2><p>Facturación del Cyber 2026 por categoría y por producto. Tocá una tarjeta para filtrar todo el mix por esa característica.</p></div></div>
   <div class="box" data-pill="Descuentos y envío">
@@ -1370,6 +1402,119 @@ build();
       gate.classList.add('pw-shake'); input.value = ''; input.focus();
     }
   });
+})();
+</script>
+<script type="application/json" id="gdata">{"ev":{"cm25":{"n":7,"ses":629680,"atc":50950,"chk":21087,"pur":6375,"f":763472839,"t":6946,"g":null,"m":null},"hs26":{"n":8,"ses":611487,"atc":51948,"chk":26962,"pur":6341,"f":906234749,"t":7355,"g":null,"m":null},"cm26":{"n":8,"ses":671389,"atc":45316,"chk":22921,"pur":6901,"f":1087968940,"t":7725,"g":36575642.42449,"m":34173088.5}},"base":{"cm25":{"n":31,"ses":1520219,"atc":115936,"chk":46096,"pur":12537,"f":1684272064,"t":13801},"hs26":{"n":28,"ses":1267449,"atc":82239,"chk":36935,"pur":10814,"f":1634809993,"t":12159},"cm26":{"n":31,"ses":1553950,"atc":105289,"chk":52932,"pur":14375,"f":2258820834.17,"t":15316,"g":49086729.4763,"m":55993085.98}},"days":[["Lun 2",128018,1505,212988269,168125363],["Mar 3",133638,1577,231861799,151103059],["Mié 4",131190,1824,265182078,160870593],["Jue 5",72289,732,102735957,87064298],["Vie 6",67230,679,88461029,79855496],["Sáb 7",52717,510,67517141,56752790],["Dom 8",55193,657,85874042,59701240],["Lun 9",31114,241,33348625,null]]}</script>
+<script>
+(()=>{
+const $=id=>document.getElementById(id),G=JSON.parse($("gdata").textContent);
+const nf=(x,d=0)=>Number(x).toLocaleString("es-AR",{minimumFractionDigits:d,maximumFractionDigits:d});
+const fP=(x,d=1)=>nf(x,d)+"%",fCR=x=>nf(x,2)+"%",fN=x=>nf(Math.round(x)),fMon=x=>"$"+fN(x),fM=x=>"$"+nf(x/1e6,1)+"M",na="n/d";
+const tr=c=>"<tr>"+c.map(([v,k])=>`<td${k?` class="${k}"`:""}>${v}</td>`).join("")+"</tr>";
+const grp=(t,n)=>`<tr class="g"><td colspan="${n}">${t}</td></tr>`;
+const g=(a,b,rate)=>{if(rate){const d=a-b;return[(d>0?"+":d<0?"−":"")+nf(Math.abs(d),2)+" pp",d>=0?"pos":"neg"]}const r=a/b;
+  return[(r>=1.5||r<=0.67)?"×"+nf(r,1):((r-1)*100>0?"+":"−")+nf(Math.abs((r-1)*100),1)+"%",r>=1?"pos":"neg"]};
+const E=G.ev.cm26,B=G.base.cm26,pd=(o,k)=>o[k]/o.n;
+const cvr=o=>o.t/o.ses*100,tk=o=>o.f/o.t,inv=o=>o.g==null?null:o.g+o.m;
+// Resumen
+const roas=[B.f/inv(B),E.f/inv(E)];
+const K=[["Conversión",fCR(cvr(E)),"oct "+fCR(cvr(B)),g(cvr(E),cvr(B),1),"var(--uke-rojo)"],
+ ["Facturación / día",fM(pd(E,"f")),"oct "+fM(pd(B,"f")),g(pd(E,"f"),pd(B,"f")),"var(--uke-azul-oscuro)"],
+ ["Ticket promedio",fMon(tk(E)),"oct "+fMon(tk(B)),g(tk(E),tk(B)),"var(--uke-azul-medio)"],
+ ["ROAS total",nf(roas[1],1),"oct "+nf(roas[0],1),g(roas[1],roas[0]),"var(--uke-purpura)"]];
+$("gKpis").innerHTML=K.map(([l,v,o,[d,c],bar])=>`<div class="kpi" style="--bar:${bar}"><span class="l">${l}</span><span class="v">${v}</span><span class="d">${o} · <b class="${c==="neg"?"n":""}">${d}</b></span></div>`).join("");
+const row=(l,a,b,v)=>tr([[l],[a],[b],v?[v[0],v[1]]:["—"]]);
+const fun=o=>[o.atc/o.ses*100,o.chk/o.atc*100,o.pur/o.chk*100];
+const fb=fun(B),fe=fun(E);
+$("gTbl").innerHTML=grp("Tráfico &amp; ventas",4)+row("Sesiones / día",fN(pd(B,"ses")),fN(pd(E,"ses")),g(pd(E,"ses"),pd(B,"ses")))+
+ row("Transacciones / día",fN(pd(B,"t")),fN(pd(E,"t")),g(pd(E,"t"),pd(B,"t")))+row("Facturación total",fM(B.f),fM(E.f))+
+ grp("Embudo",4)+row("Agregar al carrito / sesión",fP(fb[0]),fP(fe[0]),g(fe[0],fb[0],1))+row("Checkout / carrito",fP(fb[1]),fP(fe[1]),g(fe[1],fb[1],1))+row("Compra / checkout",fP(fb[2]),fP(fe[2]),g(fe[2],fb[2],1))+
+ grp("Inversión Google Ads + Meta",4)+row("Google Ads",fM(B.g),fM(E.g),g(E.g/E.n,B.g/B.n))+
+ row("Meta",fM(B.m),fM(E.m),g(E.m/E.n,B.m/B.n))+row("Total",fM(inv(B)),fM(inv(E)),g(inv(E)/E.n,inv(B)/B.n))+
+ row("Inversión / facturación",fP(inv(B)/B.f*100),fP(inv(E)/E.f*100),g(inv(E)/E.f*100,inv(B)/B.f*100,1))+
+ row("Costo por venta",fMon(inv(B)/B.t),fMon(inv(E)/E.t),g(inv(E)/E.t,inv(B)/B.t));
+// Ediciones
+const A=G.ev.cm25,H=G.ev.hs26,BA=G.base.cm25,BH=G.base.hs26;
+const cards=[["Sesiones",fN(E.ses),pd(E,"ses"),pd(A,"ses"),pd(H,"ses"),0,"var(--uke-rojo)"],
+ ["Transacciones",fN(E.t),pd(E,"t"),pd(A,"t"),pd(H,"t"),0,"var(--uke-azul-oscuro)"],
+ ["Facturación",fM(E.f),pd(E,"f"),pd(A,"f"),pd(H,"f"),0,"var(--uke-azul-medio)"],
+ ["Conversión",fCR(cvr(E)),cvr(E),cvr(A),cvr(H),1,"var(--uke-purpura)"],
+ ["Ticket promedio",fMon(tk(E)),tk(E),tk(A),tk(H),0,"var(--uke-rojo)"]];
+$("gCards").innerHTML=cards.map(([l,v,a,b,p,rate,bar])=>{const x=g(a,b,rate),y=g(a,p,rate);const u=rate||l==="Ticket promedio"?"":" por día";
+ return `<div class="kpi" style="--bar:${bar}"><span class="l">${l}</span><span class="v">${v}</span><span class="d">vs Cyber 2025${u} · <b class="${x[1]==="neg"?"n":""}">${x[0]}</b></span><span class="d">vs Hot Sale 2026${u} · <b class="${y[1]==="neg"?"n":""}">${y[0]}</b></span></div>`}).join("");
+const C3=[[A,BA],[H,BH],[E,B]];
+const R=(l,f)=>tr([[l]].concat(C3.map(([o,b],i)=>[f(o,b),(i===2?"hl ":"")+"r"])));
+const idx=k=>(o,b)=>"×"+nf(pd(o,k)/pd(b,k),2);
+$("gCmp").innerHTML=grp("Tráfico &amp; ventas (total del período)",4)+R("Días",o=>o.n)+R("Sesiones",o=>fN(o.ses))+R("Transacciones",o=>fN(o.t))+R("Facturación",o=>fM(o.f))+R("Conversión",o=>fCR(cvr(o)))+R("Ticket promedio",o=>fMon(tk(o)))+
+ grp("Por día",4)+R("Sesiones / día",o=>fN(pd(o,"ses")))+R("Transacciones / día",o=>fN(pd(o,"t")))+R("Facturación / día",o=>fM(pd(o,"f")))+
+ grp("Contra el always on (mes anterior)",4)+R("Sesiones",idx("ses"))+R("Transacciones",idx("t"))+R("Facturación",idx("f"))+
+ grp("Inversión",4)+R("Google Ads",o=>o.g==null?na:fM(o.g))+R("Meta",o=>o.m==null?na:fM(o.m))+R("ROAS total (Google + Meta)",o=>o.g==null?na:nf(o.f/inv(o),1));
+// Día por día
+const D=G.days,T=D.reduce((a,x)=>a+x[3],0),cs=D.filter(x=>x[4]!=null).reduce((a,x)=>a+x[4],0),ct=D.filter(x=>x[4]!=null).reduce((a,x)=>a+x[3],0);
+const bi=D.map(x=>x[3]).indexOf(Math.max(...D.map(x=>x[3]))),w3=(D[0][3]+D[1][3]+D[2][3])/T*100,rest=D.slice(3,7).map(x=>x[3]),bc=D.map(x=>x[2]/x[1]*100),ci=bc.indexOf(Math.max(...bc));
+$("gDayTxt").textContent=`${D[bi][0]} fue el día más fuerte: ${fM(D[bi][3])}, el ${fP(D[bi][3]/T*100)} del período. De lunes a miércoles se hizo el ${fP(w3)} de la facturación; de jueves a domingo, entre ${fM(Math.min(...rest))} y ${fM(Math.max(...rest))} por día. La mejor conversión fue ${D[ci][0]}: ${fCR(bc[ci])}. El mes base (octubre) promedió ${fM(pd(B,"f"))} por día.`;
+$("gDay").innerHTML=D.map(x=>{const v=x[4]==null?["n/d",""]:g(x[3],x[4]);return tr([[x[0]],[fN(x[1]),"r"],[fN(x[2]),"r"],[fM(x[3]),"r"],[fP(x[3]/T*100),"r"],[fCR(x[2]/x[1]*100),"r"],[x[4]==null?na:fM(x[4]),"r"],[v[0],(v[1]?v[1]+" ":"")+"r"]])}).join("")+
+ tr([["<b>Total 8 días</b> (var. sobre 7 días)"],[fN(E.ses),"r"],[fN(E.t),"r"],[fM(T),"r"],["100%","r"],[fCR(cvr(E)),"r"],[fM(cs),"r"],[g(ct,cs)[0],g(ct,cs)[1]+" r"]])+
+ tr([["Mes base (prom. / día)"],[fN(pd(B,"ses")),"r"],[fN(pd(B,"t")),"r"],[fM(pd(B,"f")),"r"],["—","r"],[fCR(cvr(B)),"r"],["—","r"],["—","r"]]);
+if(window.__pills)window.__pills();
+})();
+</script>
+<script type="application/json" id="hdata">{"days":{"2026-11-02":{"s":[5803,2768,2090,1115,751,1036,2115,3145,4013,4704,7083,7591,7444,7478,7616,7001,6659,6706,7438,7923,7803,8190,8893,7944],"t":[42,25,13,3,2,3,5,25,51,63,74,81,73,94,62,67,57,55,75,86,92,108,102,70],"r":[6921910,3462909,2360499,525700,567800,375710,899700,4196200,10708699,11817818,14503839,14661530,14250900,17070148,11800430,13370334,11859046,11062829,14945119,15721316,17539910,20543108,19077328,13590500]},"2026-11-03":{"s":[6522,3907,2120,1363,862,1040,2281,4162,5359,6366,7628,8553,10433,7954,6776,7004,6842,6646,7383,7027,7275,6756,7129,6094],"t":[39,25,8,5,3,1,7,24,42,48,80,87,94,71,75,77,69,85,81,68,98,95,98,97],"r":[8041418,5126310,1570100,1224210,460310,179000,1375300,4496900,7573000,10113118,16703420,18528108,19059928,14125018,13572529,16280909,13986730,16118319,15547715,12866226,19560268,19560746,17911648,18981390]},"2026-11-04":{"s":[5439,3239,1548,825,611,745,1635,3187,4492,5334,6166,7024,7617,7707,7188,7157,6591,6751,7563,7857,8998,9515,9873,7214],"t":[44,18,9,3,1,5,4,23,50,61,92,82,86,73,84,78,64,80,89,105,115,137,165,165],"r":[7600430,2790810,1966800,374800,504000,825800,908530,3953499,10508330,11556220,16629520,16170729,15514920,14216530,15632235,14508639,14095556,15383928,17363408,21957409,22207806,27563649,29995228,30667470]}},"names":{"2026-11-02":"Lun 2","2026-11-03":"Mar 3","2026-11-04":"Mi\u00e9 4"},"win":{"s":675751,"t":6929,"r":1279928419.27}}</script>
+<script>
+(()=>{
+const $=id=>document.getElementById(id),X=JSON.parse($("hdata").textContent);
+const nf=(x,d=0)=>Number(x).toLocaleString("es-AR",{minimumFractionDigits:d,maximumFractionDigits:d});
+const fP=(x,d=1)=>nf(x,d)+"%",fCR=x=>nf(x,2)+"%",fN=x=>nf(Math.round(x)),fM=x=>"$"+nf(x/1e6,1)+"M";
+const sum=(a,i,j)=>a.slice(i,j).reduce((x,y)=>x+y,0);
+const DATES=Object.keys(X.days).sort(),DN=X.names,H=X.days,W=X.win;
+const tot={s:[],t:[],r:[]};for(let h=0;h<24;h++){["s","t","r"].forEach(k=>tot[k][h]=DATES.reduce((a,d)=>a+H[d][k][h],0))}
+const BANDS=[["00–08",0,8],["08–12",8,12],["12–16",12,16],["16–20",16,20],["20–24",20,24]];
+let metric="r";
+const shade=f=>{const p=Math.round(5+f*90);return{bg:`color-mix(in srgb, #004E8A ${p}%, #FFFFFF)`,fg:p>48?"#FFFFFF":"#000000"}};
+function peak(d,a,b,m){if(m==="cr"){let best=-1,bv=-1;for(let h=a;h<b;h++){if(d.s[h]>=1000){const c=d.t[h]/d.s[h];if(c>bv){bv=c;best=h}}}if(best>=0)return best;let x=a,xv=-1;for(let h=a;h<b;h++){const c=d.s[h]?d.t[h]/d.s[h]:0;if(c>xv){xv=c;x=h}}return x}
+  const sl=d[m].slice(a,b);return a+sl.indexOf(Math.max(...sl))}
+function heat(){
+  const el=$("hHeat");el.textContent="";
+  const add=(cls,txt)=>{const x=document.createElement("div");x.className=cls;if(txt!=null)x.textContent=txt;el.appendChild(x);return x};
+  add("h","Franja");DATES.forEach(d=>add("h",DN[d]));add("h tot","3 días");
+  const cols=[...DATES,"tot"];
+  add("rl tr","Total día");
+  cols.forEach(c=>{const d=c==="tot"?tot:H[c];const T={s:sum(d.s,0,24),t:sum(d.t,0,24),r:sum(d.r,0,24)};
+    const cell=add("cell tdia"+(c==="tot"?" tot":""));
+    const v=metric==="r"?fM(T.r):metric==="t"?fN(T.t)+" ventas":metric==="s"?fN(T.s)+" sesiones":fCR(T.t/T.s*100);
+    const sem=metric==="cr"?"semana "+fCR(W.t/W.s*100):fP(T[metric]/W[metric]*100)+" de la semana";
+    [["p",v],["sem",sem],["s","pico "+peak(d,0,24,metric)+" h"]].forEach(([k,t])=>{const x=document.createElement("span");x.className=k;x.textContent=t;cell.appendChild(x)})});
+  const vals={};
+  cols.forEach(c=>{const d=c==="tot"?tot:H[c];const T={s:sum(d.s,0,24),t:sum(d.t,0,24),r:sum(d.r,0,24)};
+    vals[c]=BANDS.map(([n,a,b])=>{const s=sum(d.s,a,b),t=sum(d.t,a,b),r=sum(d.r,a,b),cs=sum(d.s,0,b),ct=sum(d.t,0,b),crr=sum(d.r,0,b);
+      return{s,t,r,cr:t/s*100,share:metric==="cr"?t/s*100:{s,t,r}[metric]/T[metric]*100,acum:metric==="cr"?ct/cs*100:{s:cs,t:ct,r:crr}[metric]/T[metric]*100,pk:peak(d,a,b,metric)}})});
+  const all=cols.flatMap(c=>vals[c].map(v=>v.share)),lo=Math.min(...all),hi=Math.max(...all);
+  BANDS.forEach(([n],i)=>{add("rl",n);cols.forEach(c=>{const v=vals[c][i],sh=shade((v.share-lo)/(hi-lo||1));
+    const cell=add("cell"+(c==="tot"?" tot":""));cell.style.background=sh.bg;cell.style.color=sh.fg;
+    [["p",metric==="cr"?fCR(v.share):fP(v.share)],["s",metric==="r"?fM(v.r):metric==="t"?fN(v.t)+" ventas":metric==="s"?fN(v.s)+" sesiones":fN(v.t)+" / "+fN(v.s)],
+     ["ac",metric==="cr"?"conv. acum. "+fCR(v.acum):"acum. "+fP(v.acum)],["s","pico "+v.pk+" h"]].forEach(([k,t])=>{const x=document.createElement("span");x.className=k;x.textContent=t;cell.appendChild(x)});
+    cell.title=`${c==="tot"?"3 días":DN[c]} · ${n}: ${fN(v.s)} sesiones, ${fN(v.t)} ventas, ${fM(v.r)}, conv. ${fCR(v.cr)}`})});
+  $("hLo").textContent=metric==="cr"?fCR(lo):fP(lo);$("hHi").textContent=metric==="cr"?fCR(hi):fP(hi);
+  $("hLeg").textContent=metric==="cr"?"Conversión de la franja (ventas / sesiones)":"% sobre el total de ese día";
+  strip()}
+function strip(){
+  const el=$("hStrip");el.textContent="";
+  const mk=(cls,txt)=>{const x=document.createElement("div");x.className=cls;if(txt!=null)x.textContent=txt;el.appendChild(x);return x};
+  mk("lab","");for(let h=0;h<24;h++)mk("hh",String(h));
+  const series=DATES.map(day=>{const d=H[day];return d.s.map((_,h)=>metric==="cr"?(d.s[h]?d.t[h]/d.s[h]*100:0):d[metric][h]/sum(d[metric],0,24)*100)});
+  const hi=Math.max(...series.flat());
+  DATES.forEach((day,k)=>{mk("lab",DN[day]);const pk=new Set(BANDS.map(([,a,b])=>peak(H[day],a,b,metric)));
+    series[k].forEach((x,h)=>{const c=mk("x"+(pk.has(h)?" pk":""));c.style.background=shade(x/hi).bg;
+      c.title=`${DN[day]} ${h} h: ${metric==="cr"?fCR(x):fP(x)} · ${fN(H[day].t[h])} ventas · ${fM(H[day].r[h])}`})});
+  mk("lab","");BANDS.forEach(([n,a,b])=>{const x=mk("band",n);x.style.gridColumn=`span ${b-a}`})}
+document.querySelectorAll("[data-hm]").forEach(b=>b.addEventListener("click",()=>{metric=b.dataset.hm;document.querySelectorAll("[data-hm]").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));heat()}));
+// texto
+const T3={r:sum(tot.r,0,24)},night=sum(tot.r,0,8)/T3.r*100,eve=sum(tot.r,20,24)/T3.r*100,ph=tot.r.indexOf(Math.max(...tot.r));
+const dayRev=DATES.map(d=>sum(H[d].r,0,24)),pd=DATES[dayRev.indexOf(Math.max(...dayRev))];
+const cr3=tot.t.map((t,h)=>tot.s[h]>=1000?t/tot.s[h]:0),pc=cr3.indexOf(Math.max(...cr3));
+$("hTxt").textContent=`Mapa de los tres días más fuertes (lunes 2 a miércoles 4), con totales de GA4 (propiedad vans.com.ar - GA4 PROD): esos días suman ${fP(T3.r/W.r*100,0)} de la facturación de la semana. La franja de 20 a 24 h concentra el ${fP(eve,0)} de la facturación y la de 00 a 08 h, el ${fP(night,0)}. La hora de mayor facturación fue las ${ph} h y la de mejor conversión, las ${pc} h. El día más fuerte fue ${DN[pd]}.`;
+heat();
+if(window.__pills)window.__pills();
 })();
 </script>
 <script src="library-nav.js"></script>
