@@ -471,7 +471,7 @@ td.pair .plus{color:var(--uke-gris-cuerpo);margin:0 6px}
 #cmb *{min-width:0}
 #cmb .cb-v{font:700 10.5px var(--uke-font-display);letter-spacing:.08em;text-transform:uppercase;background:var(--uke-lavanda);color:var(--uke-azul-oscuro);border-radius:999px;padding:3px 9px;margin-left:10px;vertical-align:middle;white-space:nowrap}
 #cmb .seg{display:flex;width:100%;max-width:100%}
-#cmb .seg button{flex:1 1 0;padding:7px 6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#cmb .seg button{flex:1 1 auto;padding:7px 6px;white-space:normal;line-height:1.15;text-align:center}
 #cmb .cb-two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:16px;align-items:start}
 @media (max-width:900px){#cmb .cb-two{grid-template-columns:minmax(0,1fr)}}
 #cmb .cb-box{border:1px solid var(--uke-gris-suave);border-radius:10px;padding:16px;display:grid;gap:12px;align-content:start}
@@ -498,13 +498,16 @@ td.pair .plus{color:var(--uke-gris-cuerpo);margin:0 6px}
 #cmb .cb-more{justify-self:center;font:700 11.5px var(--uke-font-display);letter-spacing:.05em;text-transform:uppercase;border:1.5px solid var(--uke-azul-oscuro);background:#fff;color:var(--uke-azul-oscuro);border-radius:8px;padding:7px 14px;cursor:pointer}
 #cmb .cb-more:hover{background:var(--uke-lavanda)}
 #cmb .cb-mhead{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between}
-#cmb .cb-mfil{display:flex;flex-wrap:wrap;gap:8px;align-items:center;flex:1 1 360px;justify-content:flex-end}
-#cmb .cb-mfil .seg{width:auto;flex:1 1 260px;max-width:520px}
+#cmb .cb-mfil{display:flex;flex-wrap:wrap;gap:8px;align-items:stretch;flex:1 1 100%}
+#cmb .cb-mfil .seg{width:auto;flex:3 1 340px}
+#cmb .cb-mfil .seg#cbMD{flex:1 1 280px}
 #cmb .cb-sc{overflow-x:auto;border-radius:8px}
 #cmb .cb-mx{display:grid;gap:4px}
 #cmb .cb-mx .h{font:700 11px var(--uke-font-display);letter-spacing:.06em;text-transform:uppercase;color:var(--uke-gris-cuerpo);padding:4px 8px;display:flex;align-items:center;white-space:nowrap}
 #cmb .cb-mx .h.r{position:sticky;left:0;background:#fff;z-index:1}
 #cmb .cb-mx .h.t{color:var(--uke-azul-oscuro)}
+#cmb .cb-mx .h.ch{white-space:normal;line-height:1.15;align-items:flex-end;text-align:left;padding-bottom:6px}
+#cmb .cb-mx .h.ch .bdot{margin-top:0;flex:none}
 #cmb .cb-mx .cl{border-radius:6px;padding:8px 10px;display:grid;gap:0;min-height:58px;align-content:center;cursor:default}
 #cmb .cb-mx .cl b{font:800 17px var(--uke-font-display);font-variant-numeric:tabular-nums}
 #cmb .cb-mx .cl span{font-size:11.5px}
@@ -527,6 +530,7 @@ td.pair .plus{color:var(--uke-gris-cuerpo);margin:0 6px}
 #cmb .cb-pb .v b{font:800 14px var(--uke-font-display);color:#000}
 #cmb .cb-pb .v .y{color:var(--uke-verde);font:800 11.5px var(--uke-font-display);margin-left:6px;cursor:help}
 #cmb .cb-tbl td{white-space:nowrap}
+#cmb .cb-tbl th:nth-child(2){text-align:left}
 #cmb .cb-tbl td.nm{text-align:left}
 #cmb .cb-tbl td .y{color:var(--uke-verde);font-weight:700}
 @media (max-width:560px){
@@ -689,11 +693,11 @@ function renderMatrix(){const d=X.d,nm=DM[d].names,n=nm.length;
   idx.forEach((a,x)=>idx.forEach((b,y)=>{if(y<x)return;const v=cell[a][b];R2[x]+=v;C2[y]+=v;grand+=v;if(v>max)max=v}));
   const top=[];idx.forEach((a,x)=>idx.forEach((b,y)=>{if(y>=x&&cell[a][b])top.push([cell[a][b],a,b])}));top.sort((p,q)=>q[0]-p[0]);
   const lowc=s=>s.charAt(0).toLowerCase()+s.slice(1);
-  $("cbMTxt").textContent="Lo más común: "+top.slice(0,3).map(([v,a,b])=>a===b?`dos de ${lowc(nm[a])} (${nf(v)})`:`${lowc(nm[a])} + ${lowc(nm[b])} (${nf(v)})`).join(", ")+".";
+  $("cbMTxt").textContent="Lo más común: "+top.slice(0,3).map(([v,a,b])=>a===b?`dos de ${nm[a]} (${nf(v)})`:`${nm[a]} + ${nm[b]} (${nf(v)})`).join(", ")+".";
   MXD={nm,idx,cell,R2,C2,grand};
-  const w=Math.max(70,Math.min(110,Math.floor(880/(k+2))));
+  const w=100;
   const g=$("cbMx");g.style.gridTemplateColumns=`138px repeat(${k},minmax(${w}px,1fr)) minmax(${w}px,1fr)`;g.style.minWidth=(138+(k+1)*(w+4))+"px";
-  const col=DM[d].col;let h=`<div class="h"></div>`+idx.map(a=>`<div class="h">${dot(col[a])}${esc(nm[a])}</div>`).join("")+`<div class="h t">Total</div>`;
+  const col=DM[d].col;let h=`<div class="h"></div>`+idx.map(a=>`<div class="h ch">${dot(col[a])}${esc(nm[a])}</div>`).join("")+`<div class="h t">Total</div>`;
   idx.forEach((a,x)=>{h+=`<div class="h r">${dot(col[a])}${esc(nm[a])}</div>`;
     idx.forEach((b,y)=>{if(y<x){h+=`<div class="cl e"></div>`;return}const v=cell[a][b];
       if(!v){h+=`<div class="cl z" data-x="${x}" data-y="${y}"><b>–</b></div>`;return}
@@ -750,10 +754,9 @@ function findings(){const c=ST.c,cn=DM.c.names;
   const cc=Array.from({length:cn.length},()=>Array(cn.length).fill(0));
   T.forEach(t=>{const cnt=new Map();t.ids.forEach(i=>cnt.set(M[i].c,(cnt.get(M[i].c)||0)+1));const ls=[...cnt.keys()];ls.forEach((a,x)=>{if(cnt.get(a)>=2)cc[a][a]++;for(let y=x+1;y<ls.length;y++)cc[Math.min(a,ls[y])][Math.max(a,ls[y])]++})});
   let off=[0,0,0],dg=[0,0,0];cn.forEach((_,a)=>cn.forEach((_,b)=>{if(b<a)return;const v=cc[a][b];if(a===b){if(v>dg[0])dg=[v,a,b]}else if(v>off[0])off=[v,a,b]}));
-  const lw=s=>s.charAt(0).toLowerCase()+s.slice(1);
   return [
    ["Uno de cada "+nf(NT/NC,1)+" tickets combina",`${fP(NC/NT*100)} de los tickets llevó 2+ modelos (${nf(NC)} de ${nf(NT)}) y gastó ${fD(avgC)}, ×${nf(avgC/avgS,1)} el ticket de un solo modelo (${fD(avgS)}).`],
-   ["Lo que más se junta",`${cn[dg[1]]} con ${lw(cn[dg[1]])}: ${nf(dg[0])} tickets llevaron dos modelos de la misma categoría. Entre categorías distintas, lo más frecuente es ${lw(cn[off[1]])} + ${lw(cn[off[2]])} (${nf(off[0])} tickets).`],
+   ["Lo que más se junta",`${nf(dg[0])} tickets llevaron dos modelos de ${cn[dg[1]]}. Entre categorías distintas, lo más frecuente es ${cn[off[1]]} + ${cn[off[2]]} (${nf(off[0])} tickets).`],
    ["El par más firme",`${M[p0.a].n} + ${M[p0.b].n}: ${nf(p0.n)} tickets y ${fM(p0.imp)} combinados${PREV.has(key(p0.a,p0.b))?`; ya se compraban juntos en sep–nov 2025 (${nf(PREV.get(key(p0.a,p0.b)))} tickets)`:""}.`],
    ["Mejor ancla",`${M[best].n}: ${fP(CT[best]/M[best].t*100,0)} de sus ${nf(M[best].t)} tickets llevaron otro modelo. Se repitieron ${nf(rep.length)} pares y ${nf(repPrev.length)} ya estaban en sep–nov 2025.`]]}
 const BARS=["var(--uke-rojo)","var(--uke-azul-oscuro)","var(--uke-azul-medio)","var(--uke-purpura)"];
