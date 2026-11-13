@@ -456,9 +456,9 @@ td.pair .plus{color:var(--uke-gris-cuerpo);margin:0 6px}
       <tbody id="mxBody"></tbody></table></div>
   </div>
   <div class="box" data-pill="Contra ediciones anteriores">
-    <div class="sh"><h3>Contra las ediciones anteriores</h3></div>
+    <div class="sh"><h3>Contra las ediciones anteriores</h3><div class="seg" role="group" aria-label="Ver por"><button type="button" data-ev="g" aria-pressed="false">Agrupación</button><button type="button" data-ev="c" aria-pressed="true">Categoría</button><button type="button" data-ev="l" aria-pressed="false">Línea</button></div></div>
     <div class="tw w mxe"><table>
-      <thead><tr><th>Categoría</th><th class="r">Cyber 2025</th><th class="r">Hot Sale 2026</th><th class="hl r">Cyber 2026</th><th class="r">Var. vs 2025</th></tr></thead>
+      <thead><tr><th id="mxEH">Categoría</th><th class="r">Cyber 2025</th><th class="r">Hot Sale 2026</th><th class="hl r">Cyber 2026</th><th class="r">Var. vs 2025</th></tr></thead>
       <tbody id="mxEd"></tbody></table></div>
   </div>
 </section>
@@ -890,7 +890,7 @@ const fP=(x,d=1)=>nf(x,d)+"%",fN=x=>nf(Math.round(x)),fMon=x=>"$"+fN(x),fM=x=>"$
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const tr=cells=>"<tr>"+cells.map(([v,c])=>`<td${c?` class="${c}"`:""}>${v}</td>`).join("")+"</tr>";
 let MX=JSON.parse($("vmix").textContent),mm="o",mv="g",mq="",flt=null,openC=new Set(),allMain=false,allProd=new Set(),allEd=false;
-const TOP=20;
+const TOP=20;const EDL={"lines": ["Classic", "CLASSICS +", "Surf", "PSK", "Remeras M/Corta", "Buzos", "Sandals", "Active", "Pantalones", "Mochilas", "Caps", "Medias", "Shorts", "Bolsos", "Camperas", "Boardshorts", "Premium", "Camisas M/Corta", "Snowboard", "Camisas M/Larga", "Musculosas", "Riñoneras", "Polleras", "Gift", "Billeteras", "Sweaters", "Beanies", "Remeras M/Larga", "Chalecos"], "cm25": [483757200.0, 44356000.0, 67827000.0, 97269000.0, 36425300.0, 23842000.0, 10419000.0, 86237000.0, 5967000.0, 6668000.0, 8263000.0, 4262400.0, 1414000.0, 1336000.0, 2064000.0, 0, 0, 0, 0, 0, 37000.0, 1750000.0, 138000.0, 0, 96000.0, 129000.0, 227400.0, 406000.0, 198000.0], "hs26": [452651755.0, 156003120.0, 114452875.0, 162027490.0, 19738430.0, 86951565.0, 3416250.0, 35606360.0, 9637850.0, 5060400.0, 2942750.0, 5533105.0, 267000.0, 3460150.0, 7266750.0, 0, 0, 0, 0, 2977150.0, 117000.0, 1338000.0, 0, 360000.0, 537150.0, 0, 3294150.0, 1130000.0, 0], "cm26": [749595538.9200001, 173493229.18, 139250722.6, 92509425.0, 50151356.9, 31366943.650000002, 24036452.23, 18453910.0, 13435699.700000001, 10032250.0, 8680439.24, 8347129.400000001, 7794400.0, 5459600.0, 4814400.0, 4811400.0, 2685000.0, 2172700.0, 1898100.0, 1472533.18, 946400.0, 734000.0, 545000.0, 450000.0, 366000.0, 169000.0, 159100.0, 148000.0, 0]};let edv="c";
 const norm=s=>String(s).normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase();
 const words=s=>norm(s).split(/[^a-z0-9ñ]+/).filter(Boolean);
 const matchQ=(hay,q)=>{const t=words(q);if(!t.length)return true;const w=words(hay);return t.every(x=>w.some(y=>y.startsWith(x)))};
@@ -973,7 +973,10 @@ function renderTable(){
     $("mxQuit").addEventListener("click",()=>{flt=null;allMain=false;allProd.clear();renderAll()})}
   else{fb.hidden=true;fb.textContent=""}}
 function renderEd(){
-  const E=MX.editions,n=E.cats.length;
+  const E0=MX.editions;let E=E0;
+  if(edv==="l")E={...E0,cats:EDL.lines,cm25:EDL.cm25,hs26:EDL.hs26,cm26:EDL.cm26};
+  else if(edv==="g"){const nm=[],mp=E0.cats.map(c=>{const g=grpOf(c);let i=nm.indexOf(g);if(i<0){nm.push(g);i=nm.length-1}return i});E={...E0,cats:nm};["cm25","hs26","cm26"].forEach(k=>{E[k]=nm.map(()=>0);E0[k].forEach((v,i)=>{E[k][mp[i]]+=v})})}
+  const n=E.cats.length;$("mxEH").textContent=GL[edv];
   const sh=k=>E.cats.map((_,i)=>E[k][i]/E.tot[k]*100);
   const a=sh("cm25"),b=sh("hs26"),c=sh("cm26");
   const idx=E.cats.map((_,i)=>i).sort((x,y)=>c[y]-c[x]);
@@ -1001,6 +1004,7 @@ $("mxBody").addEventListener("click",e=>{
   if(bt){if(bt.dataset.all){allMain=!allMain}else if(bt.dataset.pm){const k=bt.dataset.pm;allProd.has(k)?allProd.delete(k):allProd.add(k)}renderTable();return}
   const r=e.target.closest("tr.cr");if(r){const k=r.dataset.c;openC.has(k)?openC.delete(k):openC.add(k);renderTable()}});
 $("mxBody").addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.matches("tr.cr")){e.preventDefault();e.target.click()}});
+document.querySelectorAll("[data-ev]").forEach(b=>b.addEventListener("click",()=>{edv=b.dataset.ev;allEd=false;document.querySelectorAll("[data-ev]").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));renderEd()}));
 $("mxEd").addEventListener("click",e=>{if(e.target.closest("[data-ed]")){allEd=!allEd;renderEd()}});
 renderAll();renderEd();
 })();
