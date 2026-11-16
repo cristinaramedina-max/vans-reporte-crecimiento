@@ -215,6 +215,13 @@
       href: "Merrell_venta_categoria_subcategoria_1.html",
       cargado: "2026-10-30"
     },
+    {
+      cliente: "Vans Uruguay",
+      titulo: "Eventos",
+      descripcion: "",
+      href: "Vans_UY_Eventos_1.html",
+      cargado: "2026-11-16"
+    },
     // @@UKE_NUEVOS_REPORTES@@
   ];
 
