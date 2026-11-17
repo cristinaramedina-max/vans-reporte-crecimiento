@@ -689,7 +689,7 @@ function renderRight(){const box=$("cbRight");const nmS=L.sel===null?"":DM[L.d].
     const lim=R.all?ids.length:12,mx=ids.length?CT[ids[0]]:1;
     ids.slice(0,lim).forEach(i=>{const pc=new Map();T.forEach(t=>{if(t.ids.includes(i)){new Set(t.ids.filter(j=>j!==i).map(j=>M[j].c)).forEach(c=>pc.set(c,(pc.get(c)||0)+1))}});
       const top=[...pc.entries()].sort((a,b)=>b[1]-a[1]).slice(0,3).map(([c,n])=>`${esc(DM.c.names[c])} ${n}`).join(" · ");
-      h+=`<button type="button" class="cb-pr" data-m="${i}"><span class="cb-nm">${dot(ccol(i))}<span style="overflow:hidden;text-overflow:ellipsis">${esc(M[i].n)}</span></span><span class="cb-bar"><b style="width:${CT[i]/mx*100}%;background:${ccol(i)}"></b></span><span class="tx"><b>${nf(CT[i])} de ${nf(M[i].t)} tickets <span>· ${fP(CT[i]/M[i].t*100,0)}</span></b><em>con ${top}</em></span></button>`});
+      h+=`<button type="button" class="cb-pr" data-m="${i}" data-tip="${esc(nf(CT[i])+" de los "+nf(M[i].t)+" tickets con "+M[i].n+" llevaron además otro modelo. Abajo: con qué categorías se combinó.")}"><span class="cb-nm">${dot(ccol(i))}<span style="overflow:hidden;text-overflow:ellipsis">${esc(M[i].n)}</span></span><span class="cb-bar"><b style="width:${CT[i]/mx*100}%;background:${ccol(i)}"></b></span><span class="tx"><b>${nf(CT[i])} de ${nf(M[i].t)} tickets <span>· ${fP(CT[i]/M[i].t*100,0)}</span></b><em>con ${top}</em></span></button>`});
     if(ids.length>12)h+=`<button type="button" class="cb-more" id="cbRMore">${R.all?"Ver top 12":"Ver todos ("+(ids.length-12)+" más)"}</button>`;
     if(!ids.length)h=`<p class="note">Sin combinaciones para esta selección.</p>`;
   }else{
@@ -701,9 +701,10 @@ function renderRight(){const box=$("cbRight");const nmS=L.sel===null?"":DM[L.d].
     const rows=[...pc.entries()].map(([e,v])=>({e,X:v.n,ts:v.ts})).sort((a,b)=>b.X-a.X);
     const mx=rows.length?rows[0].X:1,Y=At.length;
     rows.forEach(r=>{const op=R.open===K+":"+r.e;
-      h+=`<button type="button" class="cb-pr" data-k="${K}:${r.e}" aria-expanded="${op}"><span class="cb-nm">${dot(col[r.e])}${esc(nm[r.e])}</span><span class="cb-bar"><b style="width:${r.X/mx*100}%;background:${col[r.e]}"></b></span><span class="tx"><b>${nf(r.X)} de ${nf(Y)} tickets <span>· ${fP(r.X/Y*100,0)}</span></b></span></button>`;
-      if(op){const oc=new Map();r.ts.forEach(t=>{new Set(t.ids.filter(i=>M[i][K]!==r.e&&!anc.has(i)).map(i=>M[i][O])).forEach(l=>oc.set(l,(oc.get(l)||0)+1))});
-        h+=`<div class="cb-pills">`+([...oc.entries()].sort((a,b)=>b[1]-a[1]).map(([l,n])=>`<span class="cb-pill">${dot(DM[O].col[l])}${esc(DM[O].names[l])}<b>${nf(n)}</b></span>`).join("")||'<span class="note">Solo se combina entre modelos de la misma selección.</span>')+`</div>`}});
+      const tipR=`${nf(r.X)} de los ${nf(Y)} tickets combinados (2 o más modelos)${L.sel===null?"":" con "+nmS} incluyeron también un modelo de ${K==="l"?"la línea":"la categoría"} ${nm[r.e]}. Un ticket puede estar en varias filas, por eso no suman 100%.`;
+      h+=`<button type="button" class="cb-pr" data-k="${K}:${r.e}" data-tip="${esc(tipR)}" aria-expanded="${op}"><span class="cb-nm">${dot(col[r.e])}${esc(nm[r.e])}</span><span class="cb-bar"><b style="width:${r.X/mx*100}%;background:${col[r.e]}"></b></span><span class="tx"><b>${nf(r.X)} de ${nf(Y)} tickets <span>· ${fP(r.X/Y*100,0)}</span></b></span></button>`;
+      if(op){const oc=new Map();r.ts.forEach(t=>{new Set(t.ids.filter(i=>!anc.has(i)).map(i=>M[i][O])).forEach(l=>oc.set(l,(oc.get(l)||0)+1))});
+        h+=`<div class="cb-pills">`+([...oc.entries()].sort((a,b)=>b[1]-a[1]).map(([l,n])=>`<span class="cb-pill" data-tip="${esc(nf(n)+" de esos "+nf(r.X)+" tickets también llevaron "+DM[O].names[l]+". Un ticket puede estar en varias pastillas, por eso la suma puede superar "+nf(r.X)+".")}">${dot(DM[O].col[l])}${esc(DM[O].names[l])}<b>${nf(n)}</b></span>`).join("")||'<span class="note">Solo se combina entre modelos de la misma selección.</span>')+`</div>`}});
     if(!rows.length)h=`<p class="note">Sin combinaciones para esta selección.</p>`;
   }
   box.innerHTML=h}
