@@ -681,7 +681,7 @@ function renderRight(){const box=$("cbRight");const nmS=L.sel===null?"":DM[L.d].
     const lim=R.all?ids.length:12,mx=ids.length?CT[ids[0]]:1;
     ids.slice(0,lim).forEach(i=>{const pc=new Map();T.forEach(t=>{if(t.ids.includes(i)){new Set(t.ids.filter(j=>j!==i).map(j=>M[j].c)).forEach(c=>pc.set(c,(pc.get(c)||0)+1))}});
       const top=[...pc.entries()].sort((a,b)=>b[1]-a[1]).slice(0,3).map(([c,n])=>`${esc(DM.c.names[c])} ${n}`).join(" · ");
-      h+=`<button type="button" class="cb-pr" data-m="${i}" data-cbt="${esc(["",fP(CT[i]/M[i].t*100,0)+" de los pedidos con "+M[i].n+" llevó otro modelo",nf(CT[i])+" de "+nf(M[i].t)+" pedidos"].join("§"))}"><span class="cb-nm">${dot(ccol(i))}<span style="overflow:hidden;text-overflow:ellipsis">${esc(M[i].n)}</span></span><span class="cb-bar"><b style="width:${CT[i]/mx*100}%;background:${ccol(i)}"></b></span><span class="tx"><b>${nf(CT[i])} de ${nf(M[i].t)} tickets <span>· ${fP(CT[i]/M[i].t*100,0)}</span></b><em>con ${top}</em></span></button>`});
+      h+=`<button type="button" class="cb-pr" data-m="${i}" data-cbt2="${esc([fP(CT[i]/M[i].t*100,0)+" · "+M[i].n,"de los pedidos con este modelo llevó otro modelo",nf(CT[i])+" de "+nf(M[i].t)+" pedidos"].join("§"))}"><span class="cb-nm">${dot(ccol(i))}<span style="overflow:hidden;text-overflow:ellipsis">${esc(M[i].n)}</span></span><span class="cb-bar"><b style="width:${CT[i]/mx*100}%;background:${ccol(i)}"></b></span><span class="tx"><b>${nf(CT[i])} de ${nf(M[i].t)} tickets <span>· ${fP(CT[i]/M[i].t*100,0)}</span></b><em>con ${top}</em></span></button>`});
     if(ids.length>12)h+=`<button type="button" class="cb-more" id="cbRMore">${R.all?"Ver top 12":"Ver todos ("+(ids.length-12)+" más)"}</button>`;
     if(!ids.length)h=`<p class="note">Sin combinaciones para esta selección.</p>`;
   }else{
@@ -693,10 +693,10 @@ function renderRight(){const box=$("cbRight");const nmS=L.sel===null?"":DM[L.d].
     const rows=[...pc.entries()].map(([e,v])=>({e,X:v.n,ts:v.ts})).sort((a,b)=>b.X-a.X);
     const mx=rows.length?rows[0].X:1,Y=At.length;
     rows.forEach(r=>{const op=R.open===K+":"+r.e;
-      const tipR=["",fP(r.X/Y*100,0)+" de los pedidos combinados"+(L.sel===null?"":" con "+nmS)+" incluye "+(K==="l"?"la línea ":"la categoría ")+nm[r.e],nf(r.X)+" de "+nf(Y)+" pedidos"].join("§");
-      h+=`<button type="button" class="cb-pr" data-k="${K}:${r.e}" data-cbt="${esc(tipR)}" aria-expanded="${op}"><span class="cb-nm">${dot(col[r.e])}${esc(nm[r.e])}</span><span class="cb-bar"><b style="width:${r.X/mx*100}%;background:${col[r.e]}"></b></span><span class="tx"><b>${nf(r.X)} de ${nf(Y)} tickets <span>· ${fP(r.X/Y*100,0)}</span></b></span></button>`;
+      const tipR=[fP(r.X/Y*100,0)+" · "+nm[r.e],"de los pedidos combinados"+(L.sel===null?"":" con "+nmS)+" incluye "+(K==="l"?"esta línea":"esta categoría"),nf(r.X)+" de "+nf(Y)+" pedidos"].join("§");
+      h+=`<button type="button" class="cb-pr" data-k="${K}:${r.e}" data-cbt2="${esc(tipR)}" aria-expanded="${op}"><span class="cb-nm">${dot(col[r.e])}${esc(nm[r.e])}</span><span class="cb-bar"><b style="width:${r.X/mx*100}%;background:${col[r.e]}"></b></span><span class="tx"><b>${nf(r.X)} de ${nf(Y)} tickets <span>· ${fP(r.X/Y*100,0)}</span></b></span></button>`;
       if(op){const oc=new Map();r.ts.forEach(t=>{new Set(t.ids.filter(i=>!anc.has(i)||t.ids.filter(j=>anc.has(j)).length>=2).map(i=>M[i][O])).forEach(l=>oc.set(l,(oc.get(l)||0)+1))});
-        h+=`<div class="cb-pills">`+([...oc.entries()].sort((a,b)=>b[1]-a[1]).map(([l,n])=>`<span class="cb-pill" data-cbt="${esc(["",fP(n/r.X*100,0)+" de esos pedidos también lleva "+DM[O].names[l],nf(n)+" de "+nf(r.X)+" pedidos"].join("§"))}">${dot(DM[O].col[l])}${esc(DM[O].names[l])}<b>${nf(n)}</b></span>`).join("")||'<span class="note">Solo se combina entre modelos de la misma selección.</span>')+`</div>`}});
+        h+=`<div class="cb-pills">`+([...oc.entries()].sort((a,b)=>b[1]-a[1]).map(([l,n])=>`<span class="cb-pill" data-cbt2="${esc([fP(n/r.X*100,0)+" · "+DM[O].names[l],"de esos pedidos también lo lleva",nf(n)+" de "+nf(r.X)+" pedidos"].join("§"))}">${dot(DM[O].col[l])}${esc(DM[O].names[l])}<b>${nf(n)}</b></span>`).join("")||'<span class="note">Solo se combina entre modelos de la misma selección.</span>')+`</div>`}});
     if(!rows.length)h=`<p class="note">Sin combinaciones para esta selección.</p>`;
   }
   box.innerHTML=h}
@@ -755,8 +755,8 @@ function showTip(e){const c=e.target.closest&&e.target.closest("#cbMx .cl[data-x
 function place(e){const w=tip.offsetWidth,hh=tip.offsetHeight;let x=Math.min(Math.max(8,e.clientX-w/2),innerWidth-w-8),y=e.clientY-hh-14;if(y<8)y=e.clientY+18;tip.style.left=x+"px";tip.style.top=y+"px"}
 $("cbMx").addEventListener("mousemove",showTip);$("cbMx").addEventListener("mouseleave",()=>tip.style.display="none");
 $("cbMx").addEventListener("click",showTip);
-document.addEventListener("mousemove",e=>{const c=e.target.closest&&e.target.closest("#cmb [data-cbt]");
-  if(c){const p=c.dataset.cbt.split("§");tip.innerHTML=(p[0]?`<div class="a">${esc(p[0])}</div>`:"")+`<div class="b" style="font-size:14px;line-height:1.3">${esc(p[1])}</div><div class="g">${esc(p[2])}</div>`;tip.style.display="block";place(e)}
+document.addEventListener("mousemove",e=>{const c=e.target.closest&&e.target.closest("#cmb [data-cbt2]");
+  if(c){const p=c.dataset.cbt2.split("§");tip.innerHTML=`<div style="font:700 14px/1.3 var(--uke-font-display);color:var(--uke-azul-oscuro)">${esc(p[0])}</div><div style="font:400 13px/1.35 var(--uke-font-body);color:#000;margin-top:2px">${esc(p[1])}</div><div style="font:400 12px var(--uke-font-body);color:var(--uke-gris-cuerpo);margin-top:3px">${esc(p[2])}</div>`;tip.style.display="block";place(e)}
   else if(!(e.target.closest&&e.target.closest("#cbMx")))tip.style.display="none"});
 document.addEventListener("scroll",()=>tip.style.display="none",{passive:true});
 // ---- explorador
