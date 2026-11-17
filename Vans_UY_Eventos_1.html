@@ -689,7 +689,7 @@ function renderRight(){const box=$("cbRight");const nmS=L.sel===null?"":DM[L.d].
     const lim=R.all?ids.length:12,mx=ids.length?CT[ids[0]]:1;
     ids.slice(0,lim).forEach(i=>{const pc=new Map();T.forEach(t=>{if(t.ids.includes(i)){new Set(t.ids.filter(j=>j!==i).map(j=>M[j].c)).forEach(c=>pc.set(c,(pc.get(c)||0)+1))}});
       const top=[...pc.entries()].sort((a,b)=>b[1]-a[1]).slice(0,3).map(([c,n])=>`${esc(DM.c.names[c])} ${n}`).join(" · ");
-      h+=`<button type="button" class="cb-pr" data-m="${i}" data-tip="${esc(nf(CT[i])+" de los "+nf(M[i].t)+" tickets con "+M[i].n+" llevaron además otro modelo. Abajo: con qué categorías se combinó.")}"><span class="cb-nm">${dot(ccol(i))}<span style="overflow:hidden;text-overflow:ellipsis">${esc(M[i].n)}</span></span><span class="cb-bar"><b style="width:${CT[i]/mx*100}%;background:${ccol(i)}"></b></span><span class="tx"><b>${nf(CT[i])} de ${nf(M[i].t)} tickets <span>· ${fP(CT[i]/M[i].t*100,0)}</span></b><em>con ${top}</em></span></button>`});
+      h+=`<button type="button" class="cb-pr" data-m="${i}" data-cbt="${esc([M[i].n,nf(CT[i])+" de "+nf(M[i].t)+" tickets",fP(CT[i]/M[i].t*100,0)+" llevó otro modelo"].join("§"))}"><span class="cb-nm">${dot(ccol(i))}<span style="overflow:hidden;text-overflow:ellipsis">${esc(M[i].n)}</span></span><span class="cb-bar"><b style="width:${CT[i]/mx*100}%;background:${ccol(i)}"></b></span><span class="tx"><b>${nf(CT[i])} de ${nf(M[i].t)} tickets <span>· ${fP(CT[i]/M[i].t*100,0)}</span></b><em>con ${top}</em></span></button>`});
     if(ids.length>12)h+=`<button type="button" class="cb-more" id="cbRMore">${R.all?"Ver top 12":"Ver todos ("+(ids.length-12)+" más)"}</button>`;
     if(!ids.length)h=`<p class="note">Sin combinaciones para esta selección.</p>`;
   }else{
@@ -701,10 +701,10 @@ function renderRight(){const box=$("cbRight");const nmS=L.sel===null?"":DM[L.d].
     const rows=[...pc.entries()].map(([e,v])=>({e,X:v.n,ts:v.ts})).sort((a,b)=>b.X-a.X);
     const mx=rows.length?rows[0].X:1,Y=At.length;
     rows.forEach(r=>{const op=R.open===K+":"+r.e;
-      const tipR=`${nf(r.X)} de los ${nf(Y)} tickets combinados (2 o más modelos)${L.sel===null?"":" con "+nmS} incluyeron también un modelo de ${K==="l"?"la línea":"la categoría"} ${nm[r.e]}. Un ticket puede estar en varias filas, por eso no suman 100%.`;
-      h+=`<button type="button" class="cb-pr" data-k="${K}:${r.e}" data-tip="${esc(tipR)}" aria-expanded="${op}"><span class="cb-nm">${dot(col[r.e])}${esc(nm[r.e])}</span><span class="cb-bar"><b style="width:${r.X/mx*100}%;background:${col[r.e]}"></b></span><span class="tx"><b>${nf(r.X)} de ${nf(Y)} tickets <span>· ${fP(r.X/Y*100,0)}</span></b></span></button>`;
+      const tipR=[(L.sel===null?"":nmS+" + ")+nm[r.e],nf(r.X)+" de "+nf(Y)+" tickets",fP(r.X/Y*100,0)+" de los combinados"].join("§");
+      h+=`<button type="button" class="cb-pr" data-k="${K}:${r.e}" data-cbt="${esc(tipR)}" aria-expanded="${op}"><span class="cb-nm">${dot(col[r.e])}${esc(nm[r.e])}</span><span class="cb-bar"><b style="width:${r.X/mx*100}%;background:${col[r.e]}"></b></span><span class="tx"><b>${nf(r.X)} de ${nf(Y)} tickets <span>· ${fP(r.X/Y*100,0)}</span></b></span></button>`;
       if(op){const oc=new Map();r.ts.forEach(t=>{new Set(t.ids.filter(i=>!anc.has(i)||t.ids.filter(j=>anc.has(j)).length>=2).map(i=>M[i][O])).forEach(l=>oc.set(l,(oc.get(l)||0)+1))});
-        h+=`<div class="cb-pills">`+([...oc.entries()].sort((a,b)=>b[1]-a[1]).map(([l,n])=>`<span class="cb-pill" data-tip="${esc(nf(n)+" de esos "+nf(r.X)+" tickets también llevaron "+DM[O].names[l]+". Un ticket puede estar en varias pastillas, por eso la suma puede superar "+nf(r.X)+".")}">${dot(DM[O].col[l])}${esc(DM[O].names[l])}<b>${nf(n)}</b></span>`).join("")||'<span class="note">Solo se combina entre modelos de la misma selección.</span>')+`</div>`}});
+        h+=`<div class="cb-pills">`+([...oc.entries()].sort((a,b)=>b[1]-a[1]).map(([l,n])=>`<span class="cb-pill" data-cbt="${esc([(L.sel===null?"":nmS+" + ")+nm[r.e]+" + "+DM[O].names[l],nf(n)+" "+(n===1?"ticket":"tickets"),fP(n/r.X*100,0)+" de los "+nf(r.X)].join("§"))}">${dot(DM[O].col[l])}${esc(DM[O].names[l])}<b>${nf(n)}</b></span>`).join("")||'<span class="note">Solo se combina entre modelos de la misma selección.</span>')+`</div>`}});
     if(!rows.length)h=`<p class="note">Sin combinaciones para esta selección.</p>`;
   }
   box.innerHTML=h}
@@ -759,9 +759,13 @@ function tipFor(c){if(!MXD)return null;const {nm,idx,cell,R2,C2,grand}=MXD,x=c.d
   return `<div class="a">${esc(a)}</div><div class="b">${nf(v)} ${v===1?"ticket":"tickets"}</div><div class="g">${fP(v/NC*100,1)} de carritos compartidos</div>`}
 function showTip(e){const c=e.target.closest&&e.target.closest("#cbMx .cl[data-x]");if(!c||c.classList.contains("e")){tip.style.display="none";return}
   const h=tipFor(c);if(!h){tip.style.display="none";return}tip.innerHTML=h;tip.style.display="block";
-  const w=tip.offsetWidth,hh=tip.offsetHeight;let x=e.clientX+14,y=e.clientY+16;if(x+w>innerWidth-8)x=e.clientX-w-14;if(y+hh>innerHeight-8)y=e.clientY-hh-14;tip.style.left=Math.max(8,x)+"px";tip.style.top=Math.max(8,y)+"px"}
+  place(e)}
+function place(e){const w=tip.offsetWidth,hh=tip.offsetHeight;let x=Math.min(Math.max(8,e.clientX-w/2),innerWidth-w-8),y=e.clientY-hh-14;if(y<8)y=e.clientY+18;tip.style.left=x+"px";tip.style.top=y+"px"}
 $("cbMx").addEventListener("mousemove",showTip);$("cbMx").addEventListener("mouseleave",()=>tip.style.display="none");
 $("cbMx").addEventListener("click",showTip);
+document.addEventListener("mousemove",e=>{const c=e.target.closest&&e.target.closest("#cmb [data-cbt]");
+  if(c){const p=c.dataset.cbt.split("§");tip.innerHTML=`<div class="a">${esc(p[0])}</div><div class="b">${esc(p[1])}</div><div class="g">${esc(p[2])}</div>`;tip.style.display="block";place(e)}
+  else if(!(e.target.closest&&e.target.closest("#cbMx")))tip.style.display="none"});
 document.addEventListener("scroll",()=>tip.style.display="none",{passive:true});
 // ---- explorador
 const topIds=M.map((_,i)=>i).filter(i=>PART[i].size>0).sort((a,b)=>PART[b].size-PART[a].size||CT[b]-CT[a]).slice(0,30);
