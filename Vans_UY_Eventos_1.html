@@ -1,4 +1,39 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}#tablero,#expBtn{display:none!important}</style></head><body>
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}#tablero,#expBtn{display:none!important}</style><style>
+/* password gate — Biblioteca Uke */
+#pw-gate {
+  position: fixed; inset: 0; z-index: 99999;
+  background: #004E8A;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Lato', 'Helvetica Neue', Arial, sans-serif;
+}
+#pw-gate .pw-card {
+  background: #FFFFFF; border-radius: 14px; padding: 40px 36px; width: 100%; max-width: 360px;
+  text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,.35);
+}
+#pw-gate h1 { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 16px; color: #0A0A0A; margin: 0 0 4px; text-transform: uppercase; letter-spacing: .02em; }
+#pw-gate p { font-size: 12.5px; color: #444444; margin: 0 0 20px; }
+#pw-gate input[type="password"] { width: 100%; padding: 11px 14px; border: 1.5px solid #E5E5E5; border-radius: 8px; font-size: 14px; font-family: 'Lato', sans-serif; margin-bottom: 12px; outline: none; }
+#pw-gate input[type="password"]:focus { border-color: #1689C0; }
+#pw-gate button { width: 100%; padding: 11px 14px; border: none; border-radius: 8px; background: #E30233; color: #FFFFFF; font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 13px; text-transform: uppercase; letter-spacing: .02em; cursor: pointer; }
+#pw-gate button:hover { background: #C7022D; }
+#pw-gate .pw-error { color: #E30233; font-size: 12px; margin-top: 10px; display: none; font-weight: 700; }
+#pw-gate.pw-shake .pw-card { animation: pwShake .35s; }
+@keyframes pwShake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
+body.pw-locked > *:not(#pw-gate) { display: none !important; }
+</style>
+</head><body>
+<div id="pw-gate">
+  <div class="pw-card">
+    <h1>Biblioteca de Reportes &middot; Uke</h1>
+    <p>Este espacio es privado. Ingres&aacute; la contrase&ntilde;a para continuar.</p>
+    <form id="pw-form" autocomplete="off">
+      <input type="password" id="pw-input" placeholder="Contrase&ntilde;a" autofocus>
+      <button type="submit">Ingresar</button>
+      <div class="pw-error" id="pw-error">Contrase&ntilde;a incorrecta. Intent&aacute; de nuevo.</div>
+    </form>
+  </div>
+</div>
+
 <title>Vans UY · Eventos</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -562,7 +597,7 @@ td.hl,th.hl{background:#EDE7F6;font-weight:700}thead th.hl{background:var(--uke-
       <div id="cbLeft"></div>
     </div>
     <div class="cb-box">
-      <h3 id="cbRH">Productos más combinables <span class="info" tabindex="0" role="img" aria-label="Más información" data-tip="Ordenado por tickets combinados, referido a lo elegido a la izquierda. Tocá un producto para ir al explorador; tocá una línea o categoría para ver con qué se combina.">i</span></h3>
+      <h3 id="cbRH">Productos más combinables <span class="info" tabindex="0" role="img" aria-label="Más información" data-tip="Referido a lo elegido a la izquierda. Sus productos: los modelos que más se combinan. Sus líneas / categorías: con qué líneas o categorías se compran juntos. Tocá una fila para ver más.">i</span></h3>
       <div class="seg" role="group" aria-label="Ver" id="cbRSeg"><button type="button" data-r="p" aria-pressed="true">Sus productos</button><button type="button" data-r="l" aria-pressed="false">Sus líneas</button><button type="button" data-r="c" aria-pressed="false">Sus categorías</button></div>
       <div id="cbRight"></div>
     </div>
@@ -659,15 +694,16 @@ function renderRight(){const box=$("cbRight");const nmS=L.sel===null?"":DM[L.d].
     if(!ids.length)h=`<p class="note">Sin combinaciones para esta selección.</p>`;
   }else{
     const K=R.k,O=K==="l"?"c":"l",nm=DM[K].names,col=DM[K].col;
-    const rows=nm.map((_,e)=>{const ms=M.map((_,i)=>i).filter(i=>pass(i)&&M[i][K]===e);if(!ms.length)return null;const set=new Set(ms);
-      let X=0,Y=ms.reduce((s,i)=>s+M[i].s,0);const pc=new Map();
-      T.forEach(t=>{const hit=t.ids.filter(i=>set.has(i));if(!hit.length)return;X++;Y++;
-        const ls=new Set();hit.forEach(a=>t.ids.forEach(b=>{if(b!==a)ls.add(M[b][O])}));ls.forEach(l=>pc.set(l,(pc.get(l)||0)+1))});
-      return {e,X,Y,pc}}).filter(r=>r&&r.X>0).sort((a,b)=>b.X-a.X);
-    const mx=rows.length?rows[0].X:1;
+    const anc=new Set(M.map((_,i)=>i).filter(pass));
+    const At=T.filter(t=>t.ids.some(i=>anc.has(i)));const pc=new Map();
+    At.forEach(t=>{const ls=new Set();t.ids.forEach(a=>{if(!anc.has(a))return;t.ids.forEach(b=>{if(b!==a)ls.add(M[b][K])})});
+      ls.forEach(l=>{let e=pc.get(l);if(!e){e={n:0,ts:[]};pc.set(l,e)}e.n++;e.ts.push(t)})});
+    const rows=[...pc.entries()].map(([e,v])=>({e,X:v.n,ts:v.ts})).sort((a,b)=>b.X-a.X);
+    const mx=rows.length?rows[0].X:1,Y=At.length;
     rows.forEach(r=>{const op=R.open===K+":"+r.e;
-      h+=`<button type="button" class="cb-pr" data-k="${K}:${r.e}" aria-expanded="${op}"><span class="cb-nm">${dot(col[r.e])}${esc(nm[r.e])}</span><span class="cb-bar"><b style="width:${r.X/mx*100}%;background:${col[r.e]}"></b></span><span class="tx"><b>${nf(r.X)} de ${nf(r.Y)} tickets <span>· ${fP(r.X/r.Y*100,0)}</span></b></span></button>`;
-      if(op){h+=`<div class="cb-pills">`+[...r.pc.entries()].sort((a,b)=>b[1]-a[1]).map(([l,n])=>`<span class="cb-pill">${dot(DM[O].col[l])}${esc(DM[O].names[l])}<b>${nf(n)}</b></span>`).join("")+`</div>`}});
+      h+=`<button type="button" class="cb-pr" data-k="${K}:${r.e}" aria-expanded="${op}"><span class="cb-nm">${dot(col[r.e])}${esc(nm[r.e])}</span><span class="cb-bar"><b style="width:${r.X/mx*100}%;background:${col[r.e]}"></b></span><span class="tx"><b>${nf(r.X)} de ${nf(Y)} tickets <span>· ${fP(r.X/Y*100,0)}</span></b></span></button>`;
+      if(op){const oc=new Map();r.ts.forEach(t=>{new Set(t.ids.filter(i=>M[i][K]!==r.e&&!anc.has(i)).map(i=>M[i][O])).forEach(l=>oc.set(l,(oc.get(l)||0)+1))});
+        h+=`<div class="cb-pills">`+([...oc.entries()].sort((a,b)=>b[1]-a[1]).map(([l,n])=>`<span class="cb-pill">${dot(DM[O].col[l])}${esc(DM[O].names[l])}<b>${nf(n)}</b></span>`).join("")||'<span class="note">Solo se combina entre modelos de la misma selección.</span>')+`</div>`}});
     if(!rows.length)h=`<p class="note">Sin combinaciones para esta selección.</p>`;
   }
   box.innerHTML=h}
@@ -1415,4 +1451,32 @@ function renderRes(R){
 </script>
 
 
+<script>
+(function() {
+  var PW_KEY = 'vans_report_unlocked_v1';
+  var PASSWORD = '6rupo6rim0ld12026';
+  var gate = document.getElementById('pw-gate');
+  var form = document.getElementById('pw-form');
+  var input = document.getElementById('pw-input');
+  var err = document.getElementById('pw-error');
+
+  function storageGet() { try { return sessionStorage.getItem(PW_KEY); } catch (e) { return null; } }
+  function storageSet() { try { sessionStorage.setItem(PW_KEY, 'yes'); } catch (e) {} }
+  function unlock() { document.body.classList.remove('pw-locked'); gate.style.display = 'none'; }
+
+  document.body.classList.add('pw-locked');
+  if (storageGet() === 'yes') { unlock(); }
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    if (input.value === PASSWORD) {
+      storageSet(); err.style.display = 'none'; gate.classList.remove('pw-shake'); unlock();
+    } else {
+      err.style.display = 'block'; gate.classList.remove('pw-shake'); void gate.offsetWidth;
+      gate.classList.add('pw-shake'); input.value = ''; input.focus();
+    }
+  });
+})();
+</script>
+<script src="library-nav.js"></script>
 </body></html>
