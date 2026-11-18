@@ -222,6 +222,13 @@
       href: "Vans_UY_Eventos_1.html",
       cargado: "2026-11-16"
     },
+    {
+      cliente: "Grimoldi",
+      titulo: "Roadmap",
+      descripcion: "",
+      href: "grimoldi-roadmap_4.html",
+      cargado: "2026-11-18"
+    },
     // @@UKE_NUEVOS_REPORTES@@
   ];
 
