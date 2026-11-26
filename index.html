@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Biblioteca de Reportes &middot; Ukelele Growth Company</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Lato:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root {
   --uke-rojo: #E30233;
@@ -56,7 +59,80 @@ a { color: var(--uke-rojo); text-decoration:none; }
 .card:hover .go { color: var(--uke-rojo-hover); }
 
 .empty-note { font-size:12.5px; color: var(--uke-gris-cuerpo); font-style:italic; text-align:center; grid-column:1/-1; }
+/* Agrupación visual por segmento */
+.section-group { margin-bottom: 36px; }
+.section-header { display:flex; align-items:center; gap:12px; margin-bottom:14px; }
+.section-header::after { content:''; flex:1; height:1px; background:#EDEDF0; }
+.section-header-pill { font-family:var(--uke-font-display); font-weight:800; font-size:10px; text-transform:uppercase; letter-spacing:.07em; padding:5px 13px; border-radius:999px; white-space:nowrap; }
 .card .ext-tag { font-size:10px; opacity:.6; }
+.card-wrap { position:relative; }
+.card-wrap .edit-btn {
+  position:absolute; top:10px; right:10px; opacity:0; transition:opacity .15s;
+  background:none; border:1px solid var(--uke-gris-suave); border-radius:6px;
+  padding:3px 7px; font-size:11px; cursor:pointer; color:var(--uke-gris-cuerpo);
+  z-index:2;
+}
+.card-wrap:hover .edit-btn, .card-wrap .edit-btn:focus-visible { opacity:1; }
+.card-wrap .del-btn:hover { background:#FDECEF; color:var(--uke-rojo); border-color:var(--uke-rojo); }
+@media (hover:none) { .card-wrap .edit-btn, .card-wrap .del-btn { opacity:1; } }
+.card-wrap .edit-btn:hover { background:var(--uke-lavanda); color:var(--uke-purpura); border-color:var(--uke-purpura); }
+
+/* modal eliminar */
+#del-modal-bg { display:none; position:fixed; inset:0; background:rgba(0,0,0,.45); z-index:99000; align-items:center; justify-content:center; padding:16px; }
+#del-modal-bg.open { display:flex; }
+#del-modal { background:#fff; border-radius:14px; padding:28px 28px 24px; width:100%; max-width:420px; box-shadow:0 20px 60px rgba(0,0,0,.3); font-family:var(--uke-font-body); }
+#del-modal h2 { font-family:var(--uke-font-display); font-size:14px; font-weight:800; text-transform:uppercase; letter-spacing:.02em; color:var(--uke-rojo); margin:0 0 12px; }
+#del-modal .del-q { font-size:13px; font-weight:700; margin:0 0 6px; }
+#del-modal .del-name { font-size:13px; margin:0 0 6px; word-break:break-word; }
+#del-modal .del-what { font-size:12px; color:var(--uke-gris-cuerpo); line-height:1.5; margin:0 0 16px; }
+#del-modal label { display:block; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:var(--uke-gris-cuerpo); margin-bottom:5px; }
+#del-modal input { width:100%; padding:9px 11px; border:1.5px solid var(--uke-gris-suave); border-radius:7px; font-size:13px; font-family:var(--uke-font-body); margin-bottom:14px; outline:none; box-sizing:border-box; }
+#del-modal input:focus { border-color:var(--uke-azul-medio); }
+#del-modal .del-actions { display:flex; gap:10px; justify-content:flex-end; }
+#del-modal .btn-cancel { padding:9px 16px; border:1.5px solid var(--uke-gris-suave); border-radius:7px; background:none; font-size:12px; font-family:var(--uke-font-display); font-weight:700; cursor:pointer; }
+#del-modal .btn-del { padding:9px 20px; border:none; border-radius:7px; background:var(--uke-rojo); color:#fff; font-size:12px; font-family:var(--uke-font-display); font-weight:800; text-transform:uppercase; cursor:pointer; }
+#del-modal .btn-del:disabled { opacity:.5; cursor:default; }
+#del-modal .del-msg { font-size:12px; color:var(--uke-gris-cuerpo); margin-top:10px; min-height:16px; }
+
+/* modal edición */
+#edit-modal-bg {
+  display:none; position:fixed; inset:0; background:rgba(0,0,0,.45); z-index:99000;
+  align-items:center; justify-content:center;
+}
+#edit-modal-bg.open { display:flex; }
+#edit-modal {
+  background:#fff; border-radius:14px; padding:28px 28px 24px; width:100%; max-width:420px;
+  box-shadow:0 20px 60px rgba(0,0,0,.3); font-family:var(--uke-font-body);
+}
+#edit-modal h2 { font-family:var(--uke-font-display); font-size:14px; font-weight:800; text-transform:uppercase; letter-spacing:.02em; color:var(--uke-azul-oscuro); margin:0 0 18px; }
+#edit-modal label { display:block; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:var(--uke-gris-cuerpo); margin-bottom:5px; }
+#edit-modal input, #edit-modal textarea {
+  width:100%; padding:9px 11px; border:1.5px solid var(--uke-gris-suave); border-radius:7px;
+  font-size:13px; font-family:var(--uke-font-body); margin-bottom:14px; outline:none; box-sizing:border-box;
+}
+#edit-modal input:focus, #edit-modal textarea:focus, #edit-modal select:focus { border-color:var(--uke-azul-medio); }
+#edit-modal textarea { resize:vertical; min-height:60px; }
+#edit-modal select {
+  width:100%; padding:9px 11px; border:1.5px solid var(--uke-gris-suave); border-radius:7px;
+  font-size:13px; font-family:var(--uke-font-body); margin-bottom:14px; outline:none;
+  box-sizing:border-box; background:#fff; cursor:pointer; appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23444' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-position:right 12px center;
+}
+#edit-cliente-nuevo-wrap { display:none; }
+#edit-cliente-nuevo-wrap input {
+  width:100%; padding:9px 11px; border:1.5px solid var(--uke-azul-medio); border-radius:7px;
+  font-size:13px; font-family:var(--uke-font-body); margin-bottom:14px; outline:none; box-sizing:border-box;
+}
+#edit-modal .edit-key-row { margin-bottom:14px; }
+#edit-modal .edit-actions { display:flex; gap:10px; justify-content:space-between; align-items:center; }
+#edit-modal .edit-actions-right { display:flex; gap:10px; }
+#edit-modal .btn-cancel { padding:9px 16px; border:1.5px solid var(--uke-gris-suave); border-radius:7px; background:none; font-size:12px; font-family:var(--uke-font-display); font-weight:700; cursor:pointer; }
+#edit-modal .btn-save { padding:9px 20px; border:none; border-radius:7px; background:var(--uke-rojo); color:#fff; font-size:12px; font-family:var(--uke-font-display); font-weight:800; text-transform:uppercase; cursor:pointer; }
+#edit-modal .btn-save:disabled { opacity:.5; cursor:default; }
+#edit-modal .btn-delete { padding:9px 14px; border:1.5px solid #E8C0C8; border-radius:7px; background:none; color:#C0394F; font-size:12px; font-family:var(--uke-font-display); font-weight:700; cursor:pointer; }
+#edit-modal .btn-delete:hover { background:#FFF0F2; }
+#edit-modal .edit-msg { font-size:12px; color:var(--uke-gris-cuerpo); margin-top:10px; min-height:16px; }
 
 /* password gate */
 #pw-gate {
@@ -95,14 +171,61 @@ body.pw-locked > *:not(#pw-gate) { display: none !important; }
   </div>
 </div>
 
+<!-- Modal de edición -->
+<div id="edit-modal-bg">
+  <div id="edit-modal">
+    <h2>Editar reporte</h2>
+    <label for="edit-titulo">Nombre</label>
+    <input type="text" id="edit-titulo" maxlength="120">
+    <label for="edit-href" id="edit-href-label">Archivo</label>
+    <input type="text" id="edit-href" maxlength="500" autocomplete="off" spellcheck="false">
+    <label for="edit-cliente">Segmento</label>
+    <select id="edit-cliente"></select>
+    <div id="edit-cliente-nuevo-wrap">
+      <label for="edit-cliente-nuevo" style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--uke-azul-medio);margin-bottom:5px;">Nuevo segmento</label>
+      <input type="text" id="edit-cliente-nuevo" maxlength="60" placeholder="Nombre del segmento nuevo">
+    </div>
+    <label for="edit-desc">Descripción <span style="font-weight:400;text-transform:none">(opcional)</span></label>
+    <textarea id="edit-desc" maxlength="300"></textarea>
+    <div class="edit-key-row">
+      <label for="edit-key">Clave de carga</label>
+      <input type="password" id="edit-key" autocomplete="off" placeholder="UPLOAD_KEY">
+    </div>
+    <div class="edit-actions">
+      <button class="btn-delete" id="edit-delete">🗑 Eliminar</button>
+      <div class="edit-actions-right">
+        <button class="btn-cancel" id="edit-cancel">Cancelar</button>
+        <button class="btn-save" id="edit-save">Guardar</button>
+      </div>
+    </div>
+    <div class="edit-msg" id="edit-msg"></div>
+  </div>
+</div>
+
+<!-- Modal de eliminación -->
+<div id="del-modal-bg">
+  <div id="del-modal" role="dialog" aria-modal="true" aria-labelledby="del-title">
+    <h2 id="del-title">Eliminar reporte</h2>
+    <p class="del-q">¿Seguro? Esta acción no se puede deshacer</p>
+    <p class="del-name" id="del-name"></p>
+    <p class="del-what" id="del-what"></p>
+    <label for="del-key">Clave de carga</label>
+    <input type="password" id="del-key" autocomplete="off" placeholder="UPLOAD_KEY">
+    <div class="del-actions">
+      <button class="btn-cancel" id="del-cancel">Cancelar</button>
+      <button class="btn-del" id="del-confirm">Eliminar</button>
+    </div>
+    <div class="del-msg" id="del-msg"></div>
+  </div>
+</div>
+
 <div class="main">
   <h1>Biblioteca de Reportes</h1>
   <p class="intro">Seleccion&aacute; un reporte en el men&uacute; de la izquierda o busc&aacute;lo ac&aacute;</p>
-  <div style="text-align:center;margin:-14px 0 22px"><a href="cargar.html" style="display:inline-block;font-family:var(--uke-font-display);font-weight:800;font-size:11.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--uke-rojo);border:1.5px solid var(--uke-rojo);border-radius:999px;padding:8px 16px">+ Cargar archivo o link</a></div>
   <div class="search-wrap">
     <input type="text" id="report-search" placeholder="Buscar por cliente o t&iacute;tulo...">
   </div>
-  <div class="grid" id="reports-grid"></div>
+  <div id="reports-grid"></div>
 </div>
 
 <script src="library-nav.js"></script>
@@ -118,51 +241,258 @@ function renderReports(filter) {
     grid.innerHTML = '<p class="empty-note">No encontramos reportes que coincidan con la b&uacute;squeda.</p>';
     return;
   }
-  // Agrupar por marca (cliente), orden alfabético — igual que el menú lateral.
+
+  // Paleta por segmento
+  var GROUP_COLORS = {
+    'Total Grupo':    { bg:'#F5EEFF', text:'#7B2FA8', border:'#7B2FA8' },
+    'Vans Argentina': { bg:'#E8F3FF', text:'#004E8A', border:'#004E8A' },
+    'Vans Uruguay':   { bg:'#E6F6F8', text:'#0B6E7A', border:'#0B6E7A' },
+    'Grimoldi':       { bg:'#E8F7EE', text:'#1A6B40', border:'#1A6B40' },
+    'Hush Puppies':   { bg:'#FFF4E6', text:'#A05A0A', border:'#A05A0A' },
+    'The North Face': { bg:'#FFF0F2', text:'#C8043B', border:'#C8043B' },
+    'Cat':            { bg:'#FFF9DB', text:'#8A6D00', border:'#8A6D00' },
+    'Merrell':        { bg:'#EEF2E2', text:'#55691C', border:'#55691C' }
+  };
+  var DEFAULT_COLOR = { bg:'#F0F0F5', text:'#5A5A6A', border:'#8A8A98' };
+
   var groups = {};
-  var groupOrder = [];
+  var groupsSeen = [];
   filtered.forEach(function(r) {
     if (groups[r.cliente] === undefined) {
       groups[r.cliente] = [];
-      groupOrder.push(r.cliente);
+      groupsSeen.push(r.cliente);
     }
     groups[r.cliente].push(r);
   });
-  var PINNED_FIRST = ['Total Grupo'];
-  groupOrder.sort(function(a, b) {
-    var pa = PINNED_FIRST.indexOf(a);
-    var pb = PINNED_FIRST.indexOf(b);
-    if (pa !== -1 || pb !== -1) {
-      if (pa === -1) return 1;
-      if (pb === -1) return -1;
-      return pa - pb;
-    }
-    return a.localeCompare(b, 'es');
-  });
+
+  // Orden: el guardado por drag & drop (localStorage uke_os_group_order) o, si no hay, "Total Grupo" primero y alfabético.
+  var baseOrder = (typeof window.ukeGroupOrder === 'function') ? window.ukeGroupOrder() : groupsSeen.slice().sort(function(a,b){ return a.localeCompare(b,'es'); });
+  var groupOrder = [];
+  baseOrder.forEach(function(g){ if (groups[g]) groupOrder.push(g); });
+  groupsSeen.forEach(function(g){ if (groupOrder.indexOf(g) === -1) groupOrder.push(g); });
 
   var html = '';
   groupOrder.forEach(function(g) {
+    var col = GROUP_COLORS[g] || DEFAULT_COLOR;
+    var pStyle = 'background:' + col.bg + ';color:' + col.text + ';';
+    html += '<div class="section-group">'
+      + '<div class="section-header">'
+      + '<span class="section-header-pill" style="' + pStyle + '">' + g + '</span>'
+      + '</div>'
+      + '<div class="grid">';
     groups[g].forEach(function(r) {
       var attrs = r.externo ? ' target="_blank" rel="noopener noreferrer"' : '';
       var extTag = r.externo ? ' <span class="ext-tag">&#8599; externo</span>' : '';
-      html += '<a class="card" href="' + r.href + '"' + attrs + '>'
-        + '<span class="pill">' + g + '</span>'
+      var hrefAttr = String(r.href).replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+      html += '<div class="card-wrap">'
+        + '<button type="button" class="edit-btn" data-href="' + hrefAttr + '">&#9998; editar</button>'
+        + '<a class="card" style="border-left:3px solid ' + col.border + ';" href="' + hrefAttr + '"' + attrs + '>'
+        + '<span class="pill" style="' + pStyle + '">' + g + '</span>'
         + '<h3>' + r.titulo + extTag + '</h3>'
         + '<p>' + (r.descripcion || '') + '</p>'
         + '<span class="go">Ver reporte</span>'
-        + '</a>';
+        + '</a></div>';
     });
+    html += '</div></div>';
   });
   grid.innerHTML = html;
 }
 
 document.addEventListener('DOMContentLoaded', function() {
   renderReports('');
+  document.getElementById('reports-grid').addEventListener('click', function(e) {
+    var b = e.target.closest ? e.target.closest('.edit-btn') : null;
+    if (b) { e.preventDefault(); e.stopPropagation(); openEditModal(b.getAttribute('data-href')); }
+  });
   document.getElementById('report-search').addEventListener('input', function(e) {
     renderReports(e.target.value);
   });
 });
 </script>
+<script>
+var _editHref = null;
+var _editKey  = sessionStorage.getItem('uke_lib_edit_key') || '';
+
+function _buildSegmentSelect(currentCliente) {
+  var reports = window.UKE_LIBRARY_REPORTS || [];
+  var seen = {};
+  var segmentos = [];
+  reports.forEach(function(r) { if (r.cliente && !seen[r.cliente]) { seen[r.cliente] = true; segmentos.push(r.cliente); } });
+  segmentos.sort(function(a,b){ return a.localeCompare(b,'es'); });
+  var sel = document.getElementById('edit-cliente');
+  sel.innerHTML = '';
+  segmentos.forEach(function(s) {
+    var opt = document.createElement('option');
+    opt.value = s; opt.textContent = s;
+    if (s === currentCliente) opt.selected = true;
+    sel.appendChild(opt);
+  });
+  // Opción "Otro (nuevo segmento)"
+  var optOtro = document.createElement('option');
+  optOtro.value = '__nuevo__'; optOtro.textContent = '+ Nuevo segmento…';
+  sel.appendChild(optOtro);
+  // Si el segmento actual no está en la lista
+  if (currentCliente && !seen[currentCliente]) {
+    var optCustom = document.createElement('option');
+    optCustom.value = currentCliente; optCustom.textContent = currentCliente;
+    optCustom.selected = true;
+    sel.insertBefore(optCustom, sel.firstChild);
+  }
+  _toggleNuevoSegmento();
+}
+
+function _toggleNuevoSegmento() {
+  var sel = document.getElementById('edit-cliente');
+  var wrap = document.getElementById('edit-cliente-nuevo-wrap');
+  if (sel.value === '__nuevo__') {
+    wrap.style.display = 'block';
+    document.getElementById('edit-cliente-nuevo').focus();
+  } else {
+    wrap.style.display = 'none';
+  }
+}
+
+function openEditModal(href) {
+  var reports = window.UKE_LIBRARY_REPORTS || [];
+  var r = reports.find(function(x){ return x.href === href; });
+  if (!r) return;
+  _editHref = href;
+  document.getElementById('edit-titulo').value  = r.titulo || '';
+  document.getElementById('edit-desc').value    = r.descripcion || '';
+  document.getElementById('edit-href').value    = r.href || '';
+  document.getElementById('edit-href-label').textContent = r.externo ? 'Link' : 'Nombre del archivo';
+  document.getElementById('edit-key').value     = _editKey;
+  document.getElementById('edit-msg').textContent = '';
+  document.getElementById('edit-msg').style.color = '';
+  document.getElementById('edit-save').disabled = false;
+  document.getElementById('edit-cliente-nuevo').value = '';
+  _buildSegmentSelect(r.cliente || '');
+  document.getElementById('edit-modal-bg').classList.add('open');
+  document.getElementById('edit-titulo').focus();
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('edit-cliente').addEventListener('change', _toggleNuevoSegmento);
+});
+
+document.getElementById('edit-cancel').addEventListener('click', function() {
+  document.getElementById('edit-modal-bg').classList.remove('open');
+});
+document.getElementById('edit-delete').addEventListener('click', function() {
+  var href = _editHref;
+  document.getElementById('edit-modal-bg').classList.remove('open');
+  setTimeout(function(){ openDeleteModal(href); }, 80);
+});
+document.getElementById('edit-modal-bg').addEventListener('click', function(e) {
+  if (e.target === this) this.classList.remove('open');
+});
+
+document.getElementById('edit-save').addEventListener('click', function() {
+  var titulo  = document.getElementById('edit-titulo').value.trim();
+  var selCliente = document.getElementById('edit-cliente').value;
+  var cliente = selCliente === '__nuevo__'
+    ? document.getElementById('edit-cliente-nuevo').value.trim()
+    : selCliente;
+  var desc    = document.getElementById('edit-desc').value.trim();
+  var key     = document.getElementById('edit-key').value;
+  var nuevoHref = document.getElementById('edit-href').value.trim();
+  var msg     = document.getElementById('edit-msg');
+  var btn     = document.getElementById('edit-save');
+  if (!titulo)  { msg.textContent = 'El nombre no puede estar vacío.'; return; }
+  if (!cliente) { msg.textContent = 'El segmento no puede estar vacío.'; return; }
+  if (!nuevoHref) { msg.textContent = 'El archivo o link no puede estar vacío.'; return; }
+  if (!key)     { msg.textContent = 'Ingresá la clave de carga.'; return; }
+  btn.disabled = true;
+  msg.textContent = 'Guardando…';
+  try { sessionStorage.setItem('uke_lib_edit_key', key); } catch(e){}
+  _editKey = key;
+  fetch('/api/editar', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ key: key, href: _editHref, titulo: titulo, cliente: cliente, descripcion: desc, nuevoHref: nuevoHref })
+  }).then(function(r){ return r.json(); }).then(function(data) {
+    if (data.ok) {
+      var rep = (window.UKE_LIBRARY_REPORTS || []).find(function(x){ return x.href === _editHref; });
+      if (rep) {
+        rep.titulo = titulo; rep.cliente = cliente; rep.descripcion = desc;
+        if (data.href) rep.href = data.href;
+        renderReports(document.getElementById('report-search').value);
+      }
+      msg.style.color = 'green';
+      msg.textContent = 'Guardado ✓ El menú lateral se actualiza en ~1 min.';
+      btn.disabled = false;
+      setTimeout(function(){ document.getElementById('edit-modal-bg').classList.remove('open'); }, 2000);
+    } else {
+      msg.style.color = 'red';
+      msg.textContent = data.error || 'Error al guardar.';
+      btn.disabled = false;
+    }
+  }).catch(function() {
+    msg.style.color = 'red';
+    msg.textContent = 'Error de red.';
+    btn.disabled = false;
+  });
+});
+</script>
+
+<script>
+var _delHref = null;
+
+function openDeleteModal(href) {
+  var r = (window.UKE_LIBRARY_REPORTS || []).find(function(x){ return x.href === href; });
+  if (!r) return;
+  _delHref = href;
+  document.getElementById('del-name').textContent = r.titulo + ' (' + r.cliente + ')';
+  document.getElementById('del-what').textContent = r.externo
+    ? 'Es un link externo: se quita de la Biblioteca (no se borra nada del sitio de destino).'
+    : 'Se borra el archivo "' + r.href + '" del repositorio y se quita de la Biblioteca.';
+  document.getElementById('del-key').value = _editKey;
+  document.getElementById('del-msg').textContent = '';
+  document.getElementById('del-msg').style.color = '';
+  document.getElementById('del-confirm').disabled = false;
+  document.getElementById('del-modal-bg').classList.add('open');
+  document.getElementById('del-key').focus();
+}
+function _closeDelete() { document.getElementById('del-modal-bg').classList.remove('open'); }
+document.getElementById('del-cancel').addEventListener('click', _closeDelete);
+document.getElementById('del-modal-bg').addEventListener('click', function(e) { if (e.target === this) _closeDelete(); });
+document.addEventListener('keydown', function(e) { if (e.key === 'Escape') _closeDelete(); });
+
+document.getElementById('del-confirm').addEventListener('click', function() {
+  var key = document.getElementById('del-key').value;
+  var msg = document.getElementById('del-msg');
+  var btn = document.getElementById('del-confirm');
+  if (!key) { msg.style.color = 'red'; msg.textContent = 'Ingresá la clave de carga.'; return; }
+  btn.disabled = true;
+  msg.style.color = ''; msg.textContent = 'Eliminando…';
+  try { sessionStorage.setItem('uke_lib_edit_key', key); } catch(e){}
+  _editKey = key;
+  fetch('/api/eliminar', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ key: key, href: _delHref })
+  }).then(function(r){ return r.json(); }).then(function(data) {
+    if (data.ok) {
+      var list = window.UKE_LIBRARY_REPORTS || [];
+      var i = list.findIndex(function(x){ return x.href === _delHref; });
+      if (i !== -1) list.splice(i, 1);
+      renderReports(document.getElementById('report-search').value);
+      msg.style.color = 'green';
+      msg.textContent = 'Eliminado ✓ El menú se actualiza en ~1 min.' + (data.aviso ? ' ' + data.aviso : '');
+      setTimeout(_closeDelete, 1800);
+    } else {
+      msg.style.color = 'red';
+      msg.textContent = data.error || 'Error al eliminar.';
+      btn.disabled = false;
+    }
+  }).catch(function() {
+    msg.style.color = 'red';
+    msg.textContent = 'Error de red.';
+    btn.disabled = false;
+  });
+});
+</script>
+
 <script>
 (function() {
   var PW_KEY = 'vans_report_unlocked_v1';

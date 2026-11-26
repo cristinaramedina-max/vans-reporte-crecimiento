@@ -6,6 +6,10 @@
  * Esa es la ÚNICA edición necesaria — todas las páginas que incluyen este
  * script (<script src="library-nav.js"></script>) muestran la lista actualizada,
  * agrupada automáticamente por marca (campo "cliente").
+ *
+ * Los grupos se pueden reordenar arrastrándolos (orden guardado en localStorage,
+ * key uke_os_group_order, compartido con el index). Editar/eliminar reportes: desde
+ * la portada (index.html), vía /api/editar y /api/eliminar.
  */
 (function () {
   var UKE_LIBRARY_REPORTS = [
@@ -215,20 +219,6 @@
       href: "Merrell_venta_categoria_subcategoria_1.html",
       cargado: "2026-10-30"
     },
-    {
-      cliente: "Vans Uruguay",
-      titulo: "Eventos",
-      descripcion: "",
-      href: "Vans_UY_Eventos_1.html",
-      cargado: "2026-11-16"
-    },
-    {
-      cliente: "Grimoldi",
-      titulo: "Roadmap",
-      descripcion: "",
-      href: "grimoldi-roadmap_4.html",
-      cargado: "2026-11-18"
-    },
     // @@UKE_NUEVOS_REPORTES@@
   ];
 
@@ -237,6 +227,51 @@
   var SIDEBAR_W = 240; // px, expandido
   var COLLAPSE_KEY = 'uke_lib_sidebar_collapsed';
   var OPEN_GROUPS_KEY = 'uke_lib_groups_open';
+  var GROUP_ORDER_KEY = 'uke_os_group_order';
+  var PINNED_FIRST = ['Total Grupo'];
+
+  // Orden por defecto: "Total Grupo" primero, resto alfabético.
+  function defaultOrder(names) {
+    return names.slice().sort(function (a, b) {
+      var pa = PINNED_FIRST.indexOf(a), pb = PINNED_FIRST.indexOf(b);
+      if (pa !== -1 || pb !== -1) {
+        if (pa === -1) return 1;
+        if (pb === -1) return -1;
+        return pa - pb;
+      }
+      return a.localeCompare(b, 'es');
+    });
+  }
+  function getGroupOrder() {
+    try { return JSON.parse(localStorage.getItem(GROUP_ORDER_KEY) || 'null'); } catch (e) { return null; }
+  }
+  function setGroupOrder(arr) {
+    try { localStorage.setItem(GROUP_ORDER_KEY, JSON.stringify(arr)); } catch (e) {}
+  }
+  // Aplica el orden guardado (drag & drop) sobre los grupos existentes; los nuevos van al final en orden por defecto.
+  function applySavedOrder(names) {
+    var base = defaultOrder(names);
+    var saved = getGroupOrder();
+    if (!saved || !saved.length) return base;
+    var out = [];
+    saved.forEach(function (g) { if (names.indexOf(g) !== -1 && out.indexOf(g) === -1) out.push(g); });
+    base.forEach(function (g) { if (out.indexOf(g) === -1) out.push(g); });
+    return out;
+  }
+  window.ukeGroupOrder = function () {
+    var names = [];
+    UKE_LIBRARY_REPORTS.forEach(function (r) { if (names.indexOf(r.cliente) === -1) names.push(r.cliente); });
+    return applySavedOrder(names);
+  };
+
+  // Tipografías (Montserrat display + Lato cuerpo) aunque la página no las cargue.
+  if (!document.getElementById('uke-lib-fonts')) {
+    var fl = document.createElement('link');
+    fl.id = 'uke-lib-fonts';
+    fl.rel = 'stylesheet';
+    fl.href = 'https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Lato:wght@400;700&display=swap';
+    document.head.appendChild(fl);
+  }
 
   var css = ''
     + ':root{--uke-lib-w:' + SIDEBAR_W + 'px;}'
@@ -260,19 +295,28 @@
     + 'font-family:var(--uke-font-display,\'Montserrat\',sans-serif);font-weight:800;font-size:11px;'
     + 'text-transform:uppercase;letter-spacing:.05em;color:var(--uke-azul-oscuro,#004E8A);}'
     + '#uke-lib-sidebar .uke-lib-group-header:hover{color:var(--uke-rojo,#E30233);}'
+    + '#uke-lib-sidebar .uke-lib-group-header .grp-name{flex:1;text-align:left;}'
+    + '#uke-lib-sidebar .uke-lib-group-header .drag-handle{font-size:13px;color:#C8C8D2;margin-right:6px;'
+    + 'cursor:grab;user-select:none;line-height:1;flex-shrink:0;}'
     + '#uke-lib-sidebar .uke-lib-group-header .chev{font-size:9px;color:#B4B4BC;transition:transform .18s ease;'
     + 'flex-shrink:0;margin-left:8px;}'
     + '#uke-lib-sidebar .uke-lib-group.open .uke-lib-group-header .chev{transform:rotate(180deg);'
     + 'color:var(--uke-rojo,#E30233);}'
+    + '#uke-lib-sidebar .uke-lib-group.dragging{opacity:.35;}'
+    + '#uke-lib-sidebar .uke-lib-group.drag-over{box-shadow:inset 0 2.5px 0 #E30233;}'
     + '#uke-lib-sidebar .uke-lib-group-items{max-height:0;overflow:hidden;transition:max-height .22s ease;}'
-    + '#uke-lib-sidebar .uke-lib-group.open .uke-lib-group-items{max-height:700px;padding-bottom:8px;}'
-    + '#uke-lib-sidebar a.uke-lib-link{display:block;padding:8px 10px;margin-bottom:3px;border-radius:7px;'
+    + '#uke-lib-sidebar .uke-lib-group.open .uke-lib-group-items{max-height:1600px;padding-bottom:8px;}'
+    + '#uke-lib-sidebar a.uke-lib-link{display:block;padding:7px 10px;margin-bottom:3px;border-radius:7px;'
     + 'text-decoration:none;color:#333338;border-left:3px solid transparent;font-size:12px;font-weight:700;'
-    + 'line-height:1.35;}'
+    + 'line-height:1.3;}'
     + '#uke-lib-sidebar a.uke-lib-link:hover{background:#F4F5F7;color:#111;}'
     + '#uke-lib-sidebar a.uke-lib-link.active{background:#FCEAEC;border-left-color:var(--uke-rojo,#E30233);'
     + 'color:#111;}'
     + '#uke-lib-sidebar a.uke-lib-link .ext{opacity:.55;font-weight:400;}'
+    + '#uke-lib-sidebar a.uke-lib-link .tit{display:block;}'
+    + '#uke-lib-sidebar a.uke-lib-link .desc{display:block;font-size:10px;font-weight:400;'
+    + 'color:#8A8A93;margin-top:2px;line-height:1.35;}'
+    + '#uke-lib-sidebar a.uke-lib-link:hover .desc{color:#666;}'
     + '#uke-lib-toggle{position:fixed;top:14px;left:calc(var(--uke-lib-w) - 1px);width:26px;height:34px;'
     + 'z-index:9001;background:#FFFFFF;color:var(--uke-azul-oscuro,#004E8A);border:1px solid #E9E9EC;'
     + 'border-left:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;'
@@ -310,6 +354,10 @@
     toggleBtn.setAttribute('aria-label', collapsed ? 'Mostrar biblioteca' : 'Ocultar biblioteca');
   }
 
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
   function init() {
     var styleEl = document.createElement('style');
     styleEl.textContent = css;
@@ -319,27 +367,18 @@
     var nav = document.createElement('div');
     nav.id = 'uke-lib-sidebar';
 
-    // Agrupar reportes por marca (cliente), orden alfabético.
+    // Agrupar reportes por marca (cliente).
     var groups = {};
-    var groupOrder = [];
+    var groupNames = [];
     UKE_LIBRARY_REPORTS.forEach(function (r) {
       if (groups[r.cliente] === undefined) {
         groups[r.cliente] = [];
-        groupOrder.push(r.cliente);
+        groupNames.push(r.cliente);
       }
       groups[r.cliente].push(r);
     });
-    var PINNED_FIRST = ['Total Grupo'];
-    groupOrder.sort(function (a, b) {
-      var pa = PINNED_FIRST.indexOf(a);
-      var pb = PINNED_FIRST.indexOf(b);
-      if (pa !== -1 || pb !== -1) {
-        if (pa === -1) return 1;
-        if (pb === -1) return -1;
-        return pa - pb;
-      }
-      return a.localeCompare(b, 'es');
-    });
+    var groupOrder = applySavedOrder(groupNames);
+    window.UKE_GROUP_ORDER = groupOrder.slice();
 
     var activeGroup = null;
     groupOrder.forEach(function (g) {
@@ -356,9 +395,10 @@
 
     groupOrder.forEach(function (g) {
       var isOpen = (openState[g] !== undefined) ? !!openState[g] : (g === activeGroup);
-      linksHtml += '<div class="uke-lib-group' + (isOpen ? ' open' : '') + '" data-group="' + g.replace(/"/g, '&quot;') + '">'
+      linksHtml += '<div class="uke-lib-group' + (isOpen ? ' open' : '') + '" data-group="' + esc(g) + '" draggable="true">'
         + '<button type="button" class="uke-lib-group-header">'
-        + '<span class="grp-name">' + g + '</span>'
+        + '<span class="drag-handle" title="Arrastrá para reordenar">&#8801;</span>'
+        + '<span class="grp-name">' + esc(g) + '</span>'
         + '<span class="chev">&#9662;</span>'
         + '</button>'
         + '<div class="uke-lib-group-items">';
@@ -366,8 +406,12 @@
         var activeCls = (!r.externo && r.href === cur) ? ' active' : '';
         var attrs = r.externo ? ' target="_blank" rel="noopener noreferrer"' : '';
         var extMark = r.externo ? ' <span class="ext">&#8599;</span>' : '';
-        linksHtml += '<a class="uke-lib-link' + activeCls + '" href="' + r.href + '"' + attrs + '>'
-          + '<span class="tit">' + r.titulo + extMark + '</span>'
+        var descHtml = (r.descripcion && String(r.descripcion).trim())
+          ? '<span class="desc">' + esc(r.descripcion) + '</span>'
+          : '';
+        linksHtml += '<a class="uke-lib-link' + activeCls + '" href="' + esc(r.href) + '"' + attrs + '>'
+          + '<span class="tit">' + esc(r.titulo) + extMark + '</span>'
+          + descHtml
           + '</a>';
       });
       linksHtml += '</div></div>';
@@ -407,6 +451,51 @@
           setOpenGroups(state);
         });
       })(groupEls[i]);
+    }
+
+    // ── Drag & drop para reordenar grupos ──
+    var dragSrc = null;
+    function clearOver() {
+      var gs = nav.querySelectorAll('.uke-lib-group');
+      for (var k = 0; k < gs.length; k++) gs[k].classList.remove('drag-over');
+    }
+    for (var d = 0; d < groupEls.length; d++) {
+      (function (el) {
+        el.addEventListener('dragstart', function (e) {
+          dragSrc = el;
+          el.classList.add('dragging');
+          e.dataTransfer.effectAllowed = 'move';
+          try { e.dataTransfer.setData('text/plain', el.getAttribute('data-group')); } catch (err) {}
+        });
+        el.addEventListener('dragend', function () {
+          el.classList.remove('dragging');
+          clearOver();
+          dragSrc = null;
+        });
+        el.addEventListener('dragover', function (e) {
+          if (!dragSrc) return;
+          e.preventDefault();
+          if (dragSrc === el) return;
+          e.dataTransfer.dropEffect = 'move';
+          clearOver();
+          el.classList.add('drag-over');
+        });
+        el.addEventListener('dragleave', function () { el.classList.remove('drag-over'); });
+        el.addEventListener('drop', function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          el.classList.remove('drag-over');
+          if (!dragSrc || dragSrc === el) return;
+          var parent = dragSrc.parentNode;
+          // El grupo destino muestra la línea roja ARRIBA: el grupo arrastrado se inserta antes de él.
+          parent.insertBefore(dragSrc, el);
+          var newOrder = Array.prototype.slice.call(parent.querySelectorAll('.uke-lib-group')).map(function (g) {
+            return g.getAttribute('data-group');
+          });
+          setGroupOrder(newOrder);
+          window.UKE_GROUP_ORDER = newOrder;
+        });
+      })(groupEls[d]);
     }
   }
 
