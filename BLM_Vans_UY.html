@@ -1505,10 +1505,16 @@ function arrowSpan(val) {
 }
 function makeYoYArrays(arr, fromIdx, toIdx) {
   const d25 = new Array(12).fill(null), d26 = new Array(12).fill(null);
-  ALL_MONTHS_KEYS.slice(fromIdx, toIdx+1).forEach((k, i) => {
-    const [yr, mo] = k.split('-').map(Number);
-    if (yr === 2025) d25[mo-1] = arr[fromIdx+i];
-    if (yr === 2026) d26[mo-1] = arr[fromIdx+i];
+  const monthsInRange = new Set();
+  ALL_MONTHS_KEYS.slice(fromIdx, toIdx+1).forEach(k => {
+    monthsInRange.add(parseInt(k.split('-')[1], 10));
+  });
+  monthsInRange.forEach(mo => {
+    const moStr = String(mo).padStart(2,'0');
+    const idx25 = ALL_MONTHS_KEYS.indexOf('2025-'+moStr);
+    const idx26 = ALL_MONTHS_KEYS.indexOf('2026-'+moStr);
+    if (idx25 >= 0) d25[mo-1] = arr[idx25];
+    if (idx26 >= 0) d26[mo-1] = arr[idx26];
   });
   return {d25, d26};
 }
