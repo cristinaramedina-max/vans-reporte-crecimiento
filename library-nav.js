@@ -219,6 +219,13 @@
       href: "Merrell_venta_categoria_subcategoria_1.html",
       cargado: "2026-10-30"
     },
+    {
+      cliente: "Vans Argentina",
+      titulo: "Aviso de stock",
+      descripcion: "Pedidos de aviso de stock: reposición del talle pedido, compra del mismo artículo, talles más pedidos y códigos sin cruce con venta.",
+      href: "Vans_AR_Aviso_Stock.html",
+      cargado: "2026-11-27"
+    },
     // @@UKE_NUEVOS_REPORTES@@
   ];
 
