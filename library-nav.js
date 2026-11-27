@@ -226,6 +226,14 @@
       href: "Vans_AR_Aviso_Stock.html",
       cargado: "2026-11-27"
     },
+    {
+      cliente: "Vans Argentina",
+      titulo: "Análisis CX",
+      descripcion: "Análisis de atención al cliente de Vans.",
+      href: "https://claude.ai/artifact/SP2rbDzTB2yge1PVRVYGPw",
+      externo: true,
+      cargado: "2026-11-27"
+    },
     // @@UKE_NUEVOS_REPORTES@@
   ];
 
