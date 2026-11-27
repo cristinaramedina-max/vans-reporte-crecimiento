@@ -846,24 +846,41 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(syncNavHei
 setTimeout(syncNavHeight, 300);
 
 // Resalta en el menú superior la sección que se está viendo (scroll-spy)
+// Nota: los id de las secciones están en los separadores (banners angostos), no en
+// todo el bloque de contenido. Por eso se usa la posición de scroll (último separador
+// ya superado) en vez de IntersectionObserver, que solo detectaría el banner angosto.
 (function () {
   var links = Array.prototype.slice.call(document.querySelectorAll('.uke-nav__links a'));
-  var sections = links.map(a => document.getElementById(a.getAttribute('href').slice(1))).filter(Boolean);
+  var sections = links.map(function (a) {
+    return { id: a.getAttribute('href').slice(1), el: document.getElementById(a.getAttribute('href').slice(1)) };
+  }).filter(function (s) { return !!s.el; });
   if (!sections.length) return;
   var byId = {};
-  links.forEach(a => { byId[a.getAttribute('href').slice(1)] = a; });
+  links.forEach(function (a) { byId[a.getAttribute('href').slice(1)] = a; });
   var current = null;
   function setActive(id) {
     if (id === current) return;
     current = id;
-    links.forEach(a => a.classList.remove('is-active'));
+    links.forEach(function (a) { a.classList.remove('is-active'); });
     if (byId[id]) byId[id].classList.add('is-active');
   }
-  var io = new IntersectionObserver(function (entries) {
-    var visible = entries.filter(e => e.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-    if (visible.length) setActive(visible[0].target.id);
-  }, { rootMargin: '-40% 0px -55% 0px', threshold: [0, 0.25, 0.5, 0.75, 1] });
-  sections.forEach(s => io.observe(s));
+  function onScroll() {
+    // offset = alto real del stack de headers sticky (uke-nav + gb-brandbar), tomado
+    // directamente del DOM en vez de asumir un valor fijo, para que coincida siempre
+    // con el espacio que realmente tapan arriba del contenido.
+    var bar = document.querySelector('.gb-brandbar') || document.querySelector('.uke-nav');
+    var offset = bar ? Math.max(bar.getBoundingClientRect().bottom, 60) : 60;
+    var pos = window.scrollY + offset + 16;
+    var activeId = sections[0].id;
+    for (var i = 0; i < sections.length; i++) {
+      var top = sections[i].el.getBoundingClientRect().top + window.scrollY;
+      if (pos >= top) activeId = sections[i].id;
+    }
+    setActive(activeId);
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  onScroll();
 })();
 
 </script>
